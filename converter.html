@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tampermonkey Module Converter - Skrining Auto</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            padding: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Upload Section */
+        .upload-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            border: 2px dashed #4CAF50;
+            transition: all 0.3s;
+        }
+        
+        .upload-section.dragover {
+            border-color: #2E7D32;
+            background: #e8f5e9;
+        }
+        
+        .upload-box {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        
+        .upload-button {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px;
+            transition: all 0.3s;
+            border: none;
+            font-size: 16px;
+        }
+        
+        .upload-button:hover {
+            background: #388E3C;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-name {
+            margin-top: 10px;
+            color: #666;
+            font-size: 14px;
+            word-break: break-all;
+        }
+        
+        /* Options Section */
+        .options-section {
+            margin-top: 20px;
+        }
+        
+        .option-group {
+            background: white;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .option-group h3 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .option-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+        
+        .option-item input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        
+        .option-item label {
+            cursor: pointer;
+        }
+        
+        /* Output Section */
+        .output-section {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .output-tabs {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom-color: #4CAF50;
+            color: #4CAF50;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .code-preview {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 6px;
+            padding: 20px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            height: 400px;
+            overflow: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-bottom: 20px;
+        }
+        
+        .download-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .download-btn {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .download-btn:hover {
+            background: #1976D2;
+            transform: translateY(-1px);
+        }
+        
+        .download-btn.copy {
+            background: #9C27B0;
+        }
+        
+        .download-btn.copy:hover {
+            background: #7B1FA2;
+        }
+        
+        .download-btn.success {
+            background: #4CAF50;
+        }
+        
+        /* Status Section */
+        .status-section {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .status-section.error {
+            background: #ffebee;
+            border-left-color: #f44336;
+        }
+        
+        .status-section.success {
+            background: #e8f5e9;
+            border-left-color: #4CAF50;
+        }
+        
+        /* Instructions */
+        .instructions {
+            background: #fff8e1;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #ffb300;
+        }
+        
+        .instructions h3 {
+            color: #ff9800;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ol {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
+            background: #f8f9fa;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .loader.active {
+            display: block;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛠️ Tampermonkey Module Converter</h1>
+            <p>Convert Tampermonkey scripts to Skrining Auto modular format</p>
+        </header>
+        
+        <div class="main-content">
+            <!-- Left: Upload & Options -->
+            <div class="left-panel">
+                <div class="upload-section" id="uploadSection">
+                    <div class="upload-box" id="uploadBox">
+                        <div class="upload-icon">📁</div>
+                        <h3>Upload Tampermonkey Script</h3>
+                        <p>Drag & drop .user.js file or click to browse</p>
+                        <button class="upload-button" onclick="document.getElementById('fileInput').click()">
+                            Choose File
+                        </button>
+                        <input type="file" id="fileInput" class="file-input" accept=".js,.user.js">
+                        <div class="file-name" id="fileName">No file selected</div>
+                    </div>
+                </div>
+                
+                <div class="options-section">
+                    <div class="option-group">
+                        <h3>⚙️ Conversion Options</h3>
+                        <div class="option-item">
+                            <input type="checkbox" id="autoId" checked>
+                            <label for="autoId">Auto-generate Module ID from @name</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="includeGrant">
+                            <label for="includeGrant">Include @grant directives in meta</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="includeRequire">
+                            <label for="includeRequire">Include @require dependencies</label>
+                        </div>
+                    </div>
+                    
+                    <div class="option-group">
+                        <h3>📝 Module Metadata</h3>
+                        <div class="form-group">
+                            <label for="moduleId">Module ID:</label>
+                            <input type="text" id="moduleId" placeholder="auto-generated" style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <div class="form-group" style="margin-top: 10px;">
+                            <label for="moduleName">Module Name:</label>
+                            <input type="text" id="moduleName" placeholder="From @name" style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right: Output Preview -->
+            <div class="right-panel">
+                <div class="output-section">
+                    <div class="output-tabs">
+                        <div class="tab active" data-tab="script">script.js</div>
+                        <div class="tab" data-tab="meta">meta.json</div>
+                        <div class="tab" data-tab="manifest">manifest.json</div>
+                    </div>
+                    
+                    <div class="loader" id="loader">
+                        <div class="spinner"></div>
+                        <p>Processing script...</p>
+                    </div>
+                    
+                    <div class="tab-content active" id="scriptTab">
+                        <div class="code-preview" id="scriptPreview">// Upload a Tampermonkey script to see the converted code...</div>
+                        <div class="download-buttons">
+                            <button class="download-btn" onclick="downloadFile('script.js', scriptContent)">
+                                💾 Download script.js
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="metaTab">
+                        <div class="code-preview" id="metaPreview">{}</div>
+                        <div class="download-buttons">
+                            <button class="download-btn" onclick="downloadFile('meta.json', metaContent)">
+                                💾 Download meta.json
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="manifestTab">
+                        <div class="code-preview" id="manifestPreview">{}</div>
+                        <div class="download-buttons">
+                            <button class="download-btn copy" onclick="copyToClipboard(manifestContent)">
+                                📋 Copy Manifest Entry
+                            </button>
+                            <button class="download-btn" onclick="downloadFile('manifest-entry.json', manifestContent)">
+                                💾 Download manifest.json
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="status-section" id="status">
+                    <strong>Status:</strong> Ready to convert
+                </div>
+                
+                <div class="instructions">
+                    <h3>📋 How to Use:</h3>
+                    <ol>
+                        <li>Upload your Tampermonkey .user.js file</li>
+                        <li>Review and edit module metadata if needed</li>
+                        <li>Download script.js and meta.json files</li>
+                        <li>Copy the manifest entry to your global-manifest.json</li>
+                        <li>Upload files to GitHub: /modules/module-id/</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Skrining Auto Module Converter v1.0 | 
+               <a href="https://github.com/cobrabagaskara/tambak" target="_blank" style="color: #4CAF50; text-decoration: none;">
+                   GitHub Repository
+               </a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Global variables
+        let scriptContent = '';
+        let metaContent = '{}';
+        let manifestContent = '{}';
+        let metadata = {};
+        
+        // DOM Elements
+        const uploadSection = document.getElementById('uploadSection');
+        const uploadBox = document.getElementById('uploadBox');
+        const fileInput = document.getElementById('fileInput');
+        const fileName = document.getElementById('fileName');
+        const loader = document.getElementById('loader');
+        const status = document.getElementById('status');
+        
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId + 'Tab').classList.add('active');
+            });
+        });
+        
+        // File upload handling
+        fileInput.addEventListener('change', function(e) {
+            if (this.files.length > 0) {
+                handleFile(this.files[0]);
+            }
+        });
+        
+        // Drag and drop handling
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadSection.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadSection.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadSection.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            uploadSection.classList.add('dragover');
+        }
+        
+        function unhighlight() {
+            uploadSection.classList.remove('dragover');
+        }
+        
+        uploadSection.addEventListener('drop', function(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+        
+        // File processing
+        function handleFile(file) {
+            if (!file.name.endsWith('.js') && !file.name.endsWith('.user.js')) {
+                showError('Please upload a .js or .user.js file');
+                return;
+            }
+            
+            fileName.textContent = file.name;
+            loader.classList.add('active');
+            status.className = 'status-section';
+            status.innerHTML = '<strong>Status:</strong> Processing file...';
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                setTimeout(() => {
+                    processScript(e.target.result);
+                }, 500); // Simulate processing delay
+            };
+            reader.onerror = function() {
+                showError('Error reading file');
+                loader.classList.remove('active');
+            };
+            reader.readAsText(file);
+        }
+        
+        // Script processing
+        function processScript(content) {
+            try {
+                // Extract metadata
+                metadata = extractMetadata(content);
+                
+                if (!metadata.name) {
+                    throw new Error('No @name found in metadata block');
+                }
+                
+                // Generate module ID
+                const autoId = generateModuleId(metadata.name);
+                const moduleId = document.getElementById('autoId').checked ? autoId : 
+                                (document.getElementById('moduleId').value || autoId);
+                
+                // Update form fields
+                document.getElementById('moduleId').value = moduleId;
+                document.getElementById('moduleName').value = metadata.name || '';
+                
+                // Extract clean script code
+                const cleanCode = extractCleanCode(content);
+                
+                // Generate outputs
+                generateScriptJS(cleanCode);
+                generateMetaJSON(moduleId, metadata);
+                generateManifestEntry(moduleId, metadata);
+                
+                // Update previews
+                updatePreviews();
+                
+                // Show success
+                showSuccess(`Successfully converted: ${metadata.name}`);
+                
+            } catch (error) {
+                showError('Conversion failed: ' + error.message);
+                console.error(error);
+            } finally {
+                loader.classList.remove('active');
+            }
+        }
+        
+        // Metadata extraction
+        function extractMetadata(content) {
+            const metadata = {};
+            const metaBlockRegex = /\/\/ ==UserScript==([\s\S]*?)\/\/ ==\/UserScript==/;
+            const match = content.match(metaBlockRegex);
+            
+            if (!match) {
+                throw new Error('No Tampermonkey metadata block found');
+            }
+            
+            const metaBlock = match[1];
+            const lines = metaBlock.split('\n');
+            
+            lines.forEach(line => {
+                const metaMatch = line.match(/\/\/ @(\w+)\s+(.+)/);
+                if (metaMatch) {
+                    const key = metaMatch[1];
+                    const value = metaMatch[2].trim();
+                    
+                    if (key === 'match') {
+                        if (!metadata.match) metadata.match = [];
+                        metadata.match.push(value);
+                    } else if (key === 'grant' || key === 'require') {
+                        if (!metadata[key]) metadata[key] = [];
+                        metadata[key].push(value);
+                    } else {
+                        metadata[key] = value;
+                    }
+                }
+            });
+            
+            return metadata;
+        }
+        
+        // Generate clean code (remove metadata block)
+        function extractCleanCode(content) {
+            // Remove metadata block
+            let cleanCode = content.replace(/\/\/ ==UserScript==[\s\S]*?\/\/ ==\/UserScript==/, '');
+            
+            // Remove leading/trailing whitespace
+            cleanCode = cleanCode.trim();
+            
+            return cleanCode;
+        }
+        
+        // Generate module ID from name
+        function generateModuleId(name) {
+            return name
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-|-$/g, '')
+                .replace(/\s+/g, '-');
+        }
+        
+        // Generate script.js content
+        function generateScriptJS(code) {
+            scriptContent = code;
+        }
+        
+        // Generate meta.json content
+        function generateMetaJSON(moduleId, metadata) {
+            const meta = {
+                id: moduleId,
+                name: metadata.name || '',
+                description: metadata.description || '',
+                version: metadata.version || '1.0.0',
+                author: metadata.author || '',
+                match: metadata.match || []
+            };
+            
+            // Optional fields
+            if (document.getElementById('includeGrant').checked && metadata.grant) {
+                meta.grant = metadata.grant;
+            }
+            
+            if (document.getElementById('includeRequire').checked && metadata.require) {
+                meta.require = metadata.require;
+            }
+            
+            metaContent = JSON.stringify(meta, null, 2);
+        }
+        
+        // Generate manifest entry
+        function generateManifestEntry(moduleId, metadata) {
+            const entry = {
+                [moduleId]: {
+                    name: metadata.name || '',
+                    description: metadata.description || '',
+                    version: metadata.version || '1.0.0',
+                    author: metadata.author || '',
+                    match: metadata.match || [],
+                    enabled_by_default: true,
+                    file: `${moduleId}/script.js`,
+                    meta_file: `${moduleId}/meta.json`
+                }
+            };
+            
+            manifestContent = JSON.stringify(entry, null, 2);
+        }
+        
+        // Update previews
+        function updatePreviews() {
+            document.getElementById('scriptPreview').textContent = scriptContent || '// No code generated';
+            document.getElementById('metaPreview').textContent = metaContent || '{}';
+            document.getElementById('manifestPreview').textContent = manifestContent || '{}';
+        }
+        
+        // Download file
+        function downloadFile(filename, content) {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            // Show success feedback
+            const button = event.target.closest('.download-btn');
+            const originalText = button.innerHTML;
+            button.innerHTML = '✅ Downloaded!';
+            button.classList.add('success');
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.classList.remove('success');
+            }, 2000);
+        }
+        
+        // Copy to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Show success feedback
+                const button = event.target.closest('.download-btn');
+                const originalText = button.innerHTML;
+                button.innerHTML = '✅ Copied!';
+                button.classList.add('success');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('success');
+                }, 2000);
+                
+                showSuccess('Manifest entry copied to clipboard');
+            }).catch(err => {
+                showError('Failed to copy: ' + err);
+            });
+        }
+        
+        // Status messages
+        function showSuccess(message) {
+            status.className = 'status-section success';
+            status.innerHTML = `<strong>✅ Success:</strong> ${message}`;
+        }
+        
+        function showError(message) {
+            status.className = 'status-section error';
+            status.innerHTML = `<strong>❌ Error:</strong> ${message}`;
+        }
+        
+        // Auto-update module ID when name changes
+        document.getElementById('moduleName').addEventListener('input', function() {
+            if (document.getElementById('autoId').checked) {
+                const newId = generateModuleId(this.value);
+                document.getElementById('moduleId').value = newId;
+                
+                // Regenerate outputs with new ID
+                if (metadata.name) {
+                    metadata.name = this.value;
+                    const moduleId = document.getElementById('moduleId').value;
+                    generateMetaJSON(moduleId, metadata);
+                    generateManifestEntry(moduleId, metadata);
+                    updatePreviews();
+                }
+            }
+        });
+        
+        // Auto-update when module ID changes
+        document.getElementById('moduleId').addEventListener('input', function() {
+            if (metadata.name) {
+                generateMetaJSON(this.value, metadata);
+                generateManifestEntry(this.value, metadata);
+                updatePreviews();
+            }
+        });
+        
+        // Toggle auto ID generation
+        document.getElementById('autoId').addEventListener('change', function() {
+            if (this.checked && metadata.name) {
+                const newId = generateModuleId(metadata.name);
+                document.getElementById('moduleId').value = newId;
+                
+                generateMetaJSON(newId, metadata);
+                generateManifestEntry(newId, metadata);
+                updatePreviews();
+            }
+        });
+        
+        // Initialize
+        console.log('Tampermonkey Module Converter loaded');
+    </script>
+</body>
+</html>
