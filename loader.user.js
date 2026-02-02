@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Skrining Auto - Module Loader
 // @namespace    https://github.com/cobrabagaskara/tambak
-// @version      1.0.0
+// @version      1.0.1
 // @description  Modular Tampermonkey Loader for Skrining Auto System
 // @author       cobrabagaskara
 // @match        https://cirebon.epuskesmas.id/*
@@ -79,16 +79,24 @@
     }
 
     function loadPreferences() {
-        const prefs = GM_getValue('skrining_auto_prefs', null);
-        if (prefs && prefs.version === CONFIG.VERSION) {
-            enabledModules = prefs.enabledModules || {};
-            log('Preferences loaded');
-        } else {
-            enabledModules = {};
-            log('New preferences initialized');
+    const prefs = GM_getValue('skrining_auto_prefs', null);
+    
+    if (prefs && prefs.version === CONFIG.VERSION) {
+        enabledModules = prefs.enabledModules || {};
+        log('Preferences loaded');
+    } else {
+        // Initialize with default values from manifest
+        enabledModules = {};
+        
+        // Set default enabled state from manifest
+        for (const [moduleId, moduleConfig] of Object.entries(modules)) {
+            enabledModules[moduleId] = moduleConfig.enabled_by_default !== false;
         }
-        return prefs;
+        
+        log('New preferences initialized with defaults');
     }
+    return prefs;
+}
 
     // ============== MANIFEST LOADING ==============
     function loadManifest() {
