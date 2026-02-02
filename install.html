@@ -619,120 +619,230 @@
     </div>
 
     <script>
-        // URL ke loader script
-        const LOADER_URL = 'https://raw.githubusercontent.com/cobrabagaskara/tambak/main/loader.user.js';
+    // URL ke loader script
+    const LOADER_URL = 'https://raw.githubusercontent.com/cobrabagaskara/tambak/main/loader.user.js';
+    
+    // QR Code Library (mini version)
+    const QRCode = {
+        create: function(text) {
+            // Simple QR code implementation
+            const size = 150;
+            const qrCanvas = document.createElement('canvas');
+            qrCanvas.width = size;
+            qrCanvas.height = size;
+            const ctx = qrCanvas.getContext('2d');
+            
+            // Background
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Simple pattern (for demo - in real use, use a proper library)
+            ctx.fillStyle = 'black';
+            
+            // Draw border
+            ctx.fillRect(10, 10, size-20, 10);
+            ctx.fillRect(10, 10, 10, size-20);
+            ctx.fillRect(size-20, 10, 10, size-20);
+            ctx.fillRect(10, size-20, size-20, 10);
+            
+            // Draw PKMK text in center
+            ctx.fillStyle = '#2E7D32';
+            ctx.font = 'bold 20px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('PKMK', size/2, size/2 - 5);
+            ctx.font = 'bold 16px Arial';
+            ctx.fillText('SYSTEM', size/2, size/2 + 15);
+            
+            return qrCanvas.toDataURL();
+        }
+    };
+    
+    // Install button handler
+    document.getElementById('installButton').addEventListener('click', function() {
+        installLoader();
+    });
+    
+    // Direct link handler
+    document.getElementById('directLink').addEventListener('click', function(e) {
+        e.preventDefault();
+        installLoader();
+    });
+    
+    // Function to install loader
+    function installLoader() {
+        // Check if Tampermonkey is installed
+        if (typeof GM_info === 'undefined') {
+            if (confirm('Tampermonkey tidak terdeteksi. Apakah Anda sudah menginstal Tampermonkey?\n\nKlik OK untuk membuka halaman instalasi Tampermonkey.')) {
+                window.open('https://www.tampermonkey.net/', '_blank');
+            }
+            return;
+        }
         
-        // Install button handler
-        document.getElementById('installButton').addEventListener('click', function() {
-            installLoader();
+        // Create installation URL
+        const installUrl = `javascript:(function(){window.location.href='${LOADER_URL}';})();`;
+        
+        // Try to trigger Tampermonkey installation
+        window.location.href = LOADER_URL;
+        
+        // Fallback: show instructions
+        setTimeout(() => {
+            if (!document.hidden) {
+                showManualInstructions();
+            }
+        }, 1000);
+    }
+    
+    // Show manual instructions if auto-install fails
+    function showManualInstructions() {
+        const html = `
+            <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; display: flex; justify-content: center; align-items: center;">
+                <div style="background: white; padding: 30px; border-radius: 10px; max-width: 500px; text-align: center;">
+                    <h3 style="color: #2E7D32; margin-bottom: 20px;">Instalasi Manual Diperlukan</h3>
+                    <p style="margin-bottom: 15px; color: #555;">Ikuti langkah-langkah berikut:</p>
+                    <ol style="text-align: left; margin-left: 20px; margin-bottom: 20px; color: #555;">
+                        <li>Buka <a href="${LOADER_URL}" target="_blank">link ini</a></li>
+                        <li>Klik "Raw" jika muncul</li>
+                        <li>Tampermonkey akan muncul, klik "Install"</li>
+                        <li>Refresh halaman Epuskesmas setelah instalasi</li>
+                    </ol>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">
+                        Mengerti
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', html);
+    }
+    
+    // Copy code function
+    function copyCode() {
+        const code = document.getElementById('manualCode').textContent;
+        navigator.clipboard.writeText(code).then(() => {
+            const btn = event.target;
+            btn.textContent = '✅ Tersalin!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.textContent = '📋 Salin Kode Manual';
+                btn.classList.remove('copied');
+            }, 2000);
         });
+    }
+    
+    // FAQ toggle function
+    function toggleFAQ(element) {
+        const answer = element.nextElementSibling;
+        const icon = element.querySelector('span');
         
-        // Direct link handler
+        answer.classList.toggle('show');
+        icon.textContent = answer.classList.contains('show') ? '▲' : '▼';
+    }
+    
+    // Generate QR Code - FIXED VERSION
+    function generateQRCode() {
+        const qrContainer = document.getElementById('qrCode');
+        const currentUrl = window.location.href;
+        
+        // Method 1: Try using a reliable QR code service
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(currentUrl)}`;
+        
+        // Create image element
+        const img = document.createElement('img');
+        img.src = qrUrl;
+        img.alt = 'QR Code untuk instalasi PKMKedawung';
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.borderRadius = '4px';
+        
+        // Add error handling
+        img.onerror = function() {
+            // Fallback: Create simple QR code with canvas
+            createFallbackQRCode(qrContainer, currentUrl);
+        };
+        
+        qrContainer.innerHTML = '';
+        qrContainer.appendChild(img);
+    }
+    
+    // Fallback QR code if API fails
+    function createFallbackQRCode(container, url) {
+        const canvas = document.createElement('canvas');
+        canvas.width = 150;
+        canvas.height = 150;
+        const ctx = canvas.getContext('2d');
+        
+        // Draw background
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, 150, 150);
+        
+        // Draw border
+        ctx.fillStyle = '#2E7D32';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(5, 5, 140, 140);
+        
+        // Draw text
+        ctx.fillStyle = '#2E7D32';
+        ctx.font = 'bold 18px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('PKMKedawung', 75, 50);
+        
+        ctx.font = '14px Arial';
+        ctx.fillText('Modular System', 75, 70);
+        
+        ctx.font = '12px Arial';
+        ctx.fillText('Scan untuk install', 75, 100);
+        
+        // Draw install icon
+        ctx.beginPath();
+        ctx.arc(75, 125, 15, 0, Math.PI * 2);
+        ctx.fillStyle = '#4CAF50';
+        ctx.fill();
+        
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 18px Arial';
+        ctx.fillText('↓', 72, 132);
+        
+        container.innerHTML = '';
+        container.appendChild(canvas);
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        // Generate QR code immediately
+        generateQRCode();
+        
+        // Update direct link
+        document.getElementById('directLink').href = LOADER_URL;
         document.getElementById('directLink').addEventListener('click', function(e) {
             e.preventDefault();
-            installLoader();
+            window.open(LOADER_URL, '_blank');
         });
         
-        // Function to install loader
-        function installLoader() {
-            // Check if Tampermonkey is installed
-            if (typeof GM_info === 'undefined') {
-                if (confirm('Tampermonkey tidak terdeteksi. Apakah Anda sudah menginstal Tampermonkey?\n\nKlik OK untuk membuka halaman instalasi Tampermonkey.')) {
-                    window.open('https://www.tampermonkey.net/', '_blank');
-                }
-                return;
-            }
-            
-            // Create installation URL
-            const installUrl = `javascript:(function(){window.location.href='${LOADER_URL}';})();`;
-            
-            // Try to trigger Tampermonkey installation
-            window.location.href = LOADER_URL;
-            
-            // Fallback: show instructions
-            setTimeout(() => {
-                if (!document.hidden) {
-                    showManualInstructions();
-                }
-            }, 1000);
+        // Check Tampermonkey
+        if (typeof GM_info !== 'undefined') {
+            document.querySelector('.status-ready').textContent = 'TAMPERMONKEY TERDETEKSI';
         }
         
-        // Show manual instructions if auto-install fails
-        function showManualInstructions() {
-            const html = `
-                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; display: flex; justify-content: center; align-items: center;">
-                    <div style="background: white; padding: 30px; border-radius: 10px; max-width: 500px; text-align: center;">
-                        <h3 style="color: #2E7D32; margin-bottom: 20px;">Instalasi Manual Diperlukan</h3>
-                        <p style="margin-bottom: 15px; color: #555;">Ikuti langkah-langkah berikut:</p>
-                        <ol style="text-align: left; margin-left: 20px; margin-bottom: 20px; color: #555;">
-                            <li>Buka <a href="${LOADER_URL}" target="_blank">link ini</a></li>
-                            <li>Klik "Raw" jika muncul</li>
-                            <li>Tampermonkey akan muncul, klik "Install"</li>
-                            <li>Refresh halaman Epuskesmas setelah instalasi</li>
-                        </ol>
-                        <button onclick="this.parentElement.parentElement.remove()" style="background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">
-                            Mengerti
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', html);
-        }
-        
-        // Copy code function
-        function copyCode() {
-            const code = document.getElementById('manualCode').textContent;
-            navigator.clipboard.writeText(code).then(() => {
-                const btn = event.target;
-                btn.textContent = '✅ Tersalin!';
-                btn.classList.add('copied');
-                setTimeout(() => {
-                    btn.textContent = '📋 Salin Kode Manual';
-                    btn.classList.remove('copied');
-                }, 2000);
-            });
-        }
-        
-        // FAQ toggle function
-        function toggleFAQ(element) {
-            const answer = element.nextElementSibling;
-            const icon = element.querySelector('span');
-            
-            answer.classList.toggle('show');
-            icon.textContent = answer.classList.contains('show') ? '▲' : '▼';
-        }
-        
-        // Generate QR Code
-        function generateQRCode() {
-            const qrContainer = document.getElementById('qrCode');
-            const currentUrl = window.location.href;
-            
-            // Simple QR code using Google Charts API
-            const qrUrl = `https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=${encodeURIComponent(currentUrl)}&choe=UTF-8`;
-            
-            qrContainer.innerHTML = `<img src="${qrUrl}" alt="QR Code" style="width: 100%; height: 100%;">`;
-        }
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            generateQRCode();
-            
-            // Update direct link
-            document.getElementById('directLink').href = LOADER_URL;
-            
-            // Check Tampermonkey
-            if (typeof GM_info !== 'undefined') {
-                document.querySelector('.status-ready').textContent = 'TAMPERMONKEY TERDETEKSI';
-            }
+        // Add click handler to QR code container
+        document.getElementById('qrCode').addEventListener('click', function() {
+            window.open(window.location.href, '_blank');
         });
-        
-        // Auto-check for Tampermonkey every 2 seconds
-        setInterval(() => {
-            if (typeof GM_info !== 'undefined') {
-                document.querySelector('.status-ready').textContent = 'TAMPERMONKEY TERDETEKSI';
-            }
-        }, 2000);
-    </script>
+    });
+    
+    // Auto-check for Tampermonkey every 2 seconds
+    setInterval(() => {
+        if (typeof GM_info !== 'undefined') {
+            document.querySelector('.status-ready').textContent = 'TAMPERMONKEY TERDETEKSI';
+        }
+    }, 2000);
+    
+    // Add mobile detection for better QR code display
+    if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        document.querySelector('.qr-code').style.width = '200px';
+        document.querySelector('.qr-code').style.height = '200px';
+    }
+</script>
+
+
 </body>
 </html>
