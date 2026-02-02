@@ -12,5 +12,23 @@
       "file": "test-module/script.js",
       "meta_file": "test-module/meta.json"
     }
+  },
+
+  
+  "step-1-data-pasien-reader": {
+    "name": "Step 1: Data Pasien Reader",
+    "description": "Baca data pasien dan simpan ke localStorage",
+    "version": "1.0",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/klaster_siklushidup/*"
+    ],
+    "enabled_by_default": true,
+    "file": "step-1-data-pasien-reader/script.js",
+    "meta_file": "step-1-data-pasien-reader/meta.json"
   }
+
+
+
+  
 }
