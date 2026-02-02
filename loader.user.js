@@ -222,7 +222,7 @@
     function createSimpleDashboard() {
         const style = `
             .skrining-auto-dashboard {
-                position: button toggle;
+                position: toggle;
                 top: 10px;
                 right: 10px;
                 background: white;
