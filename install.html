@@ -1,1 +1,738 @@
 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalasi PKMKedawung Modular System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        header .subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        header .version {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Installation Steps */
+        .install-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+        }
+        
+        .section-title {
+            color: #2E7D32;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .step {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #2E7D32;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .step-content {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .screenshot {
+            width: 100%;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+            margin: 10px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .screenshot:hover {
+            transform: scale(1.02);
+        }
+        
+        /* Quick Install Section */
+        .quick-install {
+            background: #e8f5e9;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .install-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .install-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.6);
+        }
+        
+        .install-button:active {
+            transform: translateY(-1px);
+        }
+        
+        .direct-link {
+            background: #2196F3;
+            margin-left: 10px;
+            padding: 12px 25px;
+            font-size: 14px;
+        }
+        
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            overflow-x: auto;
+            margin: 15px 0;
+            text-align: left;
+        }
+        
+        .copy-btn {
+            background: #9C27B0;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background: #7B1FA2;
+        }
+        
+        .copy-btn.copied {
+            background: #4CAF50;
+        }
+        
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .feature-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #4CAF50;
+        }
+        
+        /* FAQ Section */
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            background: #f8f9fa;
+            padding: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-answer {
+            padding: 15px;
+            display: none;
+            background: white;
+            color: #555;
+        }
+        
+        .faq-answer.show {
+            display: block;
+        }
+        
+        /* Status */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .status-ready {
+            background: #e8f5e9;
+            color: #2E7D32;
+        }
+        
+        .status-required {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e9ecef;
+            background: #f8f9fa;
+        }
+        
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        .alert-info {
+            background: #e3f2fd;
+            color: #1565c0;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .alert-success {
+            background: #e8f5e9;
+            color: #2E7D32;
+            border-left: 4px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PKMKedawung Modular System</h1>
+            <div class="subtitle">Sistem Otomasi Modular untuk Epuskesmas</div>
+            <div class="version">Versi 2.0.0 • Powered by Tampermonkey</div>
+        </header>
+        
+        <div class="main-content">
+            <!-- Left Column: Installation Guide -->
+            <div class="left-column">
+                <div class="install-section">
+                    <h2 class="section-title">📋 Panduan Instalasi</h2>
+                    
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">1</span>
+                            Instal Tampermonkey
+                        </div>
+                        <div class="step-content">
+                            <p>Download dan instal ekstensi Tampermonkey untuk browser Anda:</p>
+                            <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+                                <a href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" 
+                                   target="_blank" 
+                                   style="background: #4285f4; color: white; padding: 8px 15px; border-radius: 4px; text-decoration: none; font-size: 13px;">
+                                    Chrome
+                                </a>
+                                <a href="https://addons.mozilla.org/firefox/addon/tampermonkey/" 
+                                   target="_blank"
+                                   style="background: #ff7139; color: white; padding: 8px 15px; border-radius: 4px; text-decoration: none; font-size: 13px;">
+                                    Firefox
+                                </a>
+                                <a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd" 
+                                   target="_blank"
+                                   style="background: #0078d7; color: white; padding: 8px 15px; border-radius: 4px; text-decoration: none; font-size: 13px;">
+                                    Edge
+                                </a>
+                            </div>
+                            <div class="alert alert-info" style="margin-top: 10px;">
+                                <strong>Catatan:</strong> Tampermonkey <strong>WAJIB</strong> diinstal terlebih dahulu.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">2</span>
+                            Instal Loader Script
+                        </div>
+                        <div class="step-content">
+                            <p>Klik tombol di bawah untuk instalasi otomatis:</p>
+                            <button id="installButton" class="install-button">
+                                🚀 INSTAL LOADER SEKARANG
+                            </button>
+                            <p style="margin-top: 10px; font-size: 13px; color: #666;">
+                                Atau klik link: 
+                                <a href="javascript:void(0)" id="directLink" style="color: #2196F3; text-decoration: none;">
+                                    pkmkedawung-loader.user.js
+                                </a>
+                            </p>
+                            <div class="alert alert-success" style="margin-top: 10px;">
+                                <strong>Instalasi otomatis:</strong> Klik tombol, lalu klik "Install" di popup Tampermonkey.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">3</span>
+                            Verifikasi Instalasi
+                        </div>
+                        <div class="step-content">
+                            <p>Setelah instalasi berhasil:</p>
+                            <ol style="margin-left: 20px; margin-top: 10px;">
+                                <li>Buka <a href="https://cirebon.epuskesmas.id" target="_blank" style="color: #2196F3;">cirebon.epuskesmas.id</a></li>
+                                <li>Cari tombol <strong>⚙️</strong> di pojok kanan bawah</li>
+                                <li>Klik tombol untuk membuka dashboard</li>
+                                <li>Module akan otomatis terdeteksi dan siap digunakan</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">4</span>
+                            Gunakan Module
+                        </div>
+                        <div class="step-content">
+                            <p>Module tersedia berdasarkan halaman yang Anda buka:</p>
+                            <div class="features-grid">
+                                <div class="feature-item">
+                                    <div class="feature-icon">📋</div>
+                                    <div style="font-size: 12px; color: #555;">Auto-fill Form</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">⚡</div>
+                                    <div style="font-size: 12px; color: #555;">Task Automation</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">🛡️</div>
+                                    <div style="font-size: 12px; color: #555;">Data Validation</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">📊</div>
+                                    <div style="font-size: 12px; color: #555;">Reports</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FAQ Section -->
+                <div class="install-section" style="margin-top: 30px;">
+                    <h2 class="section-title">❓ Pertanyaan Umum</h2>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            Apakah aman menggunakan script ini?
+                            <span>▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            <strong>Ya, 100% aman.</strong> Script bersifat open-source, hanya berjalan di browser Anda, 
+                            dan tidak mengirim data ke server luar. Semua kode bisa diperiksa di GitHub.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            Bagaimana cara update script?
+                            <span>▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            Update otomatis melalui Tampermonkey. Anda juga bisa klik "Check Updates" 
+                            di dashboard untuk update manual.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            Apakah bisa digunakan di browser lain?
+                            <span>▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            Bisa di semua browser yang support Tampermonkey: Chrome, Firefox, Edge, Opera, dll.
+                            Install Tampermonkey terlebih dahulu.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            Bagaimana cara menambahkan module baru?
+                            <span>▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            Module baru otomatis muncul di dashboard setelah developer mengupload ke sistem. 
+                            Tidak perlu instal ulang.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column: Quick Install & Features -->
+            <div class="right-column">
+                <div class="quick-install">
+                    <h2 class="section-title">⚡ Instalasi Cepat</h2>
+                    
+                    <div style="text-align: center;">
+                        <div style="font-size: 14px; color: #666; margin-bottom: 15px;">
+                            Status: <span class="status-badge status-ready">SIAP DIINSTAL</span>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <strong>Prasyarat:</strong> Pastikan Tampermonkey sudah terinstal.
+                        </div>
+                        
+                        <!-- QR Code untuk mobile install -->
+                        <div class="qr-code" id="qrCode">
+                            <!-- QR code akan digenerate oleh JavaScript -->
+                            <div style="text-align: center; padding: 20px;">
+                                Scan untuk install di mobile
+                            </div>
+                        </div>
+                        
+                        <p style="font-size: 13px; color: #666; margin-top: 10px;">
+                            Scan QR code di atas untuk buka halaman ini di mobile
+                        </p>
+                    </div>
+                    
+                    <!-- Manual Installation -->
+                    <div style="margin-top: 30px;">
+                        <h3 style="font-size: 16px; color: #2E7D32; margin-bottom: 10px;">📁 Instalasi Manual</h3>
+                        <div class="code-block" id="manualCode">
+// ==UserScript==
+// @name         PKMKedawung - Modular System Loader
+// @namespace    https://github.com/cobrabagaskara/tambak
+// @version      2.0.0
+// @description  Sistem modular untuk otomasi tugas di Epuskesmas
+// @author       cobrabagaskara
+// @match        https://cirebon.epuskesmas.id/*
+// @grant        GM_setValue
+// @grant        GM_getValue
+// @grant        GM_xmlhttpRequest
+// @grant        GM_addStyle
+// @grant        GM_registerMenuCommand
+// @connect      raw.githubusercontent.com
+// @connect      cdn.jsdelivr.net
+// @updateURL    https://raw.githubusercontent.com/cobrabagaskara/tambak/main/loader.user.js
+// @downloadURL  https://raw.githubusercontent.com/cobrabagaskara/tambak/main/loader.user.js
+// ==/UserScript==
+
+// Script akan dilanjutkan...
+// Klik tombol Install untuk versi lengkap
+                        </div>
+                        <button class="copy-btn" onclick="copyCode()">
+                            📋 Salin Kode Manual
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Features -->
+                <div class="install-section" style="margin-top: 30px;">
+                    <h2 class="section-title">✨ Fitur Unggulan</h2>
+                    
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon">🧩</div>
+                            <div style="font-weight: bold; font-size: 14px;">Modular System</div>
+                            <div style="font-size: 12px; color: #666; margin-top: 5px;">Tambah module tanpa instal ulang</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🚀</div>
+                            <div style="font-weight: bold; font-size: 14px;">Auto Update</div>
+                            <div style="font-size: 12px; color: #666; margin-top: 5px;">Update otomatis dari GitHub</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🛡️</div>
+                            <div style="font-weight: bold; font-size: 14px;">Secure</div>
+                            <div style="font-size: 12px; color: #666; margin-top: 5px;">Open-source & aman</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">⚙️</div>
+                            <div style="font-weight: bold; font-size: 14px;">Easy Control</div>
+                            <div style="font-size: 12px; color: #666; margin-top: 5px;">Dashboard drag & drop</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">📱</div>
+                            <div style="font-weight: bold; font-size: 14px;">Cross-platform</div>
+                            <div style="font-size: 12px; color: #666; margin-top: 5px;">Semua browser & OS</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔧</div>
+                            <div style="font-weight: bold; font-size: 14px;">Developer Tools</div>
+                            <div style="font-size: 12px; color: #666; margin-top: 5px;">Converter & template</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Support -->
+                <div class="install-section" style="margin-top: 30px;">
+                    <h2 class="section-title">🆘 Bantuan & Support</h2>
+                    
+                    <div style="margin-top: 15px;">
+                        <p style="font-size: 14px; color: #555; margin-bottom: 10px;">
+                            Jika mengalami masalah:
+                        </p>
+                        <ul style="margin-left: 20px; font-size: 13px; color: #555;">
+                            <li>Refresh halaman setelah instalasi</li>
+                            <li>Pastikan Tampermonkey aktif (icon berwarna)</li>
+                            <li>Cek Console browser untuk error (F12)</li>
+                            <li>Hubungi developer untuk bantuan teknis</li>
+                        </ul>
+                        
+                        <div style="margin-top: 15px; padding: 15px; background: #f0f7ff; border-radius: 6px;">
+                            <strong>GitHub Repository:</strong>
+                            <a href="https://github.com/cobrabagaskara/tambak" 
+                               target="_blank"
+                               style="color: #2196F3; text-decoration: none; font-size: 13px;">
+                                github.com/cobrabagaskara/tambak
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>PKMKedawung Modular System • v2.0.0 • © 2024</p>
+            <p style="font-size: 12px; margin-top: 5px; color: #888;">
+                Sistem otomasi modular untuk meningkatkan efisiensi kerja di Epuskesmas
+            </p>
+            <p style="font-size: 11px; margin-top: 10px; color: #aaa;">
+                Disclaimer: Tools ini hanya untuk membantu pekerjaan. Akurasi data tetap tanggung jawab pengguna.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // URL ke loader script
+        const LOADER_URL = 'https://raw.githubusercontent.com/cobrabagaskara/tambak/main/loader.user.js';
+        
+        // Install button handler
+        document.getElementById('installButton').addEventListener('click', function() {
+            installLoader();
+        });
+        
+        // Direct link handler
+        document.getElementById('directLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            installLoader();
+        });
+        
+        // Function to install loader
+        function installLoader() {
+            // Check if Tampermonkey is installed
+            if (typeof GM_info === 'undefined') {
+                if (confirm('Tampermonkey tidak terdeteksi. Apakah Anda sudah menginstal Tampermonkey?\n\nKlik OK untuk membuka halaman instalasi Tampermonkey.')) {
+                    window.open('https://www.tampermonkey.net/', '_blank');
+                }
+                return;
+            }
+            
+            // Create installation URL
+            const installUrl = `javascript:(function(){window.location.href='${LOADER_URL}';})();`;
+            
+            // Try to trigger Tampermonkey installation
+            window.location.href = LOADER_URL;
+            
+            // Fallback: show instructions
+            setTimeout(() => {
+                if (!document.hidden) {
+                    showManualInstructions();
+                }
+            }, 1000);
+        }
+        
+        // Show manual instructions if auto-install fails
+        function showManualInstructions() {
+            const html = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; display: flex; justify-content: center; align-items: center;">
+                    <div style="background: white; padding: 30px; border-radius: 10px; max-width: 500px; text-align: center;">
+                        <h3 style="color: #2E7D32; margin-bottom: 20px;">Instalasi Manual Diperlukan</h3>
+                        <p style="margin-bottom: 15px; color: #555;">Ikuti langkah-langkah berikut:</p>
+                        <ol style="text-align: left; margin-left: 20px; margin-bottom: 20px; color: #555;">
+                            <li>Buka <a href="${LOADER_URL}" target="_blank">link ini</a></li>
+                            <li>Klik "Raw" jika muncul</li>
+                            <li>Tampermonkey akan muncul, klik "Install"</li>
+                            <li>Refresh halaman Epuskesmas setelah instalasi</li>
+                        </ol>
+                        <button onclick="this.parentElement.parentElement.remove()" style="background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">
+                            Mengerti
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', html);
+        }
+        
+        // Copy code function
+        function copyCode() {
+            const code = document.getElementById('manualCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = event.target;
+                btn.textContent = '✅ Tersalin!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = '📋 Salin Kode Manual';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+        
+        // FAQ toggle function
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('span');
+            
+            answer.classList.toggle('show');
+            icon.textContent = answer.classList.contains('show') ? '▲' : '▼';
+        }
+        
+        // Generate QR Code
+        function generateQRCode() {
+            const qrContainer = document.getElementById('qrCode');
+            const currentUrl = window.location.href;
+            
+            // Simple QR code using Google Charts API
+            const qrUrl = `https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=${encodeURIComponent(currentUrl)}&choe=UTF-8`;
+            
+            qrContainer.innerHTML = `<img src="${qrUrl}" alt="QR Code" style="width: 100%; height: 100%;">`;
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            generateQRCode();
+            
+            // Update direct link
+            document.getElementById('directLink').href = LOADER_URL;
+            
+            // Check Tampermonkey
+            if (typeof GM_info !== 'undefined') {
+                document.querySelector('.status-ready').textContent = 'TAMPERMONKEY TERDETEKSI';
+            }
+        });
+        
+        // Auto-check for Tampermonkey every 2 seconds
+        setInterval(() => {
+            if (typeof GM_info !== 'undefined') {
+                document.querySelector('.status-ready').textContent = 'TAMPERMONKEY TERDETEKSI';
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
