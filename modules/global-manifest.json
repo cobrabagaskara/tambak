@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "last_updated": "2024-01-15T14:45:00Z",
+  "last_updated": "2026-02-03T09:10:00Z",
   "modules": {
     "test-module": {
       "name": "Test Module",
@@ -37,6 +37,19 @@
     "enabled_by_default": true,
     "file": "skrining-risiko-kanker-serviks/script.js",
     "meta_file": "skrining-risiko-kanker-serviks/meta.json"
+  },
+
+    "auto-fill-skrining-wast": {
+    "name": "Auto Fill Skrining WAST",
+    "description": "Auto-fill Skrining WAST dengan gender check (Hanya untuk Perempuan)",
+    "version": "1.0",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/skrining/kekerasanperempuan/create/*"
+    ],
+    "enabled_by_default": true,
+    "file": "auto-fill-skrining-wast/script.js",
+    "meta_file": "auto-fill-skrining-wast/meta.json"
   }
 
 
