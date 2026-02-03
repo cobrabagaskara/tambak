@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-02-03T09:30:00Z",
+  "last_updated": "2026-02-03T09:37:00Z",
   "modules": {
     "test-module": {
       "name": "Test Module",
@@ -50,6 +50,19 @@
     "enabled_by_default": true,
     "file": "auto-fill-skrining-wast/script.js",
     "meta_file": "auto-fill-skrining-wast/meta.json"
+  },
+
+  "auto-fill-skilas": {
+    "name": "Auto Fill SKILAS",
+    "description": "Auto-fill Formulir Skrining Lansia Sederhana (SKILAS) untuk usia 60+ tahun",
+    "version": "1.0",
+    "author": "Cobra Bagaskara",
+    "match": [
+      "https://cirebon.epuskesmas.id/skriningskilas/create/*"
+    ],
+    "enabled_by_default": true,
+    "file": "auto-fill-skilas/script.js",
+    "meta_file": "auto-fill-skilas/meta.json"
   }
 
 
