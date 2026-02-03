@@ -63,6 +63,19 @@
     "enabled_by_default": true,
     "file": "auto-fill-skilas/script.js",
     "meta_file": "auto-fill-skilas/meta.json"
+  },
+
+  "auto-fill-skrining-faktor-risiko": {
+    "name": "Auto Fill Skrining Faktor Risiko",
+    "description": "Auto-fill Skrining Faktor Risiko untuk semua gender dan usia",
+    "version": "1.0",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/skriningfaktorrisiko/create/*"
+    ],
+    "enabled_by_default": true,
+    "file": "auto-fill-skrining-faktor-risiko/script.js",
+    "meta_file": "auto-fill-skrining-faktor-risiko/meta.json"
   }
 
 
