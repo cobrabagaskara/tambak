@@ -1,11 +1,22 @@
+// ==UserScript==
+// @name         Auto Fill Skrining Faktor Risiko
+// @namespace    http://tampermonkey.net/
+// @version      1.1
+// @description  Auto-fill Skrining Faktor Risiko untuk semua gender dan usia
+// @author       You
+// @match        https://cirebon.epuskesmas.id/skriningfaktorrisiko/create/*
+// @grant        none
+// @run-at       document-end
+// ==/UserScript==
+
 (function() {
     'use strict';
 
     // =========================
-    // TEMPLATE SKRINING FAKTOR RISIKO
+    // TEMPLATE SKRINING FAKTOR RISIKO (DIPERBAIKI)
     // =========================
     const faktorRisikoTemplate = {
-        meta {
+        meta: {  // <-- FIX: tambahkan titik dua (:)
             url: "https://cirebon.epuskesmas.id/skriningfaktorrisiko/create/",
             skrining: "faktor_risiko",
             judul: "Skrining Faktor Risiko",
@@ -446,7 +457,7 @@
     // =========================
     // INIT
     // =========================
-    console.log('🟢 Auto Fill Skrining Faktor Risiko loaded');
+    console.log('🟢 Auto Fill Skrining Faktor Risiko loaded (v1.1 - FIXED)');
 
     // Tunggu DOM ready
     if (document.readyState === 'loading') {
