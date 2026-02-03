@@ -128,6 +128,19 @@
     "enabled_by_default": true,
     "file": "otomasi-skrining-thalasemia/script.js",
     "meta_file": "otomasi-skrining-thalasemia/meta.json"
+  },
+
+  "auto-fill-skrining-ad-8-ina": {
+    "name": "Auto Fill Skrining AD-8 INA",
+    "description": "Auto-fill Skrining AD-8 INA untuk lansia",
+    "version": "1.0",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/skriningascertaindementia/create/*"
+    ],
+    "enabled_by_default": true,
+    "file": "auto-fill-skrining-ad-8-ina/script.js",
+    "meta_file": "auto-fill-skrining-ad-8-ina/meta.json"
   }
 
 
