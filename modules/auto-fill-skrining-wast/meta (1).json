@@ -1,0 +1,10 @@
+{
+  "id": "auto-fill-skrining-wast",
+  "name": "Auto Fill Skrining WAST",
+  "description": "Auto-fill Skrining WAST dengan gender check (Hanya untuk Perempuan)",
+  "version": "1.0",
+  "author": "You",
+  "match": [
+    "https://cirebon.epuskesmas.id/skrining/kekerasanperempuan/create/*"
+  ]
+}
