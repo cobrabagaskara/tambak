@@ -68,7 +68,7 @@
   "auto-fill-skrining-faktor-risiko": {
     "name": "Auto Fill Skrining Faktor Risiko",
     "description": "Auto-fill Skrining Faktor Risiko untuk semua gender dan usia",
-    "version": "1.0",
+    "version": "1.1",
     "author": "You",
     "match": [
       "https://cirebon.epuskesmas.id/skriningfaktorrisiko/create/*"
