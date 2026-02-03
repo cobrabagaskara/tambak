@@ -78,7 +78,7 @@
     "meta_file": "auto-fill-skrining-faktor-risiko/meta.json"
   },
 
-    "auto-fill-skrining-diabetes-melitus": {
+   "auto-fill-skrining-diabetes-melitus": {
     "name": "Auto Fill Skrining Diabetes Melitus",
     "description": "Auto-fill Skrining Diabetes Melitus untuk semua gender dan usia",
     "version": "1.0",
@@ -89,6 +89,19 @@
     "enabled_by_default": true,
     "file": "auto-fill-skrining-diabetes-melitus/script.js",
     "meta_file": "auto-fill-skrining-diabetes-melitus/meta.json"
+  },
+
+  "auto-fill-skrining-kanker-kolorektal": {
+    "name": "Auto Fill Skrining Kanker Kolorektal",
+    "description": "Auto-fill Skrining Kanker Kolorektal untuk semua gender dan usia",
+    "version": "1.0",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/skriningkankerkolorektal/create/*"
+    ],
+    "enabled_by_default": true,
+    "file": "auto-fill-skrining-kanker-kolorektal/script.js",
+    "meta_file": "auto-fill-skrining-kanker-kolorektal/meta.json"
   }
 
 
