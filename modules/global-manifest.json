@@ -39,7 +39,7 @@
     "meta_file": "skrining-risiko-kanker-serviks/meta.json"
   },
 
-    "auto-fill-skrining-wast": {
+  "auto-fill-skrining-wast": {
     "name": "Auto Fill Skrining WAST",
     "description": "Auto-fill Skrining WAST dengan gender check (Hanya untuk Perempuan)",
     "version": "1.0",
