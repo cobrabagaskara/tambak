@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PKMKedawung - Modular System Loader (Solid)
 // @namespace    https://github.com/cobrabagaskara/tambak
-// @version      2.0.0
+// @version      3.0.0
 // @description  Advanced modular Tampermonkey loader with draggable dashboard
 // @author       cobrabagaskara
 // @match        https://cirebon.epuskesmas.id/*
