@@ -1,6 +1,6 @@
 {
   "version": "1.0.1",
-  "last_updated": "2026-02-04T07:03:00Z",
+  "last_updated": "2026-02-04T07:05:00Z",
   "modules": {
     "test-module": {
       "name": "Test Module",
@@ -42,7 +42,7 @@
   "auto-fill-skrining-wast": {
     "name": "Auto Fill Skrining WAST",
     "description": "Auto-fill Skrining WAST dengan gender check (Hanya untuk Perempuan)",
-    "version": "1.0",
+    "version": "1.1",
     "author": "You",
     "match": [
       "https://cirebon.epuskesmas.id/skrining/kekerasanperempuan/create/*"
