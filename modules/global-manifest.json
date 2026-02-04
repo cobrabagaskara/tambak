@@ -182,7 +182,7 @@
     "meta_file": "auto-fill-skrining-adl/meta.json"
   },
 
-    "auto-fill-skrining-hipertensi": {
+  "auto-fill-skrining-hipertensi": {
     "name": "Auto Fill Skrining Hipertensi",
     "description": "Auto-fill Skrining Hipertensi untuk semua gender dan usia (langsung jalan otomatis)",
     "version": "1.0",
@@ -193,6 +193,19 @@
     "enabled_by_default": true,
     "file": "auto-fill-skrining-hipertensi/script.js",
     "meta_file": "auto-fill-skrining-hipertensi/meta.json"
+  },
+
+  "auto-fill-skrining-tbc": {
+    "name": "Auto Fill Skrining TBC",
+    "description": "Auto-fill Skrining TBC dengan logika conditional untuk field 'lansia' berdasarkan usia",
+    "version": "1.0",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/skrining/tbc/*"
+    ],
+    "enabled_by_default": true,
+    "file": "auto-fill-skrining-tbc/script.js",
+    "meta_file": "auto-fill-skrining-tbc/meta.json"
   }
 
 
