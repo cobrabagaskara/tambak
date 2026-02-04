@@ -5,8 +5,8 @@
     // TEMPLATE WAST
     // =========================
     const wastTemplate = {
-        metadata: {
-            url: "https://cirebon.epuskesmas.id/skrining/kekerasanperempuan/create/94736",
+        meta: {
+            url: "https://cirebon.epuskesmas.id/skrining/kekerasanperempuan/create/",
             skrining: "kekerasan_perempuan",
             judul: "Skrining Kekerasan pada Perempuan (Woman Abuse Screening Tools/WAST)",
             conditions: {
@@ -29,7 +29,7 @@
     };
 
     // =========================
-    // HELPERS
+    // HELPERS - ENHANCED EVENT TRIGGERING
     // =========================
     function getPatientIdFromUrl() {
         const url = window.location.href;
@@ -51,26 +51,82 @@
         }, 100);
     }
 
+    // ENHANCED: Trigger semua event yang mungkin dibutuhkan form validation
     function setRadio(name, value) {
         const radioSelector = `input[name="${name}"][value="${value}"]`;
         waitForElement(radioSelector, (radio) => {
             if (radio) {
+                // Set checked
                 radio.checked = true;
-                radio.dispatchEvent(new Event('change', { bubbles: true }));
-                console.log(`✓ Radio set: ${name} = ${value}`);
+
+                // Trigger 7 event untuk memastikan form validation ter-trigger
+                const events = [
+                    'click',      // Event pertama yang biasanya dibutuhkan
+                    'mousedown',  // Mouse events
+                    'mouseup',
+                    'focus',      // Focus event
+                    'change',     // Change event (bubbles)
+                    'input',      // Input event (bubbles)
+                    'blur'        // Blur event (untuk trigger validation)
+                ];
+
+                events.forEach(eventName => {
+                    const event = new Event(eventName, {
+                        bubbles: eventName === 'change' || eventName === 'input',
+                        cancelable: true
+                    });
+                    radio.dispatchEvent(event);
+                });
+
+                // Trigger juga pada parent/container
+                const parent = radio.closest('.form-group, .radio-group, .question-container, div');
+                if (parent) {
+                    const parentEvent = new Event('change', { bubbles: true });
+                    parent.dispatchEvent(parentEvent);
+                }
+
+                console.log(`✓ Radio set: ${name} = ${value} (all events triggered)`);
             }
         });
+    }
+
+    // ENHANCED: Force trigger form validation setelah semua field terisi
+    function triggerFormValidation() {
+        console.log('🔄 Triggering form validation...');
+
+        // Trigger pada form level
+        const form = document.querySelector('form');
+        if (form) {
+            const events = [
+                new Event('change', { bubbles: true }),
+                new Event('input', { bubbles: true }),
+                new Event('submit', { bubbles: true, cancelable: true })
+            ];
+
+            events.forEach(event => {
+                form.dispatchEvent(event);
+            });
+        }
+
+        // Re-trigger semua radio yang sudah checked
+        const allCheckedRadios = document.querySelectorAll('input[type="radio"]:checked');
+        allCheckedRadios.forEach(radio => {
+            const event = new Event('change', { bubbles: true });
+            radio.dispatchEvent(event);
+        });
+
+        console.log(`✓ Re-triggered ${allCheckedRadios.length} checked radios`);
     }
 
     // =========================
     // GENDER CHECK & VALIDATION
     // =========================
-    function checkGenderAndShowUI() {
+    function checkGenderAndFillForm() {
         const patientId = getPatientIdFromUrl();
 
         if (!patientId) {
             console.error('❌ Tidak dapat mendeteksi ID pasien dari URL');
-            showGenderErrorPopup('ID pasien tidak terdeteksi', 'Silakan buka halaman data pasien terlebih dahulu');
+            showErrorPopup('ID pasien tidak terdeteksi', 'Silakan buka halaman data pasien terlebih dahulu');
             return;
         }
 
@@ -79,7 +135,7 @@
 
         if (!patientData) {
             console.error('❌ Data pasien tidak ditemukan di localStorage');
-            showGenderErrorPopup(
+            showErrorPopup(
                 'Data pasien tidak tersedia',
                 'Silakan buka halaman data pasien terlebih dahulu untuk menyimpan data pasien ke sistem.'
             );
@@ -96,22 +152,22 @@
         if (gender !== "Perempuan") {
             // Bukan perempuan - tampilkan error popup
             console.log(`🚫 Skrining WAST tidak berlaku untuk ${gender}`);
-            showGenderErrorPopup(
+            showErrorPopup(
                 `Skrining WAST hanya untuk Perempuan`,
                 `Pasien: ${nama}\nJenis Kelamin: ${gender}\nUsia: ${usia} tahun\n\nSkrining ini tidak berlaku untuk pasien ini.`
             );
             return;
         }
 
-        // Perempuan - tampilkan tombol auto-fill
+        // Perempuan - langsung fill form
         console.log('✅ Skrining WAST berlaku untuk pasien ini');
-        showStartButton(patientData);
+        fillWastForm(patientData);
     }
 
     // =========================
-    // POPUP ERROR (BUKAN PEREMPUAN)
+    // ERROR POPUP
     // =========================
-    function showGenderErrorPopup(title, message) {
+    function showErrorPopup(title, message) {
         const overlay = document.createElement('div');
         overlay.id = 'genderErrorOverlay';
         overlay.style.cssText = `
@@ -164,7 +220,7 @@
                 font-weight: bold;
                 transition: all 0.3s ease;
             " onmouseover="this.style.background='#c0392b'"
-               onmouseout="this.style.background='#e74c3c'">
+              onmouseout="this.style.background='#e74c3c'">
                 TUTUP
             </button>
             <div style="margin-top: 20px; padding: 10px; background: #f8f9fa; border-radius: 8px; font-size: 13px; color: #7f8c8d;">
@@ -207,95 +263,6 @@
             }
         `;
         document.head.appendChild(style);
-    }
-
-    // =========================
-    // START BUTTON (PEREMPUAN)
-    // =========================
-    function showStartButton(patientData) {
-        const button = document.createElement('button');
-        button.id = 'wastAutoFillBtn';
-        button.textContent = '🚀 MULAI AUTO FILL WAST';
-        button.title = 'Klik untuk auto-fill form Skrining WAST';
-        button.style.cssText = `
-            position: fixed;
-            bottom: 35px;
-            right: 35px;
-            padding: 16px 35px;
-            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            z-index: 99999;
-            box-shadow: 0 6px 25px rgba(142, 68, 173, 0.5);
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.35s ease;
-            animation: pulse 2s infinite;
-        `;
-
-        button.onmouseover = function() {
-            this.style.transform = 'translateY(-3px) scale(1.05)';
-            this.style.boxShadow = '0 10px 30px rgba(142, 68, 173, 0.7)';
-        };
-
-        button.onmouseout = function() {
-            this.style.transform = 'translateY(0) scale(1)';
-            this.style.boxShadow = '0 6px 25px rgba(142, 68, 173, 0.5)';
-        };
-
-        button.onclick = () => fillWastForm(patientData);
-
-        document.body.appendChild(button);
-
-        // Add pulse animation
-        const pulseStyle = document.createElement('style');
-        pulseStyle.textContent = `
-            @keyframes pulse {
-                0%, 100% { box-shadow: 0 6px 25px rgba(142, 68, 173, 0.5); }
-                50% { box-shadow: 0 6px 35px rgba(142, 68, 173, 0.9); }
-            }
-        `;
-        document.head.appendChild(pulseStyle);
-
-        console.log('✅ Tombol Auto Fill WAST ditampilkan');
-    }
-
-    // =========================
-    // FILL FORM
-    // =========================
-    function fillWastForm(patientData) {
-        console.log('🚀 Memulai auto-fill form WAST...');
-
-        // Sembunyikan tombol
-        const btn = document.getElementById('wastAutoFillBtn');
-        if (btn) {
-            btn.style.animation = 'fadeOut 0.3s forwards';
-            setTimeout(() => {
-                if (btn.parentNode) btn.remove();
-            }, 300);
-        }
-
-        // Tampilkan progress
-        showProgress('Mengisi form WAST...');
-
-        // Auto-fill sesuai template
-        wastTemplate.actions.forEach((action, index) => {
-            setTimeout(() => {
-                if (action.type === "setRadio") {
-                    setRadio(action.name, action.value);
-                }
-
-                // Setelah action terakhir, tampilkan popup selesai
-                if (index === wastTemplate.actions.length - 1) {
-                    setTimeout(() => {
-                        hideProgress();
-                        showCompletionPopup(patientData);
-                    }, 800);
-                }
-            }, index * 150); // Delay 150ms antar action
-        });
     }
 
     // =========================
@@ -356,6 +323,39 @@
                 if (progressBar && progressBar.parentNode) progressBar.remove();
             }, 300);
         }
+    }
+
+    // =========================
+    // FILL FORM - ENHANCED WITH VALIDATION TRIGGER
+    // =========================
+    function fillWastForm(patientData) {
+        console.log('🚀 Memulai auto-fill form WAST...');
+
+        // Tampilkan progress
+        showProgress('Mengisi form WAST...');
+
+        // Auto-fill sesuai template
+        wastTemplate.actions.forEach((action, index) => {
+            setTimeout(() => {
+                if (action.type === "setRadio") {
+                    setRadio(action.name, action.value);
+                }
+
+                // Setelah action terakhir, trigger validation dan tampilkan popup
+                if (index === wastTemplate.actions.length - 1) {
+                    setTimeout(() => {
+                        // Trigger form validation setelah semua field terisi
+                        triggerFormValidation();
+
+                        // Tunggu sebentar agar validation selesai
+                        setTimeout(() => {
+                            hideProgress();
+                            showCompletionPopup(patientData);
+                        }, 1000);
+                    }, 800);
+                }
+            }, index * 200); // Delay 200ms antar action (lebih lama untuk memastikan event ter-trigger)
+        });
     }
 
     // =========================
@@ -427,7 +427,7 @@
                 transition: all 0.3s ease;
                 box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4);
             " onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(39, 174, 96, 0.6)'"
-               onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(39, 174, 96, 0.4)'">
+              onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(39, 174, 96, 0.4)'">
                 OK, SAYA AKAN PERIKSA ULANG
             </button>
             <div style="margin-top: 25px; padding: 12px; background: #f8f9fa; border-radius: 8px; font-size: 12px; color: #7f8c8d; line-height: 1.5;">
@@ -489,23 +489,19 @@
         const progress = document.getElementById('wastProgress');
         if (progress && progress.parentNode) progress.remove();
 
-        // Hapus tombol
-        const btn = document.getElementById('wastAutoFillBtn');
-        if (btn && btn.parentNode) btn.remove();
-
         console.log('🧹 Semua UI Auto Fill WAST telah dibersihkan');
     }
 
     // =========================
     // INIT
     // =========================
-    console.log('🟢 Auto Fill Skrining WAST loaded');
+    console.log('🟢 Auto Fill Skrining WAST v1.1 - FIXED (Auto-fill) loaded');
 
     // Tunggu DOM ready
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', checkGenderAndShowUI);
+        document.addEventListener('DOMContentLoaded', checkGenderAndFillForm);
     } else {
-        setTimeout(checkGenderAndShowUI, 500);
+        setTimeout(checkGenderAndFillForm, 500);
     }
 
 })();
