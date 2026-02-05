@@ -258,6 +258,19 @@
     "enabled_by_default": true,
     "file": "auto-fill-skrining-thalasemia/script.js",
     "meta_file": "auto-fill-skrining-thalasemia/meta.json"
+  },
+
+  "auto-fill-skrining-kelainan-empedu-bayi": {
+    "name": "Auto Fill Skrining Kelainan Empedu Bayi",
+    "description": "Auto-fill Skrining Kelainan Empedu Bayi dengan pemilihan template berdasarkan usia dalam bulan",
+    "version": "1.0",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/skriningkelainanempedubayi/create/*"
+    ],
+    "enabled_by_default": true,
+    "file": "auto-fill-skrining-kelainan-empedu-bayi/script.js",
+    "meta_file": "auto-fill-skrining-kelainan-empedu-bayi/meta.json"
   }
 
 
