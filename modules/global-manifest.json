@@ -273,17 +273,17 @@
     "meta_file": "auto-fill-skrining-kelainan-empedu-bayi/meta.json"
   },
 
-  "auto-fill-skrining-sdq-6-11-tahun": {
-    "name": "Auto Fill Skrining SDQ (6-11 Tahun)",
-    "description": "Auto-fill Skrining Instrument Strength and Difficulties Questionnaire (SDQ) untuk usia 6-11 tahun",
+  "auto-fill-skrining-sdq-6-10-tahun": {
+    "name": "Auto Fill Skrining SDQ (6 - <11 Tahun)",
+    "description": "Auto-fill Skrining SDQ dengan validasi rentang usia 6 sampai kurang dari 11 tahun",
     "version": "1.0",
     "author": "You",
     "match": [
       "https://cirebon.epuskesmas.id/skriningsdq611/create/*"
     ],
     "enabled_by_default": true,
-    "file": "auto-fill-skrining-sdq-6-11-tahun/script.js",
-    "meta_file": "auto-fill-skrining-sdq-6-11-tahun/meta.json"
+    "file": "auto-fill-skrining-sdq-6-10-tahun/script.js",
+    "meta_file": "auto-fill-skrining-sdq-6-10-tahun/meta.json"
   }
 
 
