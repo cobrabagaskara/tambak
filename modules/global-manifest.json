@@ -1,6 +1,6 @@
 {
   "version": "1.0.1",
-  "last_updated": "2026-02-05T07:10:00Z",
+  "last_updated": "2026-02-05T07:12:00Z",
   "modules": {
     "test-module": {
       "name": "Test Module",
@@ -221,7 +221,7 @@
     "meta_file": "auto-fill-skrining-layak-hamil/meta.json"
   },
 
-  "auto-fill-skrining-obesitas-dengan-imt-conditional": {
+  "auto-fill-skrining-obesitas": {
     "name": "Auto Fill Skrining Obesitas dengan IMT Conditional (FIXED)",
     "description": "Auto-fill Skrining Obesitas dengan kalkulasi IMT otomatis + warning popup (FIXED: Dropdown set before popup, IMT range fix)",
     "version": "1.1",
