@@ -1,6 +1,6 @@
 {
   "version": "1.0.1",
-  "last_updated": "2026-02-04T07:05:00Z",
+  "last_updated": "2026-02-05T07:10:00Z",
   "modules": {
     "test-module": {
       "name": "Test Module",
@@ -230,8 +230,8 @@
       "https://cirebon.epuskesmas.id/skriningobesitas/create/*"
     ],
     "enabled_by_default": true,
-    "file": "auto-fill-skrining-obesitas-dengan-imt-conditional/script.js",
-    "meta_file": "auto-fill-skrining-obesitas-dengan-imt-conditional/meta.json"
+    "file": "auto-fill-skrining-obesitas/script.js",
+    "meta_file": "auto-fill-skrining-obesitas/meta.json"
   },
 
   "auto-fill-skrining-kesehatan-jiwa-phq-4": {
