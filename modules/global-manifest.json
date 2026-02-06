@@ -297,6 +297,19 @@
     "enabled_by_default": true,
     "file": "auto-fill-skrining-sdq-11-18-tahun/script.js",
     "meta_file": "auto-fill-skrining-sdq-11-18-tahun/meta.json"
+  },
+
+  "auto-fill-skrining-kesehatan-penglihatan": {
+    "name": "Auto Fill Skrining Kesehatan Penglihatan",
+    "description": "Auto-fill Skrining Kesehatan Penglihatan dengan pemilihan template berdasarkan usia (<18 vs ≥18 tahun)",
+    "version": "1.0",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/skriningkesehatanpenglihatan/create/*"
+    ],
+    "enabled_by_default": true,
+    "file": "auto-fill-skrining-kesehatan-penglihatan/script.js",
+    "meta_file": "auto-fill-skrining-kesehatan-penglihatan/meta.json"
   }
 
 
