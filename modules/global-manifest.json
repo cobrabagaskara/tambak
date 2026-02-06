@@ -338,7 +338,7 @@
     "meta_file": "auto-fill-skrining-risiko-kanker-paru/meta.json"
   },
 
-    "auto-fill-skrining-srq-29": {
+  "auto-fill-skrining-srq-29": {
     "name": "Auto Fill Skrining SRQ-29",
     "description": "Auto-fill Skrining Self-Reporting Questionnaire-29 (SRQ-29) untuk semua pasien",
     "version": "1.0",
@@ -350,7 +350,7 @@
     "file": "auto-fill-skrining-srq-29/script.js",
     "meta_file": "auto-fill-skrining-srq-29/meta.json"
   },
-
+    
   "dashboard-theme": {
       "name": "Dashboard Theme Switcher",
       "description": "Dark mode dan tema custom untuk dashboard",
