@@ -310,6 +310,19 @@
     "enabled_by_default": true,
     "file": "auto-fill-skrining-kesehatan-penglihatan/script.js",
     "meta_file": "auto-fill-skrining-kesehatan-penglihatan/meta.json"
+  },
+
+  "auto-fill-skrining-ppok-dengan-kuesioner-puma": {
+    "name": "Auto Fill Skrining PPOK dengan Kuesioner PUMA",
+    "description": "Auto-fill Skrining PPOK dengan validasi usia ≥40 tahun + logika conditional field \"usia\" berdasarkan rentang usia",
+    "version": "1.0",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/skriningpuma/create/*"
+    ],
+    "enabled_by_default": true,
+    "file": "auto-fill-skrining-ppok-dengan-kuesioner-puma/script.js",
+    "meta_file": "auto-fill-skrining-ppok-dengan-kuesioner-puma/meta.json"
   }
 
 
