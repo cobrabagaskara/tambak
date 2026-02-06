@@ -1,0 +1,10 @@
+{
+  "id": "dashboard-theme",
+  "name": "Dark Theme",
+  "description": "Tema Dark",
+  "version": "1.0",
+  "author": "Cobra Bagaskara",
+  "match": [
+    "https://cirebon.epuskesmas.id/*"
+  ]
+}
