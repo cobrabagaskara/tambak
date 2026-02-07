@@ -1,0 +1,10 @@
+{
+  "id": "dashboard-theme-switcher",
+  "name": "Dashboard Theme Switcher",
+  "description": "Fixed theme switcher with CSS injection timing fix",
+  "version": "1.1.0",
+  "author": "cobrabagaskara",
+  "match": [
+    "https://cirebon.epuskesmas.id/*"
+  ]
+}
