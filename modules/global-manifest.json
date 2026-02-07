@@ -351,16 +351,18 @@
     "meta_file": "auto-fill-skrining-srq-29/meta.json"
   },
     
-  "dashboard-theme": {
-      "name": "Dashboard Theme Switcher",
-      "description": "Dark mode dan tema custom untuk dashboard",
-      "version": "1.0.0",
-      "author": "cobrabagaskara",
-      "match": ["https://cirebon.epuskesmas.id/*"],
-      "enabled_by_default": true,
-      "file": "dashboard-theme/script.js",
-      "meta_file": "dashboard-theme/meta.json"
-    }
+  "dashboard-theme-switcher": {
+    "name": "Dashboard Theme Switcher",
+    "description": "Fixed theme switcher with CSS injection timing fix",
+    "version": "1.1.0",
+    "author": "cobrabagaskara",
+    "match": [
+      "https://cirebon.epuskesmas.id/*"
+    ],
+    "enabled_by_default": true,
+    "file": "dashboard-theme-switcher/script.js",
+    "meta_file": "dashboard-theme-switcher/meta.json"
+  }
   
 
 
