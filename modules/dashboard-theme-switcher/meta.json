@@ -6,5 +6,10 @@
   "author": "cobrabagaskara",
   "match": [
     "https://cirebon.epuskesmas.id/*"
+  ],
+  "grant": [
+    "GM_addStyle",
+    "GM_getValue",
+    "GM_setValue"
   ]
 }
