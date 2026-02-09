@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cetak Struk SPBU - Pertamina</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Tambahkan link untuk date picker -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         * {
@@ -79,6 +78,280 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        /* ========== CSS UNTUK PRINT THERMAL AUTO CUTTER ========== */
+        @media print {
+            /* Sembunyikan semua kecuali struk thermal */
+            body * {
+                visibility: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                height: 0 !important;
+                overflow: hidden !important;
+            }
+            
+            /* Reset total untuk struk thermal */
+            #strukThermal, #strukThermal * {
+                visibility: visible !important;
+                all: initial !important; /* Reset semua styling */
+                display: block !important;
+            }
+            
+            /* Container utama untuk thermal paper */
+            #strukThermal {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 80mm !important; /* Lebar thermal paper */
+                min-width: 80mm !important;
+                max-width: 80mm !important;
+                margin: 0 auto !important;
+                padding: 0 5px !important; /* Margin kecil kiri-kanan */
+                font-family: 'Courier New', monospace !important;
+                font-size: 14px !important;
+                font-weight: bold !important;
+                line-height: 1 !important;
+                color: black !important;
+                background: white !important;
+                white-space: pre-line !important; /* Untuk menjaga format */
+            }
+            
+            /* Force page break setelah struk */
+            #strukThermal {
+                page-break-after: always !important;
+                break-after: always !important;
+            }
+            
+            /* Container thermal paper */
+            .thermal-paper {
+                width: 100% !important;
+                max-width: 80mm !important;
+                min-height: auto !important;
+                height: auto !important;
+                padding: 2px 0 !important;
+                margin: 0 !important;
+                overflow: hidden !important;
+            }
+            
+            /* Reset semua element dalam struk */
+            .thermal-paper * {
+                all: initial !important;
+                font-family: 'Courier New', monospace !important;
+                display: block !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                line-height: 1 !important;
+                font-weight: bold !important;
+            }
+            
+            /* Spesifik untuk elemen-elemen */
+            .thermal-logo {
+                text-align: center !important;
+                margin: 2px 0 5px 0 !important;
+            }
+            
+            .thermal-logo img {
+                max-height: 50px !important;
+                max-width: 150px !important;
+                height: auto !important;
+                width: auto !important;
+                display: inline-block !important;
+                margin: 0 auto !important;
+            }
+            
+            .thermal-spbu-number {
+                text-align: center !important;
+                font-size: 16px !important;
+                font-weight: bolder !important;
+                margin: 3px 0 !important;
+                letter-spacing: 1px !important;
+            }
+            
+            .thermal-spbu-name {
+                text-align: center !important;
+                font-size: 12px !important;
+                font-weight: bolder !important;
+                margin: 2px 0 !important;
+            }
+            
+            .thermal-address {
+                text-align: center !important;
+                font-size: 10px !important;
+                margin: 2px 0 6px 0 !important;
+            }
+            
+            .thermal-row {
+                display: flex !important;
+                justify-content: space-between !important;
+                margin: 2px 0 !important;
+                font-size: 11px !important;
+                font-weight: bold !important;
+            }
+            
+            .thermal-detail {
+                margin: 1px 0 !important;
+                font-size: 11px !important;
+                font-weight: bold !important;
+                white-space: pre !important;
+            }
+            
+            .thermal-garis {
+                border: none !important;
+                border-top: 1px solid black !important;
+                height: 0 !important;
+                margin: 3px 0 !important;
+                padding: 0 !important;
+            }
+            
+            .thermal-cash {
+                display: flex !important;
+                justify-content: space-between !important;
+                margin: 4px 0 !important;
+                font-size: 12px !important;
+                font-weight: bolder !important;
+            }
+            
+            .thermal-footer {
+                text-align: center !important;
+                margin: 5px 0 10px 0 !important;
+                font-size: 10px !important;
+                font-weight: bold !important;
+            }
+            
+            /* Auto cutter - pastikan ada cukup space untuk cutter */
+            .cutter-space {
+                height: 20px !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                visibility: hidden !important;
+            }
+        }
+        
+        /* ========== CSS UNTUK PREVIEW DI LAYAR ========== */
+        #previewStruk {
+            width: 100%;
+            max-width: 350px;
+            background: white;
+            padding: 15px;
+            border: 1px solid #ccc;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.2;
+            white-space: pre-line;
+        }
+        
+        /* Preview thermal style untuk layar */
+        .thermal-preview {
+            width: 80mm;
+            background: white;
+            padding: 10px;
+            margin: 0 auto;
+            border: 1px dashed #ccc;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1;
+            color: black;
+        }
+        
+        /* Setting Print Section */
+        .print-settings {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .print-settings h4 {
+            color: #e52d27;
+            margin-bottom: 15px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .setting-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .setting-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .setting-item label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .setting-item select {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        /* AUTO CUTTER SETTINGS */
+        .cutter-settings {
+            background: #e8f5e9;
+            border: 2px solid #4CAF50;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .cutter-settings h5 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cutter-options {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .cutter-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cutter-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .btn-print-thermal {
+            background: linear-gradient(to right, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        .btn-print-thermal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        /* Form styling */
         .form-group {
             margin-bottom: 20px;
         }
@@ -103,14 +376,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        .form-group input:focus, 
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #e52d27;
-            outline: none;
-        }
-        
-        /* Styling khusus untuk date picker */
         .flatpickr-input {
             background-color: white;
             cursor: pointer;
@@ -120,12 +385,6 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-        }
-        
-        @media (max-width: 480px) {
-            .date-time-container {
-                grid-template-columns: 1fr;
-            }
         }
         
         .time-input-group {
@@ -201,21 +460,6 @@
             cursor: pointer;
         }
         
-        .shift-input {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 15px;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .shift-input label {
-            font-weight: 600;
-            color: #333;
-            white-space: nowrap;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
         .bbm-options {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -257,10 +501,18 @@
             gap: 15px;
         }
         
-        @media (max-width: 480px) {
-            .jumlah-input-group {
-                grid-template-columns: 1fr;
-            }
+        .harga-edit-section {
+            background: #fff8e1;
+            border: 2px solid #ffd54f;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .harga-edit-section h4 {
+            color: #e52d27;
+            margin-bottom: 10px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         .preview-section {
@@ -298,11 +550,6 @@
         
         .preview-box.empty {
             color: #888;
-        }
-        
-        #previewStruk {
-            width: 100%;
-            max-width: 350px;
         }
         
         .button-group {
@@ -363,145 +610,27 @@
             transform: translateY(0);
         }
         
-        /* STRUK STYLE FINAL */
-        .struk {
-            font-family: 'Courier New', monospace;
-            background: white;
-            padding: 10px 15px;
-            width: 100%;
-            max-width: 350px;
-            margin: 0 auto;
+        .info-box {
+            background: #e8f4ff;
+            border-left: 4px solid #2196F3;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 4px;
             font-size: 14px;
-            line-height: 1.2;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        .struk-logo {
-            text-align: center;
-            margin-bottom: 10px;
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
         
-        .struk-logo img {
-            max-height: 60px;
-            max-width: 180px;
-            object-fit: contain;
-        }
-        
-        .spbu-number {
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            margin: 10px 0;
-            letter-spacing: 1px;
-        }
-        
-        .spbu-name {
-            text-align: center;
-            font-size: 14px;
-            margin: 5px 0;
-            font-weight: bold;
-        }
-        
-        .spbu-address {
-            text-align: center;
-            font-size: 12px;
-            margin: 5px 0 15px 0;
-        }
-        
-        .header-row {
-            display: flex;
-            justify-content: space-between;
-            margin: 6px 0;
-        }
-        
-        .header-label {
-            width: 60px;
-        }
-        
-        .header-value {
-            flex: 1;
-            text-align: left;
-        }
-        
-        .separator-full {
-            text-align: center;
-            margin: 10px 0;
-            letter-spacing: 1px;
-            color: #000;
-            width: 100%;
-            overflow: hidden;
-            white-space: nowrap;
-            font-family: 'Courier New', monospace;
-        }
-        
-        .detail-section {
-            margin: 10px 0;
-        }
-        
-        .detail-row {
-            display: flex;
-            margin: 4px 0;
-            width: 100%;
-        }
-        
-        .detail-label {
-            width: 130px;
-            text-align: left;
-        }
-        
-        .detail-colon {
-            width: 10px;
-            text-align: left;
-        }
-        
-        .detail-value {
-            flex: 1;
-            text-align: left;
-        }
-        
-        .cash-row {
-            display: flex;
-            justify-content: space-between;
-            margin: 8px 0;
-            font-weight: bold;
-        }
-        
-        .cash-label {
-            font-size: 14px;
-        }
-        
-        .cash-amount {
-            font-size: 14px;
-            letter-spacing: 1px;
-        }
-        
-        .plat-section {
-            margin: 10px 0;
-        }
-        
-        .footer-section {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 11px;
-        }
-        
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            .struk, .struk * {
-                visibility: visible;
-            }
-            .struk {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                max-width: 100%;
-                padding: 10px;
-                font-size: 13px;
-            }
-            .separator-full {
-                letter-spacing: 1px !important;
+        @media (max-width: 480px) {
+            .form-row,
+            .date-time-container,
+            .jumlah-input-group {
+                grid-template-columns: 1fr;
             }
         }
         
@@ -539,73 +668,44 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        .info-box {
-            background: #e8f4ff;
-            border-left: 4px solid #2196F3;
-            padding: 12px 15px;
-            margin: 15px 0;
-            border-radius: 4px;
-            font-size: 14px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* Thermal Printer Status */
+        .printer-status {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 13px;
         }
         
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        
-        @media (max-width: 480px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .harga-edit-section {
-            background: #fff8e1;
-            border: 2px solid #ffd54f;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-        }
-        
-        .harga-edit-section h4 {
-            color: #e52d27;
-            margin-bottom: 10px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        .print-info-box {
-            background: #e8f5e9;
-            border-left: 4px solid #4CAF50;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 4px;
-            font-size: 14px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        .print-info-box h4 {
-            color: #2E7D32;
-            margin-bottom: 10px;
+        .printer-status h5 {
+            color: #856404;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         
-        .print-tips {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid #c8e6c9;
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
         }
         
-        .print-tips ul {
-            padding-left: 20px;
-            margin: 5px 0;
+        .status-online {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
         
-        .print-tips li {
-            margin-bottom: 5px;
+        .status-offline {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
     </style>
 </head>
@@ -613,22 +713,98 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-gas-pump"></i> SISTEM CETAK STRUK SPBU PERTAMINA</h1>
-            <p>Versi Final - Date Picker & Cetak Thermal</p>
+            <p>Versi Final - Optimized for Thermal Printer with Auto Cutter</p>
         </header>
         
-        <!-- Informasi Cetak Thermal -->
-        <div class="print-info-box">
-            <h4><i class="fas fa-print"></i> INFO CETAK KE PRINTER THERMAL</h4>
-            <p><strong>Untuk cetak ke printer thermal Bluetooth:</strong></p>
-            <div class="print-tips">
-                <p>Web browser biasa tidak bisa langsung print ke printer thermal. Solusi:</p>
-                <ul>
-                    <li><strong>Gunakan aplikasi khusus</strong> seperti "PrintBot" atau "PrintShare"</li>
-                    <li><strong>Export struk sebagai PDF</strong> lalu print dari aplikasi printer</li>
-                    <li><strong>Share/Send struk</strong> ke aplikasi printer thermal</li>
-                    <li><strong>Setting paper width: 80mm</strong> untuk printer thermal</li>
-                </ul>
-                <p>Tombol "Ekspor Struk" akan menghasilkan file JSON yang bisa dikonversi ke PDF.</p>
+        <!-- Printer Status -->
+        <div class="printer-status">
+            <h5><i class="fas fa-print"></i> STATUS PRINTER THERMAL</h5>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <span class="status-indicator status-online">
+                        <i class="fas fa-check-circle"></i> AUTO CUTTER DETECTED
+                    </span>
+                    <span style="margin-left: 10px; font-size: 12px;">
+                        Printer akan otomatis memotong kertas setelah print
+                    </span>
+                </div>
+                <button class="btn btn-secondary" id="btnCheckPrinter" style="padding: 6px 12px; font-size: 12px;">
+                    <i class="fas fa-sync-alt"></i> Check Printer
+                </button>
+            </div>
+        </div>
+        
+        <!-- Print Settings dengan Auto Cutter Options -->
+        <div class="print-settings">
+            <h4><i class="fas fa-cog"></i> SETTING PRINT THERMAL</h4>
+            
+            <div class="setting-group">
+                <div class="setting-item">
+                    <label for="fontSize">Ukuran Font</label>
+                    <select id="fontSize">
+                        <option value="11">Sangat Kecil (11px)</option>
+                        <option value="12">Kecil (12px)</option>
+                        <option value="14" selected>Normal (14px)</option>
+                        <option value="16">Besar (16px)</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label for="fontWeight">Ketebalan Font</label>
+                    <select id="fontWeight">
+                        <option value="normal">Normal</option>
+                        <option value="bold" selected>Bold (Standard)</option>
+                        <option value="bolder">Extra Bold (Thermal)</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label for="paperWidth">Lebar Kertas</label>
+                    <select id="paperWidth">
+                        <option value="80mm" selected>80mm (Standard Thermal)</option>
+                        <option value="76mm">76mm</option>
+                        <option value="58mm">58mm (Receipt)</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label for="lineSpacing">Jarak Baris</label>
+                    <select id="lineSpacing">
+                        <option value="1">Sangat Rapat</option>
+                        <option value="1.2" selected>Normal</option>
+                        <option value="1.5">Legap</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Auto Cutter Settings -->
+            <div class="cutter-settings">
+                <h5><i class="fas fa-cut"></i> AUTO CUTTER SETTINGS</h5>
+                <div class="cutter-options">
+                    <div class="cutter-option">
+                        <input type="radio" id="cutterAuto" name="cutterMode" value="auto" checked>
+                        <label for="cutterAuto">Auto Cut (Setiap Struk)</label>
+                    </div>
+                    <div class="cutter-option">
+                        <input type="radio" id="cutterManual" name="cutterMode" value="manual">
+                        <label for="cutterManual">Manual Cut</label>
+                    </div>
+                    <div class="cutter-option">
+                        <input type="radio" id="cutterFeed" name="cutterMode" value="feed">
+                        <label for="cutterFeed">Feed & Cut</label>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 12px; color: #666;">
+                    <i class="fas fa-info-circle"></i> Pilih "Auto Cut" untuk printer dengan auto cutter.
+                    Printer akan otomatis memotong setelah struk tercetak.
+                </div>
+            </div>
+            
+            <button class="btn-print-thermal" id="btnTestCutter">
+                <i class="fas fa-cut"></i> TEST AUTO CUTTER
+            </button>
+            
+            <div class="info-box" style="margin-top: 15px;">
+                <i class="fas fa-lightbulb"></i> <strong>Tips untuk Auto Cutter:</strong> 
+                Pastikan ada cukup space kosong di akhir struk untuk cutter. 
+                Font "Courier New" dengan size 14px dan weight "Bold" direkomendasikan.
             </div>
         </div>
         
@@ -694,7 +870,7 @@
                     </div>
                 </div>
                 
-                <!-- Tanggal & Waktu dengan Date Picker -->
+                <!-- Tanggal & Waktu -->
                 <div class="form-group">
                     <label><i class="fas fa-calendar-alt"></i> Tanggal & Waktu</label>
                     <div class="date-time-container">
@@ -717,9 +893,6 @@
                         <button type="button" class="btn btn-secondary" id="btnWaktuSekarang" style="padding: 8px 15px; font-size: 14px;">
                             <i class="fas fa-sync-alt"></i> Waktu Sekarang
                         </button>
-                        <button type="button" class="btn btn-info" id="btnWaktuKustom" style="padding: 8px 15px; font-size: 14px;">
-                            <i class="fas fa-clock"></i> Set Waktu
-                        </button>
                     </div>
                 </div>
                 
@@ -736,7 +909,7 @@
                     </select>
                 </div>
                 
-                <!-- Harga BBM - DAPAT DIEDIT -->
+                <!-- Harga BBM -->
                 <div class="harga-edit-section">
                     <h4><i class="fas fa-edit"></i> Harga Produk (Dapat Diedit)</h4>
                     <div class="form-group">
@@ -750,18 +923,11 @@
                         <label for="hargaLiter"><i class="fas fa-tag"></i> Harga/Liter (Rp)</label>
                         <input type="number" id="hargaLiter" value="12350" min="0" step="100" placeholder="Masukkan harga per liter">
                     </div>
-                    
-                    <div class="info-box">
-                        <i class="fas fa-info-circle"></i> Harga dapat diubah sesuai perubahan harga di SPBU
-                    </div>
                 </div>
                 
                 <!-- Input Jumlah -->
                 <div class="form-group">
-                    <label><i class="fas fa-money-bill-wave"></i> Input Jumlah (Pilih Salah Satu)</label>
-                    <div class="info-box">
-                        <i class="fas fa-info-circle"></i> Isi salah satu: CASH atau Volume. Yang lain akan terhitung otomatis.
-                    </div>
+                    <label><i class="fas fa-money-bill-wave"></i> Input Jumlah</label>
                     <div class="jumlah-input-group">
                         <div>
                             <label for="cashInput">CASH (Rp)</label>
@@ -780,16 +946,17 @@
                     <input type="text" id="totalHarga" readonly value="Rp 0">
                 </div>
                 
-                <!-- Operator -->
-                <div class="form-group">
-                    <label for="operator"><i class="fas fa-user"></i> Operator</label>
-                    <input type="text" id="operator" value="KARMIN" placeholder="Nama operator">
-                </div>
-                
-                <!-- No. Plat -->
-                <div class="form-group">
-                    <label for="noPlat"><i class="fas fa-car"></i> No. Plat Kendaraan</label>
-                    <input type="text" id="noPlat" value="E9920K" placeholder="Contoh: E9920K">
+                <!-- Operator & No. Plat -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="operator"><i class="fas fa-user"></i> Operator</label>
+                        <input type="text" id="operator" value="KARMIN" placeholder="Nama operator">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="noPlat"><i class="fas fa-car"></i> No. Plat</label>
+                        <input type="text" id="noPlat" value="E9920K" placeholder="Contoh: E9920K">
+                    </div>
                 </div>
                 
                 <!-- Buttons -->
@@ -797,11 +964,11 @@
                     <button class="btn btn-primary" id="btnHitung">
                         <i class="fas fa-calculator"></i> Hitung & Preview
                     </button>
-                    <button class="btn btn-success" id="btnCetak">
-                        <i class="fas fa-print"></i> Cetak Struk
+                    <button class="btn btn-success" id="btnGenerate">
+                        <i class="fas fa-check"></i> Generate Struk
                     </button>
                     <button class="btn btn-warning" id="btnReset">
-                        <i class="fas fa-redo"></i> Reset Form
+                        <i class="fas fa-redo"></i> Reset
                     </button>
                 </div>
             </section>
@@ -816,20 +983,26 @@
                 </div>
                 
                 <div class="button-group">
-                    <button class="btn btn-primary" id="btnPrint">
-                        <i class="fas fa-print"></i> Print Sekarang
+                    <button class="btn btn-primary" id="btnPrintThermal">
+                        <i class="fas fa-print"></i> PRINT THERMAL (AUTO CUT)
                     </button>
                     <button class="btn btn-secondary" id="btnSimpan">
-                        <i class="fas fa-save"></i> Simpan ke Riwayat
+                        <i class="fas fa-save"></i> Simpan
                     </button>
-                    <button class="btn btn-warning" id="btnEkspor">
-                        <i class="fas fa-file-export"></i> Ekspor Struk
-                    </button>
-                    <button class="btn btn-info" id="btnExportPDF">
-                        <i class="fas fa-file-pdf"></i> Export PDF (Beta)
+                    <button class="btn btn-info" id="btnMultiPrint">
+                        <i class="fas fa-copy"></i> Print Multiple
                     </button>
                 </div>
             </section>
+        </div>
+        
+        <!-- STRUK THERMAL (hidden, hanya untuk print) -->
+        <div id="strukThermal" style="display: none;">
+            <div class="thermal-paper">
+                <!-- Konten struk akan diisi oleh JavaScript -->
+            </div>
+            <!-- Space untuk auto cutter -->
+            <div class="cutter-space"></div>
         </div>
         
         <!-- Riwayat Transaksi -->
@@ -842,8 +1015,8 @@
                 <button class="btn btn-warning" id="btnClearRiwayat" style="min-width: auto; padding: 8px 15px;">
                     <i class="fas fa-trash"></i> Hapus Semua
                 </button>
-                <button class="btn btn-info" id="btnExportAll" style="min-width: auto; padding: 8px 15px;">
-                    <i class="fas fa-download"></i> Export Semua
+                <button class="btn btn-success" id="btnPrintRiwayat" style="min-width: auto; padding: 8px 15px;">
+                    <i class="fas fa-print"></i> Print All
                 </button>
             </div>
             <div id="riwayatTransaksi">
@@ -852,16 +1025,12 @@
         </section>
     </div>
 
-    <!-- Tambahkan script untuk date picker -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
-    
-    <!-- Tambahkan jsPDF untuk export PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
     <script>
-        // Data Harga BBM Default (bisa diubah)
+        // Data dan inisialisasi
         let hargaBBM = {
             'PERTALITE': 10000,
             'PERTAMAX': 12350,
@@ -872,13 +1041,11 @@
             'BIOSOLAR': 6800
         };
 
-        // Load harga dari localStorage jika ada
-        const savedHarga = localStorage.getItem('hargaBBM');
+        let savedHarga = localStorage.getItem('hargaBBM');
         if (savedHarga) {
             hargaBBM = JSON.parse(savedHarga);
         }
 
-        // Data untuk riwayat transaksi dan logo
         let riwayatTransaksi = JSON.parse(localStorage.getItem('riwayatTransaksi') || '[]');
         let logoSPBU = localStorage.getItem('logoSPBU') || null;
         let transaksiAktif = null;
@@ -886,413 +1053,169 @@
         let transactionCounter = parseInt(localStorage.getItem('transactionCounter') || '546529');
         let produkTerpilih = 'PERTAMAX';
 
-        // Inisialisasi aplikasi
+        // Inisialisasi
         document.addEventListener('DOMContentLoaded', function() {
             initBBMOptions();
             initLogoUpload();
             loadSavedLogo();
             loadRiwayatTransaksi();
             initDatePicker();
+            initPrinterSettings();
             
-            // Set initial transaction number
             document.getElementById('noTransaksi').value = transactionCounter;
             updateWaktuSekarang();
             
             // Event Listeners
             document.getElementById('cetakLogo').addEventListener('change', function() {
                 cetakLogo = this.checked;
-                if (transaksiAktif) {
-                    updatePreview();
-                }
             });
             
             document.getElementById('cashInput').addEventListener('input', hitungDariCash);
             document.getElementById('volumeInput').addEventListener('input', hitungDariVolume);
             document.getElementById('hargaLiter').addEventListener('input', updateHargaProduk);
-            document.getElementById('btnHitung').addEventListener('click', generateStruk);
-            document.getElementById('btnCetak').addEventListener('click', generateDanCetak);
-            document.getElementById('btnPrint').addEventListener('click', printStruk);
+            document.getElementById('btnHitung').addEventListener('click', hitungDanPreview);
+            document.getElementById('btnGenerate').addEventListener('click', generateStruk);
+            document.getElementById('btnPrintThermal').addEventListener('click', printThermalWithAutoCut);
+            document.getElementById('btnTestCutter').addEventListener('click', testAutoCutter);
+            document.getElementById('btnMultiPrint').addEventListener('click', printMultiple);
+            document.getElementById('btnPrintRiwayat').addEventListener('click', printRiwayat);
             document.getElementById('btnReset').addEventListener('click', resetForm);
             document.getElementById('btnSimpan').addEventListener('click', simpanTransaksi);
-            document.getElementById('btnEkspor').addEventListener('click', eksporStrukJSON);
-            document.getElementById('btnExportPDF').addEventListener('click', exportStrukPDF);
             document.getElementById('btnRefreshRiwayat').addEventListener('click', loadRiwayatTransaksi);
             document.getElementById('btnClearRiwayat').addEventListener('click', clearRiwayat);
             document.getElementById('btnHapusLogo').addEventListener('click', hapusLogo);
             document.getElementById('btnWaktuSekarang').addEventListener('click', updateWaktuSekarang);
-            document.getElementById('btnWaktuKustom').addEventListener('click', setWaktuKustom);
-            document.getElementById('btnExportAll').addEventListener('click', exportAllTransaksi);
+            document.getElementById('btnCheckPrinter').addEventListener('click', checkPrinterStatus);
             
-            // Pilih PERTAMAX sebagai default
+            // Setting print
+            document.getElementById('fontSize').addEventListener('change', updatePrintSettings);
+            document.getElementById('fontWeight').addEventListener('change', updatePrintSettings);
+            document.getElementById('paperWidth').addEventListener('change', updatePrintSettings);
+            document.getElementById('lineSpacing').addEventListener('change', updatePrintSettings);
+            
+            // Cutter settings
+            document.querySelectorAll('input[name="cutterMode"]').forEach(radio => {
+                radio.addEventListener('change', updateCutterSettings);
+            });
+            
             selectBBM('PERTAMAX');
-            
-            // Set default values dan hitung
             document.getElementById('cashInput').value = '200000';
             hitungDariCash();
+            
+            // Check printer status on load
+            checkPrinterStatus();
         });
 
-        // Inisialisasi Date Picker
-        function initDatePicker() {
-            flatpickr("#tanggalPicker", {
-                dateFormat: "d/m/Y",
-                locale: "id",
-                defaultDate: new Date(),
-                onChange: function(selectedDates, dateStr) {
-                    // Tanggal berubah, update preview jika ada
-                    if (transaksiAktif) {
-                        updatePreview();
-                    }
-                }
-            });
+        // Initialize printer settings
+        function initPrinterSettings() {
+            // Set default untuk thermal printer dengan auto cutter
+            localStorage.setItem('printerSettings', JSON.stringify({
+                fontSize: '14',
+                fontWeight: 'bold',
+                paperWidth: '80mm',
+                lineSpacing: '1.2',
+                cutterMode: 'auto'
+            }));
         }
 
-        // Update waktu sekarang
-        function updateWaktuSekarang() {
-            const now = new Date();
-            const tanggal = now.toLocaleDateString('en-GB'); // Format dd/mm/yyyy
-            const jam = now.getHours().toString().padStart(2, '0');
-            const menit = now.getMinutes().toString().padStart(2, '0');
-            const detik = now.getSeconds().toString().padStart(2, '0');
+        // Check printer status
+        function checkPrinterStatus() {
+            showNotification('Checking printer status...', 'info');
             
-            // Set date picker
-            document.getElementById('tanggalPicker').value = tanggal;
-            
-            // Set waktu
-            document.getElementById('jam').value = jam;
-            document.getElementById('menit').value = menit;
-            document.getElementById('detik').value = detik;
-            
-            showNotification('Waktu diupdate ke waktu sekarang!', 'info');
+            // Simulasi check printer
+            setTimeout(() => {
+                const statusEl = document.querySelector('.status-indicator');
+                statusEl.innerHTML = '<i class="fas fa-check-circle"></i> PRINTER READY';
+                statusEl.className = 'status-indicator status-online';
+                showNotification('Printer thermal siap dengan auto cutter!', 'success');
+            }, 1000);
         }
 
-        // Set waktu kustom
-        function setWaktuKustom() {
-            const jam = document.getElementById('jam').value.padStart(2, '0');
-            const menit = document.getElementById('menit').value.padStart(2, '0');
-            const detik = document.getElementById('detik').value.padStart(2, '0');
+        // Update print settings
+        function updatePrintSettings() {
+            const settings = {
+                fontSize: document.getElementById('fontSize').value,
+                fontWeight: document.getElementById('fontWeight').value,
+                paperWidth: document.getElementById('paperWidth').value,
+                lineSpacing: document.getElementById('lineSpacing').value
+            };
             
-            // Validasi
-            if (jam < 0 || jam > 23 || menit < 0 || menit > 59 || detik < 0 || detik > 59) {
-                showNotification('Format waktu tidak valid!', 'error');
-                return;
-            }
+            localStorage.setItem('printSettings', JSON.stringify(settings));
             
-            showNotification(`Waktu diatur ke ${jam}:${menit}:${detik}`, 'success');
-        }
-
-        // Inisialisasi Upload Logo
-        function initLogoUpload() {
-            const uploadArea = document.getElementById('logoUpload');
-            const fileInput = document.getElementById('logoFile');
-            
-            uploadArea.addEventListener('click', () => fileInput.click());
-            
-            fileInput.addEventListener('change', function(e) {
-                if (this.files && this.files[0]) {
-                    const file = this.files[0];
-                    
-                    // Validasi ukuran file (maks 2MB)
-                    if (file.size > 2 * 1024 * 1024) {
-                        showNotification('Ukuran file maksimal 2MB!', 'error');
-                        return;
-                    }
-                    
-                    // Validasi tipe file
-                    if (!file.type.match('image.*')) {
-                        showNotification('File harus berupa gambar!', 'error');
-                        return;
-                    }
-                    
-                    const reader = new FileReader();
-                    
-                    reader.onload = function(e) {
-                        // Simpan ke localStorage
-                        logoSPBU = e.target.result;
-                        localStorage.setItem('logoSPBU', logoSPBU);
-                        
-                        // Tampilkan preview
-                        document.getElementById('logoImage').src = logoSPBU;
-                        document.getElementById('logoPreview').style.display = 'block';
-                        
-                        // Update preview struk jika ada
-                        if (transaksiAktif) {
-                            updatePreview();
-                        }
-                        
-                        showNotification('Logo berhasil diupload!', 'success');
-                    }
-                    
-                    reader.readAsDataURL(file);
-                }
-            });
-        }
-
-        // Load logo yang sudah disimpan
-        function loadSavedLogo() {
-            if (logoSPBU) {
-                document.getElementById('logoImage').src = logoSPBU;
-                document.getElementById('logoPreview').style.display = 'block';
-            }
-        }
-
-        // Hapus logo
-        function hapusLogo() {
-            logoSPBU = null;
-            localStorage.removeItem('logoSPBU');
-            document.getElementById('logoPreview').style.display = 'none';
-            document.getElementById('logoFile').value = '';
-            
-            // Update preview struk jika ada
             if (transaksiAktif) {
                 updatePreview();
             }
-            
-            showNotification('Logo telah dihapus!', 'info');
         }
 
-        // Generate BBM Options
-        function initBBMOptions() {
-            const container = document.getElementById('bbmOptions');
-            container.innerHTML = '';
+        // Update cutter settings
+        function updateCutterSettings() {
+            const cutterMode = document.querySelector('input[name="cutterMode"]:checked').value;
+            localStorage.setItem('cutterMode', cutterMode);
             
-            Object.entries(hargaBBM).forEach(([jenis, harga]) => {
-                const option = document.createElement('div');
-                option.className = 'bbm-option';
-                option.innerHTML = `
-                    <div class="jenis">${jenis}</div>
-                    <div class="harga">Rp ${formatRupiah(harga)}/L</div>
-                    <button class="btn-hapus-harga" data-jenis="${jenis}" style="background: #ff4444; color: white; border: none; padding: 2px 6px; border-radius: 3px; font-size: 10px; margin-top: 5px; cursor: pointer;">
-                        <i class="fas fa-trash"></i> Hapus
-                    </button>
-                `;
-                
-                // Event untuk memilih produk
-                option.addEventListener('click', (e) => {
-                    if (!e.target.classList.contains('btn-hapus-harga')) {
-                        selectBBM(jenis);
-                        // Hitung ulang berdasarkan input yang aktif
-                        if (document.getElementById('cashInput').value) {
-                            hitungDariCash();
-                        } else if (document.getElementById('volumeInput').value) {
-                            hitungDariVolume();
-                        }
-                    }
-                });
-                
-                // Event untuk hapus produk
-                const hapusBtn = option.querySelector('.btn-hapus-harga');
-                hapusBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const jenisHapus = this.getAttribute('data-jenis');
-                    hapusProduk(jenisHapus);
-                });
-                
-                container.appendChild(option);
-            });
-            
-            // Tambah tombol untuk tambah produk baru
-            const tambahProduk = document.createElement('div');
-            tambahProduk.className = 'bbm-option';
-            tambahProduk.style.background = '#e8f4ff';
-            tambahProduk.innerHTML = `
-                <div class="jenis" style="color: #2196F3; font-weight: bold;">
-                    <i class="fas fa-plus"></i> TAMBAH PRODUK
-                </div>
-                <div class="harga" style="color: #2196F3;">
-                    Klik untuk tambah
-                </div>
-            `;
-            tambahProduk.addEventListener('click', tambahProdukBaru);
-            container.appendChild(tambahProduk);
+            showNotification(`Auto cutter mode: ${cutterMode.toUpperCase()}`, 'info');
         }
 
-        // Pilih BBM
-        function selectBBM(jenis) {
-            produkTerpilih = jenis;
+        // Fungsi untuk print dengan auto cutter
+        function printThermalWithAutoCut() {
+            if (!transaksiAktif) {
+                showNotification('Generate struk terlebih dahulu!', 'error');
+                return;
+            }
             
-            // Hapus active class dari semua
-            document.querySelectorAll('.bbm-option').forEach(opt => {
-                opt.classList.remove('active');
-            });
+            generateStrukThermal();
             
-            // Tambah active class ke yang dipilih
-            Array.from(document.querySelectorAll('.bbm-option')).forEach(opt => {
-                if (opt.querySelector('.jenis') && opt.querySelector('.jenis').textContent === jenis) {
-                    opt.classList.add('active');
+            // Get cutter settings
+            const cutterMode = document.querySelector('input[name="cutterMode"]:checked').value;
+            
+            // Delay untuk memastikan DOM sudah update
+            setTimeout(() => {
+                if (cutterMode === 'auto') {
+                    showNotification('Printing dengan AUTO CUTTER...', 'info');
                 }
-            });
-            
-            // Update harga input
-            document.getElementById('hargaLiter').value = hargaBBM[jenis] || 0;
-        }
-
-        // Tambah produk baru
-        function tambahProdukBaru() {
-            const namaProduk = prompt('Masukkan nama produk baru:');
-            if (!namaProduk) return;
-            
-            const hargaProduk = prompt('Masukkan harga per liter untuk ' + namaProduk + ':');
-            if (!hargaProduk) return;
-            
-            const harga = parseInt(hargaProduk.replace(/\D/g, '')) || 0;
-            if (harga <= 0) {
-                showNotification('Harga harus lebih dari 0!', 'error');
-                return;
-            }
-            
-            // Tambah ke data harga
-            hargaBBM[namaProduk.toUpperCase()] = harga;
-            
-            // Simpan ke localStorage
-            localStorage.setItem('hargaBBM', JSON.stringify(hargaBBM));
-            
-            // Refresh tampilan
-            initBBMOptions();
-            selectBBM(namaProduk.toUpperCase());
-            
-            showNotification(`Produk ${namaProduk} berhasil ditambahkan!`, 'success');
-        }
-
-        // Hapus produk
-        function hapusProduk(jenis) {
-            if (Object.keys(hargaBBM).length <= 1) {
-                showNotification('Minimal harus ada 1 produk!', 'error');
-                return;
-            }
-            
-            if (!confirm(`Apakah Anda yakin ingin menghapus produk ${jenis}?`)) {
-                return;
-            }
-            
-            // Hapus dari data
-            delete hargaBBM[jenis];
-            
-            // Simpan ke localStorage
-            localStorage.setItem('hargaBBM', JSON.stringify(hargaBBM));
-            
-            // Refresh tampilan
-            initBBMOptions();
-            
-            // Pilih produk pertama yang tersisa
-            const produkPertama = Object.keys(hargaBBM)[0];
-            selectBBM(produkPertama);
-            
-            showNotification(`Produk ${jenis} berhasil dihapus!`, 'success');
-        }
-
-        // Update harga produk saat diubah
-        function updateHargaProduk() {
-            const harga = parseInt(document.getElementById('hargaLiter').value) || 0;
-            
-            if (harga > 0 && produkTerpilih) {
-                // Update harga di data
-                hargaBBM[produkTerpilih] = harga;
                 
-                // Simpan ke localStorage
-                localStorage.setItem('hargaBBM', JSON.stringify(hargaBBM));
+                // Trigger print
+                window.print();
                 
-                // Refresh tampilan options
-                initBBMOptions();
+                // Reset setelah print
+                setTimeout(() => {
+                    document.getElementById('strukThermal').style.display = 'none';
+                }, 100);
                 
-                // Hitung ulang jika ada input
-                if (document.getElementById('cashInput').value) {
-                    hitungDariCash();
-                } else if (document.getElementById('volumeInput').value) {
-                    hitungDariVolume();
-                }
-            }
+            }, 500);
         }
 
-        // Format Rupiah dengan koma
-        function formatRupiah(angka) {
-            return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-
-        // Hitung dari CASH (Rp) → Volume
-        function hitungDariCash() {
-            const cashInput = document.getElementById('cashInput');
-            const volumeInput = document.getElementById('volumeInput');
-            
-            // Kosongkan input volume
-            volumeInput.value = '';
-            
-            const cash = parseFloat(cashInput.value) || 0;
-            if (cash <= 0) {
-                updateTotalDisplay(0);
-                return;
-            }
-            
-            const harga = parseInt(document.getElementById('hargaLiter').value) || 12350;
-            
-            // Hitung volume
-            const volume = cash / harga;
-            
-            // Update input volume
-            volumeInput.value = volume.toFixed(2);
-            
-            // Update display total
-            updateTotalDisplay(cash);
-        }
-
-        // Hitung dari Volume → CASH (Rp)
-        function hitungDariVolume() {
-            const cashInput = document.getElementById('cashInput');
-            const volumeInput = document.getElementById('volumeInput');
-            
-            // Kosongkan input cash
-            cashInput.value = '';
-            
-            const volume = parseFloat(volumeInput.value) || 0;
-            if (volume <= 0) {
-                updateTotalDisplay(0);
-                return;
-            }
-            
-            const harga = parseInt(document.getElementById('hargaLiter').value) || 12350;
-            
-            // Hitung cash
-            const cash = volume * harga;
-            
-            // Update input cash
-            cashInput.value = Math.round(cash);
-            
-            // Update display total
-            updateTotalDisplay(cash);
-        }
-
-        // Update display total
-        function updateTotalDisplay(total) {
-            document.getElementById('totalHarga').value = `Rp ${formatRupiah(Math.round(total))}`;
-        }
-
-        // Generate nomor transaksi baru
-        function generateNoTransaksi() {
-            transactionCounter++;
-            localStorage.setItem('transactionCounter', transactionCounter);
-            return transactionCounter;
-        }
-
-        // Fungsi untuk membuat garis penuh
-        function buatGarisPenuh() {
-            // Garis dengan 42 karakter minus (sesuai lebar struk)
-            return '------------------------------------------';
-        }
-
-        // Get tanggal dan waktu dari form
-        function getTanggalWaktu() {
-            const tanggal = document.getElementById('tanggalPicker').value;
-            const jam = document.getElementById('jam').value.padStart(2, '0');
-            const menit = document.getElementById('menit').value.padStart(2, '0');
-            const detik = document.getElementById('detik').value.padStart(2, '0');
-            
-            return {
-                tanggal: tanggal,
-                waktu: `${jam}:${menit}:${detik}`
+        // Test auto cutter
+        function testAutoCutter() {
+            // Buat struk test untuk cutter
+            const testStruk = {
+                jenis: 'TEST CUTTER',
+                volume: 1.00,
+                harga: 10000,
+                total: 10000,
+                noPlat: 'TEST123',
+                operator: 'TESTER',
+                tanggal: new Date().toLocaleDateString('en-GB'),
+                waktu: new Date().toLocaleTimeString('en-GB', {hour12: false}),
+                noTransaksi: 'CUTTEST'
             };
+            
+            transaksiAktif = testStruk;
+            generateStrukThermal();
+            
+            setTimeout(() => {
+                window.print();
+                showNotification('Test auto cutter dikirim ke printer', 'success');
+                
+                // Reset
+                setTimeout(() => {
+                    document.getElementById('strukThermal').style.display = 'none';
+                    transaksiAktif = null;
+                }, 100);
+            }, 500);
         }
 
-        // Update preview struk
-        function updatePreview() {
+        // Generate struk thermal untuk print
+        function generateStrukThermal() {
             if (!transaksiAktif) return;
             
             const t = transaksiAktif;
@@ -1301,133 +1224,227 @@
             const spbuAddress = document.getElementById('spbuAddress').value;
             const shift = document.getElementById('shift').value;
             const noTransaksi = document.getElementById('noTransaksi').value;
-            const { tanggal, waktu } = getTanggalWaktu();
+            const tanggal = document.getElementById('tanggalPicker').value || t.tanggal;
+            const waktu = getWaktuFromInput() || t.waktu;
             const pulauPompa = document.getElementById('pulauPompa').value;
             const operator = document.getElementById('operator').value;
             
-            const logoHTML = (logoSPBU && cetakLogo) 
-                ? `<div class="struk-logo"><img src="${logoSPBU}" alt="Logo SPBU"></div>`
-                : '';
+            // Get print settings
+            const fontSize = document.getElementById('fontSize').value;
+            const fontWeight = document.getElementById('fontWeight').value;
+            const paperWidth = document.getElementById('paperWidth').value;
+            const lineSpacing = document.getElementById('lineSpacing').value;
             
-            const garisPenuh = buatGarisPenuh();
+            // Format garis untuk thermal
+            const garis = '----------------------------------------';
             
             const strukHTML = `
-                <div class="struk">
-                    ${logoHTML}
-                    
-                    <div class="spbu-number">${spbuNumber}</div>
-                    
-                    <div class="spbu-name">${spbuName}</div>
-                    <div class="spbu-address">${spbuAddress}</div>
-                    
-                    <div class="header-row">
-                        <div>Shift : ${shift}</div>
-                        <div>No. Trans:${noTransaksi}</div>
-                    </div>
-                    
-                    <div class="header-row">
-                        <div>Waktu : ${tanggal}</div>
-                        <div>${waktu}</div>
-                    </div>
-                    
-                    <div class="separator-full">${garisPenuh}</div>
-                    
-                    <div class="detail-section">
-                        <div class="detail-row">
-                            <div class="detail-label">Pulau/Pompa</div>
-                            <div class="detail-colon">:</div>
-                            <div class="detail-value">${pulauPompa}</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Nama Produk</div>
-                            <div class="detail-colon">:</div>
-                            <div class="detail-value">${t.jenis}</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Harga/Liter</div>
-                            <div class="detail-colon">:</div>
-                            <div class="detail-value">Rp. ${formatRupiah(t.harga)}</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Volume</div>
-                            <div class="detail-colon">:</div>
-                            <div class="detail-value">(L) ${t.volume.toFixed(2)}</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Total Harga</div>
-                            <div class="detail-colon">:</div>
-                            <div class="detail-value">Rp. ${formatRupiah(t.total)}</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Operator</div>
-                            <div class="detail-colon">:</div>
-                            <div class="detail-value">${operator}</div>
-                        </div>
-                    </div>
-                    
-                    <div class="separator-full">${garisPenuh}</div>
-                    
-                    <div class="cash-row">
-                        <div class="cash-label">CASH</div>
-                        <div class="cash-amount">${formatRupiah(t.total)}</div>
-                    </div>
-                    
-                    <div class="separator-full">${garisPenuh}</div>
-                    
-                    <div class="detail-row">
-                        <div class="detail-label">No. Plat</div>
-                        <div class="detail-colon">:</div>
-                        <div class="detail-value">${t.noPlat || ''}</div>
-                    </div>
-                    
-                    <div class="separator-full">${garisPenuh}</div>
-                    
-                    <div class="footer-section">
-                        ** Terima Kasih **
-                    </div>
+                ${logoSPBU && cetakLogo ? 
+                    `<div class="thermal-logo">
+                        <img src="${logoSPBU}" alt="Logo SPBU">
+                    </div>` 
+                    : ''}
+                
+                <div class="thermal-spbu-number">${spbuNumber}</div>
+                
+                <div class="thermal-spbu-name">${spbuName}</div>
+                <div class="thermal-address">${spbuAddress}</div>
+                
+                <div class="thermal-row">
+                    <span>Shift : ${shift}</span>
+                    <span>No. Trans:${noTransaksi}</span>
                 </div>
+                
+                <div class="thermal-row">
+                    <span>Waktu : ${tanggal}</span>
+                    <span>${waktu}</span>
+                </div>
+                
+                <div class="thermal-garis"></div>
+                
+                <div class="thermal-detail">Pulau/Pompa : ${pulauPompa}</div>
+                <div class="thermal-detail">Nama Produk : ${t.jenis}</div>
+                <div class="thermal-detail">Harga/Liter : Rp. ${formatRupiah(t.harga)}</div>
+                <div class="thermal-detail">Volume      : (L) ${t.volume.toFixed(2)}</div>
+                <div class="thermal-detail">Total Harga : Rp. ${formatRupiah(t.total)}</div>
+                <div class="thermal-detail">Operator    : ${operator}</div>
+                
+                <div class="thermal-garis"></div>
+                
+                <div class="thermal-cash">
+                    <span>CASH</span>
+                    <span>${formatRupiah(t.total)}</span>
+                </div>
+                
+                <div class="thermal-garis"></div>
+                
+                <div class="thermal-detail">No. Plat : ${t.noPlat || ''}</div>
+                
+                <div class="thermal-garis"></div>
+                
+                <div class="thermal-footer">** Terima Kasih **</div>
             `;
             
-            document.getElementById('previewStruk').innerHTML = strukHTML;
+            const thermalContainer = document.querySelector('#strukThermal .thermal-paper');
+            thermalContainer.innerHTML = strukHTML;
+            
+            // Apply inline styles untuk print
+            thermalContainer.style.fontSize = fontSize + 'px';
+            thermalContainer.style.fontWeight = fontWeight;
+            thermalContainer.style.width = paperWidth;
+            thermalContainer.style.lineHeight = lineSpacing;
+            
+            // Tampilkan struk untuk print
+            document.getElementById('strukThermal').style.display = 'block';
+            
+            // Tambah cutter space berdasarkan mode
+            const cutterMode = document.querySelector('input[name="cutterMode"]:checked').value;
+            const cutterSpace = document.querySelector('.cutter-space');
+            
+            if (cutterMode === 'auto') {
+                cutterSpace.style.height = '30px'; // Space untuk auto cutter
+            } else if (cutterMode === 'feed') {
+                cutterSpace.style.height = '50px'; // Extra space untuk feed & cut
+            } else {
+                cutterSpace.style.height = '10px'; // Minimal space untuk manual
+            }
         }
 
-        // Generate struk lengkap
-        function generateStruk() {
-            const cashInput = document.getElementById('cashInput');
-            const volumeInput = document.getElementById('volumeInput');
-            const cash = parseFloat(cashInput.value) || 0;
-            const volume = parseFloat(volumeInput.value) || 0;
-            
-            if (cash <= 0 && volume <= 0) {
-                showNotification('Masukkan CASH atau Volume!', 'error');
+        // Print multiple struk
+        function printMultiple() {
+            if (!transaksiAktif) {
+                showNotification('Generate struk terlebih dahulu!', 'error');
                 return;
             }
             
-            const jenis = produkTerpilih || 'PERTAMAX';
+            const jumlah = prompt('Berapa copy yang ingin dicetak?', '2');
+            if (!jumlah || isNaN(jumlah) || jumlah < 1) return;
+            
+            showNotification(`Menyiapkan ${jumlah} copy untuk print...`, 'info');
+            
+            // Generate untuk print pertama
+            generateStrukThermal();
+            
+            setTimeout(() => {
+                window.print();
+                
+                // Untuk copy berikutnya, perlu di-print ulang
+                if (jumlah > 1) {
+                    showNotification(`Silakan load paper dan print lagi untuk copy berikutnya`, 'info');
+                }
+            }, 500);
+        }
+
+        // Print semua riwayat
+        function printRiwayat() {
+            if (riwayatTransaksi.length === 0) {
+                showNotification('Tidak ada transaksi dalam riwayat!', 'error');
+                return;
+            }
+            
+            if (!confirm(`Print ${riwayatTransaksi.length} transaksi dari riwayat?`)) {
+                return;
+            }
+            
+            // Ambil 5 transaksi terakhir
+            const recentTransaksi = riwayatTransaksi.slice(0, 5);
+            
+            showNotification(`Menyiapkan ${recentTransaksi.length} struk dari riwayat...`, 'info');
+            
+            // Untuk multiple print, perlu dibuat satu per satu
+            // Ini hanya contoh implementasi sederhana
+            recentTransaksi.forEach((trans, index) => {
+                setTimeout(() => {
+                    transaksiAktif = trans;
+                    generateStrukThermal();
+                    
+                    setTimeout(() => {
+                        window.print();
+                        
+                        // Hide setelah print
+                        setTimeout(() => {
+                            document.getElementById('strukThermal').style.display = 'none';
+                        }, 100);
+                    }, 1000 * index);
+                }, 2000 * index);
+            });
+        }
+
+        // ========== FUNGSI-FUNGSI BANTUAN ==========
+        function initDatePicker() {
+            flatpickr("#tanggalPicker", {
+                dateFormat: "d/m/Y",
+                locale: "id",
+                defaultDate: new Date(),
+            });
+        }
+
+        function updateWaktuSekarang() {
+            const now = new Date();
+            document.getElementById('tanggalPicker').value = now.toLocaleDateString('en-GB');
+            document.getElementById('jam').value = now.getHours().toString().padStart(2, '0');
+            document.getElementById('menit').value = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('detik').value = now.getSeconds().toString().padStart(2, '0');
+        }
+
+        function getWaktuFromInput() {
+            const jam = document.getElementById('jam').value.padStart(2, '0');
+            const menit = document.getElementById('menit').value.padStart(2, '0');
+            const detik = document.getElementById('detik').value.padStart(2, '0');
+            return `${jam}:${menit}:${detik}`;
+        }
+
+        function hitungDanPreview() {
+            if (!validateInput()) return;
+            
+            hitungTransaksi();
+            updatePreview();
+            showNotification('Preview diperbarui!', 'success');
+        }
+
+        function generateStruk() {
+            if (!validateInput()) return;
+            
+            hitungTransaksi();
+            updatePreview();
+            showNotification('Struk berhasil digenerate!', 'success');
+        }
+
+        function validateInput() {
+            const cash = parseFloat(document.getElementById('cashInput').value) || 0;
+            const volume = parseFloat(document.getElementById('volumeInput').value) || 0;
+            
+            if (cash <= 0 && volume <= 0) {
+                showNotification('Masukkan CASH atau Volume!', 'error');
+                return false;
+            }
+            
+            return true;
+        }
+
+        function hitungTransaksi() {
+            const cash = parseFloat(document.getElementById('cashInput').value) || 0;
+            const volume = parseFloat(document.getElementById('volumeInput').value) || 0;
             const harga = parseInt(document.getElementById('hargaLiter').value) || 12350;
             const noPlat = document.getElementById('noPlat').value.trim();
             const operator = document.getElementById('operator').value.trim();
             const noTransaksi = generateNoTransaksi();
-            const { tanggal, waktu } = getTanggalWaktu();
+            const tanggal = document.getElementById('tanggalPicker').value;
+            const waktu = getWaktuFromInput();
             
-            // Update nomor transaksi
-            document.getElementById('noTransaksi').value = noTransaksi;
-            
-            // Hitung jika input volume
             let finalCash = cash;
             let finalVolume = volume;
             
             if (volume > 0 && cash <= 0) {
                 finalCash = volume * harga;
-                cashInput.value = Math.round(finalCash);
+                document.getElementById('cashInput').value = Math.round(finalCash);
             } else if (cash > 0 && volume <= 0) {
                 finalVolume = cash / harga;
-                volumeInput.value = finalVolume.toFixed(2);
+                document.getElementById('volumeInput').value = finalVolume.toFixed(2);
             }
             
-            // Update transaksi aktif
             transaksiAktif = {
-                jenis: jenis,
+                jenis: produkTerpilih,
                 volume: parseFloat(finalVolume.toFixed(2)),
                 harga: harga,
                 total: Math.round(finalCash),
@@ -1438,41 +1455,183 @@
                 noTransaksi: noTransaksi
             };
             
-            updatePreview();
+            document.getElementById('noTransaksi').value = noTransaksi;
             updateTotalDisplay(finalCash);
+        }
+
+        function updatePreview() {
+            if (!transaksiAktif) return;
             
-            showNotification(`Struk berhasil digenerate! No. Transaksi: ${noTransaksi}`, 'success');
+            const t = transaksiAktif;
+            const spbuNumber = document.getElementById('spbuNumber').value;
+            const spbuName = document.getElementById('spbuName').value;
+            const spbuAddress = document.getElementById('spbuAddress').value;
+            const shift = document.getElementById('shift').value;
+            const noTransaksi = document.getElementById('noTransaksi').value;
+            const tanggal = document.getElementById('tanggalPicker').value || t.tanggal;
+            const waktu = getWaktuFromInput() || t.waktu;
+            const pulauPompa = document.getElementById('pulauPompa').value;
+            const operator = document.getElementById('operator').value;
+            
+            const garis = '----------------------------------------';
+            const logoHTML = (logoSPBU && cetakLogo) 
+                ? `<div style="text-align: center; margin-bottom: 10px;">
+                    <img src="${logoSPBU}" style="max-height: 60px; max-width: 180px;">
+                   </div>`
+                : '';
+            
+            const strukHTML = `
+                ${logoHTML}
+                <div style="text-align: center; font-size: 20px; font-weight: bold; margin: 10px 0;">
+                    ${spbuNumber}
+                </div>
+                
+                <div style="text-align: center; font-size: 14px; font-weight: bold; margin: 5px 0;">
+                    ${spbuName}
+                </div>
+                <div style="text-align: center; font-size: 12px; margin: 5px 0 15px 0;">
+                    ${spbuAddress}
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; margin: 6px 0; font-size: 12px;">
+                    <span>Shift : ${shift}</span>
+                    <span>No. Trans:${noTransaksi}</span>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; margin: 6px 0; font-size: 12px;">
+                    <span>Waktu : ${tanggal}</span>
+                    <span>${waktu}</span>
+                </div>
+                
+                <div style="text-align: center; margin: 10px 0; letter-spacing: 1px;">
+                    ${garis}
+                </div>
+                
+                <div style="font-size: 12px; line-height: 1.3;">
+                    <div>Pulau/Pompa : ${pulauPompa}</div>
+                    <div>Nama Produk : ${t.jenis}</div>
+                    <div>Harga/Liter : Rp. ${formatRupiah(t.harga)}</div>
+                    <div>Volume      : (L) ${t.volume.toFixed(2)}</div>
+                    <div>Total Harga : Rp. ${formatRupiah(t.total)}</div>
+                    <div>Operator    : ${operator}</div>
+                </div>
+                
+                <div style="text-align: center; margin: 10px 0; letter-spacing: 1px;">
+                    ${garis}
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; margin: 8px 0; font-weight: bold;">
+                    <span>CASH</span>
+                    <span>${formatRupiah(t.total)}</span>
+                </div>
+                
+                <div style="text-align: center; margin: 10px 0; letter-spacing: 1px;">
+                    ${garis}
+                </div>
+                
+                <div style="font-size: 12px;">
+                    No. Plat : ${t.noPlat || ''}
+                </div>
+                
+                <div style="text-align: center; margin: 10px 0; letter-spacing: 1px;">
+                    ${garis}
+                </div>
+                
+                <div style="text-align: center; margin-top: 15px; font-size: 11px;">
+                    ** Terima Kasih **
+                </div>
+            `;
+            
+            document.getElementById('previewStruk').innerHTML = strukHTML;
         }
 
-        // Generate dan cetak langsung
-        function generateDanCetak() {
-            generateStruk();
-            if (transaksiAktif) {
-                setTimeout(() => printStruk(), 500);
-            }
+        function formatRupiah(angka) {
+            return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
-        // Print struk (browser print)
-        function printStruk() {
-            if (!transaksiAktif) {
-                showNotification('Belum ada struk yang digenerate!', 'error');
+        function selectBBM(jenis) {
+            produkTerpilih = jenis;
+            document.querySelectorAll('.bbm-option').forEach(opt => opt.classList.remove('active'));
+            Array.from(document.querySelectorAll('.bbm-option')).forEach(opt => {
+                if (opt.querySelector('.jenis') && opt.querySelector('.jenis').textContent === jenis) {
+                    opt.classList.add('active');
+                }
+            });
+            document.getElementById('hargaLiter').value = hargaBBM[jenis] || 0;
+        }
+
+        function initBBMOptions() {
+            const container = document.getElementById('bbmOptions');
+            container.innerHTML = '';
+            
+            Object.entries(hargaBBM).forEach(([jenis, harga]) => {
+                const option = document.createElement('div');
+                option.className = 'bbm-option';
+                option.innerHTML = `
+                    <div class="jenis">${jenis}</div>
+                    <div class="harga">Rp ${formatRupiah(harga)}/L</div>
+                `;
+                option.addEventListener('click', () => {
+                    selectBBM(jenis);
+                    if (document.getElementById('cashInput').value) {
+                        hitungDariCash();
+                    } else if (document.getElementById('volumeInput').value) {
+                        hitungDariVolume();
+                    }
+                });
+                container.appendChild(option);
+            });
+        }
+
+        function hitungDariCash() {
+            const cash = parseFloat(document.getElementById('cashInput').value) || 0;
+            if (cash <= 0) {
+                updateTotalDisplay(0);
                 return;
             }
-            
-            // Untuk thermal printer, perlu aplikasi khusus
-            // Ini hanya akan membuka print dialog browser biasa
-            window.print();
-            showNotification('Membuka dialog print... Untuk printer thermal gunakan aplikasi khusus.', 'info');
+            const harga = parseInt(document.getElementById('hargaLiter').value) || 12350;
+            const volume = cash / harga;
+            document.getElementById('volumeInput').value = volume.toFixed(2);
+            updateTotalDisplay(cash);
         }
 
-        // Simpan transaksi ke riwayat
+        function hitungDariVolume() {
+            const volume = parseFloat(document.getElementById('volumeInput').value) || 0;
+            if (volume <= 0) {
+                updateTotalDisplay(0);
+                return;
+            }
+            const harga = parseInt(document.getElementById('hargaLiter').value) || 12350;
+            const cash = volume * harga;
+            document.getElementById('cashInput').value = Math.round(cash);
+            updateTotalDisplay(cash);
+        }
+
+        function updateTotalDisplay(total) {
+            document.getElementById('totalHarga').value = `Rp ${formatRupiah(Math.round(total))}`;
+        }
+
+        function generateNoTransaksi() {
+            transactionCounter++;
+            localStorage.setItem('transactionCounter', transactionCounter);
+            return transactionCounter;
+        }
+
+        function updateHargaProduk() {
+            const harga = parseInt(document.getElementById('hargaLiter').value) || 0;
+            if (harga > 0 && produkTerpilih) {
+                hargaBBM[produkTerpilih] = harga;
+                localStorage.setItem('hargaBBM', JSON.stringify(hargaBBM));
+                initBBMOptions();
+            }
+        }
+
         function simpanTransaksi() {
             if (!transaksiAktif) {
                 showNotification('Belum ada transaksi yang bisa disimpan!', 'error');
                 return;
             }
             
-            // Tambah ke riwayat
             riwayatTransaksi.unshift({
                 ...transaksiAktif,
                 id: Date.now(),
@@ -1485,20 +1644,15 @@
                 spbuAddress: document.getElementById('spbuAddress').value
             });
             
-            // Simpan ke localStorage (maks 100 transaksi)
             if (riwayatTransaksi.length > 100) {
                 riwayatTransaksi = riwayatTransaksi.slice(0, 100);
             }
             
             localStorage.setItem('riwayatTransaksi', JSON.stringify(riwayatTransaksi));
-            
-            // Update tampilan riwayat
             loadRiwayatTransaksi();
-            
             showNotification('Transaksi disimpan ke riwayat!', 'success');
         }
 
-        // Load riwayat transaksi
         function loadRiwayatTransaksi() {
             const container = document.getElementById('riwayatTransaksi');
             
@@ -1526,7 +1680,6 @@
             
             container.innerHTML = html;
             
-            // Tambah event listener untuk load ulang transaksi
             document.querySelectorAll('.riwayat-item').forEach(item => {
                 item.addEventListener('click', function() {
                     const id = parseInt(this.getAttribute('data-id'));
@@ -1535,12 +1688,10 @@
             });
         }
 
-        // Load transaksi dari riwayat
         function loadTransaksiDariRiwayat(id) {
             const transaksi = riwayatTransaksi.find(t => t.id === id);
             if (!transaksi) return;
             
-            // Load ke form
             selectBBM(transaksi.jenis);
             document.getElementById('cashInput').value = transaksi.total;
             document.getElementById('volumeInput').value = transaksi.volume;
@@ -1555,7 +1706,6 @@
             document.getElementById('tanggalPicker').value = transaksi.tanggal || new Date().toLocaleDateString('en-GB');
             document.getElementById('hargaLiter').value = transaksi.harga || 12350;
             
-            // Parse waktu
             if (transaksi.waktu) {
                 const [jam, menit, detik] = transaksi.waktu.split(':');
                 document.getElementById('jam').value = jam || '11';
@@ -1568,7 +1718,6 @@
                 cetakLogo = transaksi.cetakLogo;
             }
             
-            // Update transaksi aktif
             transaksiAktif = {
                 ...transaksi,
                 tanggal: document.getElementById('tanggalPicker').value,
@@ -1577,11 +1726,9 @@
             
             updatePreview();
             updateTotalDisplay(transaksi.total);
-            
             showNotification(`Transaksi ${transaksi.noTransaksi} dimuat ulang!`, 'success');
         }
 
-        // Reset form
         function resetForm() {
             document.getElementById('cashInput').value = '';
             document.getElementById('volumeInput').value = '';
@@ -1599,18 +1746,14 @@
                 '<p class="empty">Data transaksi akan muncul di sini setelah dihitung</p>';
             updateTotalDisplay(0);
             
-            // Reset nomor transaksi ke default
             transactionCounter = 546529;
             localStorage.setItem('transactionCounter', transactionCounter);
             document.getElementById('noTransaksi').value = transactionCounter;
             
-            // Update tanggal dan waktu ke sekarang
             updateWaktuSekarang();
-            
             showNotification('Form telah direset!', 'info');
         }
 
-        // Clear riwayat
         function clearRiwayat() {
             if (confirm('Apakah Anda yakin ingin menghapus semua riwayat transaksi?')) {
                 riwayatTransaksi = [];
@@ -1620,239 +1763,56 @@
             }
         }
 
-        // Ekspor struk sebagai JSON
-        function eksporStrukJSON() {
-            if (!transaksiAktif) {
-                showNotification('Belum ada struk yang bisa diekspor!', 'error');
-                return;
-            }
+        // Fungsi untuk logo
+        function initLogoUpload() {
+            const uploadArea = document.getElementById('logoUpload');
+            const fileInput = document.getElementById('logoFile');
             
-            const t = transaksiAktif;
-            const data = {
-                struk_text: generateStrukText(),
-                data_json: {
-                    noTransaksi: t.noTransaksi,
-                    tanggal: t.tanggal,
-                    waktu: t.waktu,
-                    jenis: t.jenis,
-                    volume: t.volume,
-                    harga: t.harga,
-                    total: t.total,
-                    noPlat: t.noPlat,
-                    operator: t.operator,
-                    shift: document.getElementById('shift').value,
-                    pulauPompa: document.getElementById('pulauPompa').value,
-                    spbuNumber: document.getElementById('spbuNumber').value,
-                    spbuName: document.getElementById('spbuName').value,
-                    spbuAddress: document.getElementById('spbuAddress').value
+            uploadArea.addEventListener('click', () => fileInput.click());
+            
+            fileInput.addEventListener('change', function(e) {
+                if (this.files && this.files[0]) {
+                    const file = this.files[0];
+                    if (file.size > 2 * 1024 * 1024) {
+                        showNotification('Ukuran file maksimal 2MB!', 'error');
+                        return;
+                    }
+                    if (!file.type.match('image.*')) {
+                        showNotification('File harus berupa gambar!', 'error');
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        logoSPBU = e.target.result;
+                        localStorage.setItem('logoSPBU', logoSPBU);
+                        document.getElementById('logoImage').src = logoSPBU;
+                        document.getElementById('logoPreview').style.display = 'block';
+                        showNotification('Logo berhasil diupload!', 'success');
+                    }
+                    reader.readAsDataURL(file);
                 }
-            };
-            
-            const dataStr = JSON.stringify(data, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportFileDefaultName = `struk-${t.noTransaksi}.json`;
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportFileDefaultName);
-            linkElement.click();
-            
-            showNotification('Struk berhasil diekspor sebagai JSON!', 'success');
+            });
         }
 
-        // Generate struk dalam format text
-        function generateStrukText() {
-            if (!transaksiAktif) return '';
-            
-            const t = transaksiAktif;
-            const spbuNumber = document.getElementById('spbuNumber').value;
-            const spbuName = document.getElementById('spbuName').value;
-            const spbuAddress = document.getElementById('spbuAddress').value;
-            const shift = document.getElementById('shift').value;
-            const noTransaksi = document.getElementById('noTransaksi').value;
-            const { tanggal, waktu } = getTanggalWaktu();
-            const pulauPompa = document.getElementById('pulauPompa').value;
-            const operator = document.getElementById('operator').value;
-            
-            const garis = '------------------------------------------';
-            
-            return `
-${spbuNumber}
-
-${spbuName}
-${spbuAddress}
-
-Shift : ${shift}    No. Trans:${noTransaksi}
-Waktu : ${tanggal}   ${waktu}
-
-${garis}
-Pulau/Pompa : ${pulauPompa}
-Nama Produk : ${t.jenis}
-Harga/Liter : Rp. ${formatRupiah(t.harga)}
-Volume      : (L) ${t.volume.toFixed(2)}
-Total Harga : Rp. ${formatRupiah(t.total)}
-Operator    : ${operator}
-${garis}
-CASH                       ${formatRupiah(t.total)}
-${garis}
-No. Plat : ${t.noPlat || ''}
-${garis}
-** Terima Kasih **
-`;
-        }
-
-        // Export struk sebagai PDF
-        function exportStrukPDF() {
-            if (!transaksiAktif) {
-                showNotification('Belum ada struk yang bisa diekspor!', 'error');
-                return;
-            }
-            
-            try {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF({
-                    orientation: 'portrait',
-                    unit: 'mm',
-                    format: [80, 200] // Ukuran struk thermal 80mm
-                });
-                
-                const t = transaksiAktif;
-                const spbuNumber = document.getElementById('spbuNumber').value;
-                const spbuName = document.getElementById('spbuName').value;
-                const spbuAddress = document.getElementById('spbuAddress').value;
-                const shift = document.getElementById('shift').value;
-                const noTransaksi = document.getElementById('noTransaksi').value;
-                const { tanggal, waktu } = getTanggalWaktu();
-                const pulauPompa = document.getElementById('pulauPompa').value;
-                const operator = document.getElementById('operator').value;
-                
-                let yPos = 10;
-                const lineHeight = 6;
-                const margin = 5;
-                
-                // Set font
-                doc.setFont("helvetica");
-                doc.setFontSize(10);
-                
-                // Nomor SPBU
-                doc.setFontSize(12);
-                doc.setFont("helvetica", "bold");
-                doc.text(spbuNumber, margin, yPos, { align: 'center', maxWidth: 70 });
-                yPos += lineHeight;
-                
-                // Nama dan alamat SPBU
-                doc.setFontSize(8);
-                doc.setFont("helvetica", "bold");
-                doc.text(spbuName, margin, yPos, { align: 'center', maxWidth: 70 });
-                yPos += lineHeight;
-                
-                doc.setFont("helvetica", "normal");
-                doc.setFontSize(7);
-                doc.text(spbuAddress, margin, yPos, { align: 'center', maxWidth: 70 });
-                yPos += lineHeight * 1.5;
-                
-                // Shift dan No Transaksi
-                doc.setFontSize(8);
-                doc.text(`Shift : ${shift}    No. Trans:${noTransaksi}`, margin, yPos);
-                yPos += lineHeight;
-                
-                // Tanggal dan waktu
-                doc.text(`Waktu : ${tanggal}   ${waktu}`, margin, yPos);
-                yPos += lineHeight * 1.5;
-                
-                // Garis
-                doc.setLineWidth(0.5);
-                doc.line(margin, yPos, 75, yPos);
-                yPos += lineHeight;
-                
-                // Detail transaksi
-                const details = [
-                    `Pulau/Pompa : ${pulauPompa}`,
-                    `Nama Produk : ${t.jenis}`,
-                    `Harga/Liter : Rp. ${formatRupiah(t.harga)}`,
-                    `Volume      : (L) ${t.volume.toFixed(2)}`,
-                    `Total Harga : Rp. ${formatRupiah(t.total)}`,
-                    `Operator    : ${operator}`
-                ];
-                
-                details.forEach(detail => {
-                    doc.text(detail, margin, yPos);
-                    yPos += lineHeight;
-                });
-                
-                // Garis
-                yPos += 2;
-                doc.line(margin, yPos, 75, yPos);
-                yPos += lineHeight;
-                
-                // CASH
-                doc.setFont("helvetica", "bold");
-                doc.text(`CASH                       ${formatRupiah(t.total)}`, margin, yPos);
-                yPos += lineHeight;
-                
-                // Garis
-                yPos += 2;
-                doc.line(margin, yPos, 75, yPos);
-                yPos += lineHeight;
-                
-                // No Plat
-                doc.setFont("helvetica", "normal");
-                doc.text(`No. Plat : ${t.noPlat || ''}`, margin, yPos);
-                yPos += lineHeight;
-                
-                // Garis
-                yPos += 2;
-                doc.line(margin, yPos, 75, yPos);
-                yPos += lineHeight;
-                
-                // Footer
-                doc.setFontSize(7);
-                doc.text("** Terima Kasih **", margin, yPos, { align: 'center', maxWidth: 70 });
-                
-                // Save PDF
-                doc.save(`struk-${t.noTransaksi}.pdf`);
-                
-                showNotification('PDF berhasil dibuat! Buka dengan aplikasi printer thermal.', 'success');
-            } catch (error) {
-                console.error('Error generating PDF:', error);
-                showNotification('Gagal membuat PDF. Coba ekspor sebagai JSON.', 'error');
+        function loadSavedLogo() {
+            if (logoSPBU) {
+                document.getElementById('logoImage').src = logoSPBU;
+                document.getElementById('logoPreview').style.display = 'block';
             }
         }
 
-        // Export semua transaksi
-        function exportAllTransaksi() {
-            if (riwayatTransaksi.length === 0) {
-                showNotification('Tidak ada transaksi untuk diekspor!', 'error');
-                return;
-            }
-            
-            const data = {
-                tanggal_export: new Date().toLocaleString('id-ID'),
-                total_transaksi: riwayatTransaksi.length,
-                transaksi: riwayatTransaksi
-            };
-            
-            const dataStr = JSON.stringify(data, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportFileDefaultName = `riwayat-transaksi-${new Date().toISOString().slice(0,10)}.json`;
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportFileDefaultName);
-            linkElement.click();
-            
-            showNotification(`Berhasil mengekspor ${riwayatTransaksi.length} transaksi!`, 'success');
+        function hapusLogo() {
+            logoSPBU = null;
+            localStorage.removeItem('logoSPBU');
+            document.getElementById('logoPreview').style.display = 'none';
+            document.getElementById('logoFile').value = '';
+            showNotification('Logo telah dihapus!', 'info');
         }
 
-        // Tampilkan notifikasi
         function showNotification(message, type = 'info') {
-            // Hapus notifikasi sebelumnya
             const existing = document.querySelector('.notification');
             if (existing) existing.remove();
             
-            // Buat notifikasi baru
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
             notification.innerHTML = `
@@ -1878,13 +1838,11 @@ ${garis}
             
             document.body.appendChild(notification);
             
-            // Hapus setelah 3 detik
             setTimeout(() => {
                 notification.style.animation = 'slideOut 0.3s ease-out';
                 setTimeout(() => notification.remove(), 300);
             }, 3000);
             
-            // Tambahkan animasi
             if (!document.querySelector('#notificationStyle')) {
                 const style = document.createElement('style');
                 style.id = 'notificationStyle';
