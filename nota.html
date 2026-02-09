@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cetak Struk SPBU - Pertamina</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        header {
+            text-align: center;
+            background: linear-gradient(to right, #e52d27, #b31217);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .app-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .input-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .input-section h2 {
+            color: #e52d27;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input, 
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus, 
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #e52d27;
+            outline: none;
+        }
+        
+        .logo-section {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+        }
+        
+        .logo-upload {
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 15px;
+            border-radius: 6px;
+        }
+        
+        .logo-upload:hover {
+            background: #fff5f5;
+        }
+        
+        .logo-upload i {
+            font-size: 48px;
+            color: #e52d27;
+            margin-bottom: 10px;
+        }
+        
+        #logoPreview {
+            max-width: 200px;
+            max-height: 100px;
+            margin: 10px auto;
+            display: none;
+            text-align: center;
+        }
+        
+        #logoPreview img {
+            max-width: 100%;
+            max-height: 100px;
+            object-fit: contain;
+        }
+        
+        .logo-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            padding: 10px;
+            background: #e8f4ff;
+            border-radius: 6px;
+        }
+        
+        .logo-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .shift-input {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .shift-input label {
+            font-weight: 600;
+            color: #333;
+            white-space: nowrap;
+        }
+        
+        .bbm-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .bbm-option {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .bbm-option:hover {
+            border-color: #e52d27;
+            background: #fff5f5;
+        }
+        
+        .bbm-option.active {
+            border-color: #e52d27;
+            background: #ffeaea;
+            font-weight: bold;
+        }
+        
+        .bbm-option .harga {
+            font-size: 14px;
+            color: #e52d27;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        
+        .jumlah-input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        @media (max-width: 480px) {
+            .jumlah-input-group {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .preview-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .preview-section h2 {
+            color: #e52d27;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .preview-box {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 2px dashed #ddd;
+            min-height: 400px;
+        }
+        
+        .preview-box.empty {
+            color: #888;
+        }
+        
+        #previewStruk {
+            width: 100%;
+            max-width: 350px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, #e52d27, #b31217);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-success {
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: linear-gradient(to right, #ff9500, #ff5e3a);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        /* STRUK STYLE SESUAI REVISI */
+        .struk {
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 15px;
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+            font-size: 14px;
+            line-height: 1.3;
+        }
+        
+        .struk-logo {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .struk-logo img {
+            max-height: 60px;
+            max-width: 180px;
+            object-fit: contain;
+        }
+        
+        .spbu-number {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+            letter-spacing: 1px;
+        }
+        
+        .spbu-name {
+            text-align: center;
+            font-size: 14px;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+        
+        .spbu-address {
+            text-align: center;
+            font-size: 12px;
+            margin: 5px 0 15px 0;
+        }
+        
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 6px 0;
+        }
+        
+        .header-label {
+            width: 100px;
+        }
+        
+        .header-value {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .separator {
+            text-align: center;
+            margin: 10px 0;
+            letter-spacing: 2px;
+            color: #000;
+        }
+        
+        .detail-section {
+            margin: 10px 0;
+        }
+        
+        .detail-row {
+            display: flex;
+            margin: 4px 0;
+        }
+        
+        .detail-label {
+            width: 130px;
+            text-align: left;
+        }
+        
+        .detail-colon {
+            width: 10px;
+            text-align: left;
+        }
+        
+        .detail-value {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .cash-section {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        
+        .cash-label {
+            font-size: 14px;
+        }
+        
+        .cash-amount {
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        
+        .plat-section {
+            margin: 10px 0;
+            text-align: center;
+            font-size: 13px;
+        }
+        
+        .footer-section {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 11px;
+        }
+        
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .struk, .struk * {
+                visibility: visible;
+            }
+            .struk {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                max-width: 100%;
+                padding: 10px;
+                font-size: 13px;
+            }
+        }
+        
+        .history-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-top: 20px;
+        }
+        
+        .history-section h3 {
+            color: #e52d27;
+            margin-bottom: 15px;
+        }
+        
+        #riwayatTransaksi {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .riwayat-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .no-riwayat {
+            text-align: center;
+            color: #888;
+            padding: 20px;
+        }
+        
+        .info-box {
+            background: #e8f4ff;
+            border-left: 4px solid #2196F3;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        @media (max-width: 480px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-gas-pump"></i> SISTEM CETAK STRUK SPBU PERTAMINA</h1>
+            <p>Sesuai Format Struk Asli</p>
+        </header>
+        
+        <div class="app-container">
+            <!-- Form Input Section -->
+            <section class="input-section">
+                <h2><i class="fas fa-edit"></i> Input Transaksi</h2>
+                
+                <!-- Logo Upload Section -->
+                <div class="logo-section">
+                    <div class="form-group">
+                        <label><i class="fas fa-image"></i> Logo SPBU (Opsional)</label>
+                        <div class="logo-upload" id="logoUpload">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Klik untuk upload logo</p>
+                            <p><small>Format: JPG/PNG, maks. 2MB</small></p>
+                            <input type="file" id="logoFile" accept="image/*" style="display: none;">
+                        </div>
+                        <div id="logoPreview">
+                            <img id="logoImage" src="" alt="Logo Preview">
+                            <button class="btn btn-secondary" id="btnHapusLogo" style="padding: 5px 10px; margin-top: 5px;">
+                                <i class="fas fa-trash"></i> Hapus Logo
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="logo-checkbox">
+                        <input type="checkbox" id="cetakLogo" checked>
+                        <label for="cetakLogo">Cetak logo pada struk</label>
+                    </div>
+                </div>
+                
+                <!-- Data SPBU -->
+                <div class="form-group">
+                    <label for="spbuNumber"><i class="fas fa-hashtag"></i> Nomor SPBU</label>
+                    <input type="text" id="spbuNumber" value="3445112" placeholder="Masukkan nomor SPBU">
+                </div>
+                
+                <div class="form-group">
+                    <label for="spbuName"><i class="fas fa-store"></i> Nama SPBU</label>
+                    <input type="text" id="spbuName" value="SPBU TUPAREV KEDAWUNG" placeholder="Masukkan nama SPBU">
+                </div>
+                
+                <div class="form-group">
+                    <label for="spbuAddress"><i class="fas fa-map-marker-alt"></i> Alamat SPBU</label>
+                    <textarea id="spbuAddress" rows="2" placeholder="Masukkan alamat SPBU">JL. TUPAREV KEDAWUNG DS. KEDAW</textarea>
+                </div>
+                
+                <!-- Shift & No. Transaksi -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="shift"><i class="fas fa-clock"></i> Shift</label>
+                        <select id="shift">
+                            <option value="1">Shift 1</option>
+                            <option value="2">Shift 2</option>
+                            <option value="3">Shift 3</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="noTransaksi"><i class="fas fa-receipt"></i> No. Transaksi</label>
+                        <input type="text" id="noTransaksi" value="546529" readonly>
+                    </div>
+                </div>
+                
+                <!-- Tanggal & Waktu -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tanggal"><i class="fas fa-calendar"></i> Tanggal</label>
+                        <input type="text" id="tanggal" readonly value="01/02/2026">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="waktu"><i class="fas fa-clock"></i> Waktu</label>
+                        <input type="text" id="waktu" readonly value="11:23:10">
+                    </div>
+                </div>
+                
+                <!-- Pulau/Pompa -->
+                <div class="form-group">
+                    <label for="pulauPompa"><i class="fas fa-cogs"></i> Pulau/Pompa</label>
+                    <select id="pulauPompa">
+                        <option value="1">Pulau/Pompa 1</option>
+                        <option value="2">Pulau/Pompa 2</option>
+                        <option value="3" selected>Pulau/Pompa 3</option>
+                        <option value="4">Pulau/Pompa 4</option>
+                        <option value="5">Pulau/Pompa 5</option>
+                        <option value="6">Pulau/Pompa 6</option>
+                    </select>
+                </div>
+                
+                <!-- Nama Produk -->
+                <div class="form-group">
+                    <label for="jenisBBM"><i class="fas fa-oil-can"></i> Nama Produk</label>
+                    <div class="bbm-options" id="bbmOptions">
+                        <!-- Options will be generated by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Input Jumlah -->
+                <div class="form-group">
+                    <label><i class="fas fa-money-bill-wave"></i> Input Jumlah (Pilih Salah Satu)</label>
+                    <div class="info-box">
+                        <i class="fas fa-info-circle"></i> Isi salah satu: CASH atau Volume. Yang lain akan terhitung otomatis.
+                    </div>
+                    <div class="jumlah-input-group">
+                        <div>
+                            <label for="cashInput">CASH (Rp)</label>
+                            <input type="number" id="cashInput" min="1000" step="1000" value="200000" placeholder="Masukkan jumlah cash">
+                        </div>
+                        <div>
+                            <label for="volumeInput">Volume (L)</label>
+                            <input type="number" id="volumeInput" min="0.01" step="0.01" placeholder="Masukkan volume">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Harga per Liter -->
+                <div class="form-group">
+                    <label for="hargaLiter"><i class="fas fa-tag"></i> Harga/Liter</label>
+                    <input type="text" id="hargaLiter" readonly placeholder="Pilih produk terlebih dahulu">
+                </div>
+                
+                <!-- Total Harga -->
+                <div class="form-group">
+                    <label for="totalHarga"><i class="fas fa-calculator"></i> Total Harga</label>
+                    <input type="text" id="totalHarga" readonly value="Rp 0">
+                </div>
+                
+                <!-- Operator -->
+                <div class="form-group">
+                    <label for="operator"><i class="fas fa-user"></i> Operator</label>
+                    <input type="text" id="operator" value="KARMIN" placeholder="Nama operator">
+                </div>
+                
+                <!-- No. Plat -->
+                <div class="form-group">
+                    <label for="noPlat"><i class="fas fa-car"></i> No. Plat Kendaraan</label>
+                    <input type="text" id="noPlat" value="E9920K" placeholder="Contoh: E9920K">
+                </div>
+                
+                <!-- Buttons -->
+                <div class="button-group">
+                    <button class="btn btn-primary" id="btnHitung">
+                        <i class="fas fa-calculator"></i> Hitung & Preview
+                    </button>
+                    <button class="btn btn-success" id="btnCetak">
+                        <i class="fas fa-print"></i> Cetak Struk
+                    </button>
+                    <button class="btn btn-warning" id="btnReset">
+                        <i class="fas fa-redo"></i> Reset Form
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Preview Section -->
+            <section class="preview-section">
+                <h2><i class="fas fa-receipt"></i> Preview Struk</h2>
+                <div class="preview-box">
+                    <div id="previewStruk">
+                        <p class="empty">Data transaksi akan muncul di sini setelah dihitung</p>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" id="btnPrint">
+                        <i class="fas fa-print"></i> Print Sekarang
+                    </button>
+                    <button class="btn btn-secondary" id="btnSimpan">
+                        <i class="fas fa-save"></i> Simpan ke Riwayat
+                    </button>
+                    <button class="btn btn-warning" id="btnEkspor">
+                        <i class="fas fa-file-export"></i> Ekspor Struk
+                    </button>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Riwayat Transaksi -->
+        <section class="history-section">
+            <h3><i class="fas fa-history"></i> Riwayat Transaksi</h3>
+            <div class="button-group" style="margin-bottom: 15px;">
+                <button class="btn btn-secondary" id="btnRefreshRiwayat" style="min-width: auto; padding: 8px 15px;">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+                <button class="btn btn-warning" id="btnClearRiwayat" style="min-width: auto; padding: 8px 15px;">
+                    <i class="fas fa-trash"></i> Hapus Semua
+                </button>
+            </div>
+            <div id="riwayatTransaksi">
+                <p class="no-riwayat">Belum ada transaksi</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Data Harga BBM
+        const hargaBBM = {
+            'PERTALITE': 10000,
+            'PERTAMAX': 12350,
+            'PERTAMAX TURBO': 14500,
+            'DEXLITE': 13500,
+            'PERTAMINA DEX': 14000,
+            'PREMIUM': 9000,
+            'BIOSOLAR': 6800
+        };
+
+        // Data untuk riwayat transaksi dan logo
+        let riwayatTransaksi = JSON.parse(localStorage.getItem('riwayatTransaksi') || '[]');
+        let logoSPBU = localStorage.getItem('logoSPBU') || null;
+        let transaksiAktif = null;
+        let cetakLogo = true;
+        let transactionCounter = parseInt(localStorage.getItem('transactionCounter') || '546529');
+
+        // Inisialisasi aplikasi
+        document.addEventListener('DOMContentLoaded', function() {
+            initBBMOptions();
+            initLogoUpload();
+            loadSavedLogo();
+            loadRiwayatTransaksi();
+            
+            // Set initial transaction number
+            document.getElementById('noTransaksi').value = transactionCounter;
+            updateTanggalWaktu();
+            
+            // Update waktu setiap detik
+            setInterval(updateTanggalWaktu, 1000);
+            
+            // Event Listeners
+            document.getElementById('cetakLogo').addEventListener('change', function() {
+                cetakLogo = this.checked;
+                if (transaksiAktif) {
+                    updatePreview();
+                }
+            });
+            
+            document.getElementById('cashInput').addEventListener('input', hitungDariCash);
+            document.getElementById('volumeInput').addEventListener('input', hitungDariVolume);
+            document.getElementById('btnHitung').addEventListener('click', generateStruk);
+            document.getElementById('btnCetak').addEventListener('click', generateDanCetak);
+            document.getElementById('btnPrint').addEventListener('click', printStruk);
+            document.getElementById('btnReset').addEventListener('click', resetForm);
+            document.getElementById('btnSimpan').addEventListener('click', simpanTransaksi);
+            document.getElementById('btnEkspor').addEventListener('click', eksporStrukPDF);
+            document.getElementById('btnRefreshRiwayat').addEventListener('click', loadRiwayatTransaksi);
+            document.getElementById('btnClearRiwayat').addEventListener('click', clearRiwayat);
+            document.getElementById('btnHapusLogo').addEventListener('click', hapusLogo);
+            
+            // Pilih PERTAMAX sebagai default
+            selectBBM('PERTAMAX');
+            
+            // Set default values dan hitung
+            document.getElementById('cashInput').value = '200000';
+            hitungDariCash();
+        });
+
+        // Update tanggal dan waktu
+        function updateTanggalWaktu() {
+            const now = new Date();
+            const tanggal = now.toLocaleDateString('en-GB'); // Format dd/mm/yyyy
+            const jam = now.getHours().toString().padStart(2, '0');
+            const menit = now.getMinutes().toString().padStart(2, '0');
+            const detik = now.getSeconds().toString().padStart(2, '0');
+            const waktu = `${jam}:${menit}:${detik}`;
+            
+            document.getElementById('tanggal').value = tanggal;
+            document.getElementById('waktu').value = waktu;
+        }
+
+        // Inisialisasi Upload Logo
+        function initLogoUpload() {
+            const uploadArea = document.getElementById('logoUpload');
+            const fileInput = document.getElementById('logoFile');
+            
+            uploadArea.addEventListener('click', () => fileInput.click());
+            
+            fileInput.addEventListener('change', function(e) {
+                if (this.files && this.files[0]) {
+                    const file = this.files[0];
+                    
+                    // Validasi ukuran file (maks 2MB)
+                    if (file.size > 2 * 1024 * 1024) {
+                        showNotification('Ukuran file maksimal 2MB!', 'error');
+                        return;
+                    }
+                    
+                    // Validasi tipe file
+                    if (!file.type.match('image.*')) {
+                        showNotification('File harus berupa gambar!', 'error');
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        // Simpan ke localStorage
+                        logoSPBU = e.target.result;
+                        localStorage.setItem('logoSPBU', logoSPBU);
+                        
+                        // Tampilkan preview
+                        document.getElementById('logoImage').src = logoSPBU;
+                        document.getElementById('logoPreview').style.display = 'block';
+                        
+                        // Update preview struk jika ada
+                        if (transaksiAktif) {
+                            updatePreview();
+                        }
+                        
+                        showNotification('Logo berhasil diupload!', 'success');
+                    }
+                    
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        // Load logo yang sudah disimpan
+        function loadSavedLogo() {
+            if (logoSPBU) {
+                document.getElementById('logoImage').src = logoSPBU;
+                document.getElementById('logoPreview').style.display = 'block';
+            }
+        }
+
+        // Hapus logo
+        function hapusLogo() {
+            logoSPBU = null;
+            localStorage.removeItem('logoSPBU');
+            document.getElementById('logoPreview').style.display = 'none';
+            document.getElementById('logoFile').value = '';
+            
+            // Update preview struk jika ada
+            if (transaksiAktif) {
+                updatePreview();
+            }
+            
+            showNotification('Logo telah dihapus!', 'info');
+        }
+
+        // Generate BBM Options
+        function initBBMOptions() {
+            const container = document.getElementById('bbmOptions');
+            container.innerHTML = '';
+            
+            Object.entries(hargaBBM).forEach(([jenis, harga]) => {
+                const option = document.createElement('div');
+                option.className = 'bbm-option';
+                option.innerHTML = `
+                    <div class="jenis">${jenis}</div>
+                    <div class="harga">Rp ${formatRupiah(harga)}/L</div>
+                `;
+                option.addEventListener('click', () => {
+                    selectBBM(jenis);
+                    // Hitung ulang berdasarkan input yang aktif
+                    if (document.getElementById('cashInput').value) {
+                        hitungDariCash();
+                    } else if (document.getElementById('volumeInput').value) {
+                        hitungDariVolume();
+                    }
+                });
+                container.appendChild(option);
+            });
+        }
+
+        // Pilih BBM
+        function selectBBM(jenis) {
+            // Hapus active class dari semua
+            document.querySelectorAll('.bbm-option').forEach(opt => {
+                opt.classList.remove('active');
+            });
+            
+            // Tambah active class ke yang dipilih
+            Array.from(document.querySelectorAll('.bbm-option')).forEach(opt => {
+                if (opt.querySelector('.jenis').textContent === jenis) {
+                    opt.classList.add('active');
+                }
+            });
+            
+            // Update harga
+            document.getElementById('hargaLiter').value = `Rp ${formatRupiah(hargaBBM[jenis])}`;
+        }
+
+        // Format Rupiah dengan koma
+        function formatRupiah(angka) {
+            return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // Hitung dari CASH (Rp) → Volume
+        function hitungDariCash() {
+            const cashInput = document.getElementById('cashInput');
+            const volumeInput = document.getElementById('volumeInput');
+            
+            // Kosongkan input volume
+            volumeInput.value = '';
+            
+            const cash = parseFloat(cashInput.value) || 0;
+            if (cash <= 0) {
+                updateTotalDisplay(0);
+                return;
+            }
+            
+            const jenis = document.querySelector('.bbm-option.active .jenis')?.textContent || 'PERTAMAX';
+            const harga = hargaBBM[jenis] || 12350;
+            
+            // Hitung volume
+            const volume = cash / harga;
+            
+            // Update input volume
+            volumeInput.value = volume.toFixed(2);
+            
+            // Update display total
+            updateTotalDisplay(cash);
+        }
+
+        // Hitung dari Volume → CASH (Rp)
+        function hitungDariVolume() {
+            const cashInput = document.getElementById('cashInput');
+            const volumeInput = document.getElementById('volumeInput');
+            
+            // Kosongkan input cash
+            cashInput.value = '';
+            
+            const volume = parseFloat(volumeInput.value) || 0;
+            if (volume <= 0) {
+                updateTotalDisplay(0);
+                return;
+            }
+            
+            const jenis = document.querySelector('.bbm-option.active .jenis')?.textContent || 'PERTAMAX';
+            const harga = hargaBBM[jenis] || 12350;
+            
+            // Hitung cash
+            const cash = volume * harga;
+            
+            // Update input cash
+            cashInput.value = Math.round(cash);
+            
+            // Update display total
+            updateTotalDisplay(cash);
+        }
+
+        // Update display total
+        function updateTotalDisplay(total) {
+            document.getElementById('totalHarga').value = `Rp ${formatRupiah(Math.round(total))}`;
+        }
+
+        // Generate nomor transaksi baru
+        function generateNoTransaksi() {
+            transactionCounter++;
+            localStorage.setItem('transactionCounter', transactionCounter);
+            return transactionCounter;
+        }
+
+        // Update preview struk
+        function updatePreview() {
+            if (!transaksiAktif) return;
+            
+            const t = transaksiAktif;
+            const spbuNumber = document.getElementById('spbuNumber').value;
+            const spbuName = document.getElementById('spbuName').value;
+            const spbuAddress = document.getElementById('spbuAddress').value;
+            const shift = document.getElementById('shift').value;
+            const noTransaksi = document.getElementById('noTransaksi').value;
+            const tanggal = document.getElementById('tanggal').value;
+            const waktu = document.getElementById('waktu').value;
+            const pulauPompa = document.getElementById('pulauPompa').value;
+            const operator = document.getElementById('operator').value;
+            
+            const logoHTML = (logoSPBU && cetakLogo) 
+                ? `<div class="struk-logo"><img src="${logoSPBU}" alt="Logo SPBU"></div>`
+                : '';
+            
+            // Format waktu dengan spasi yang cukup
+            const waktuFormatted = waktu.padEnd(8, ' ');
+            
+            const strukHTML = `
+                <div class="struk">
+                    ${logoHTML}
+                    
+                    <div class="spbu-number">${spbuNumber}</div>
+                    
+                    <div class="spbu-name">${spbuName}</div>
+                    <div class="spbu-address">${spbuAddress}</div>
+                    
+                    <div class="header-row">
+                        <div class="header-label">Shift</div>
+                        <div class="header-value">: ${shift}</div>
+                        <div class="header-label" style="width: 120px; text-align: right;">No. Trans</div>
+                        <div class="header-value" style="width: auto; text-align: left;">:${noTransaksi}</div>
+                    </div>
+                    
+                    <div class="header-row">
+                        <div class="header-label">Waktu</div>
+                        <div class="header-value">: ${tanggal}   ${waktuFormatted}</div>
+                    </div>
+                    
+                    <div class="separator">----------------------------------------</div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-row">
+                            <div class="detail-label">Pulau/Pompa</div>
+                            <div class="detail-colon">:</div>
+                            <div class="detail-value">${pulauPompa}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Nama Produk</div>
+                            <div class="detail-colon">:</div>
+                            <div class="detail-value">${t.jenis}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Harga/Liter</div>
+                            <div class="detail-colon">:</div>
+                            <div class="detail-value">Rp. ${formatRupiah(t.harga)}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Volume</div>
+                            <div class="detail-colon">:</div>
+                            <div class="detail-value">(L) ${t.volume.toFixed(2)}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Total Harga</div>
+                            <div class="detail-colon">:</div>
+                            <div class="detail-value">Rp. ${formatRupiah(t.total)}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Operator</div>
+                            <div class="detail-colon">:</div>
+                            <div class="detail-value">${operator}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="separator">----------------------------------------</div>
+                    
+                    <div class="cash-section">
+                        <div class="cash-label">CASH</div>
+                        <div class="cash-amount">${formatRupiah(t.total)}</div>
+                    </div>
+                    
+                    <div class="separator">----------------------------------------</div>
+                    
+                    <div class="plat-section">
+                        <div class="detail-row">
+                            <div class="detail-label">No. Plat</div>
+                            <div class="detail-colon">:</div>
+                            <div class="detail-value">${t.noPlat || ''}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="separator">----------------------------------------</div>
+                    
+                    <div class="footer-section">
+                        ** Terima Kasih **
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('previewStruk').innerHTML = strukHTML;
+        }
+
+        // Generate struk lengkap
+        function generateStruk() {
+            const cashInput = document.getElementById('cashInput');
+            const volumeInput = document.getElementById('volumeInput');
+            const cash = parseFloat(cashInput.value) || 0;
+            const volume = parseFloat(volumeInput.value) || 0;
+            
+            if (cash <= 0 && volume <= 0) {
+                showNotification('Masukkan CASH atau Volume!', 'error');
+                return;
+            }
+            
+            const jenis = document.querySelector('.bbm-option.active .jenis').textContent;
+            const harga = hargaBBM[jenis] || 12350;
+            const noPlat = document.getElementById('noPlat').value.trim();
+            const operator = document.getElementById('operator').value.trim();
+            const noTransaksi = generateNoTransaksi();
+            
+            // Update tanggal dan waktu sebelum generate
+            updateTanggalWaktu();
+            
+            // Update nomor transaksi
+            document.getElementById('noTransaksi').value = noTransaksi;
+            
+            // Hitung jika input volume
+            let finalCash = cash;
+            let finalVolume = volume;
+            
+            if (volume > 0 && cash <= 0) {
+                finalCash = volume * harga;
+                cashInput.value = Math.round(finalCash);
+            } else if (cash > 0 && volume <= 0) {
+                finalVolume = cash / harga;
+                volumeInput.value = finalVolume.toFixed(2);
+            }
+            
+            // Update transaksi aktif
+            transaksiAktif = {
+                jenis: jenis,
+                volume: parseFloat(finalVolume.toFixed(2)),
+                harga: harga,
+                total: Math.round(finalCash),
+                noPlat: noPlat,
+                operator: operator,
+                tanggal: document.getElementById('tanggal').value,
+                waktu: document.getElementById('waktu').value,
+                noTransaksi: noTransaksi
+            };
+            
+            updatePreview();
+            updateTotalDisplay(finalCash);
+            
+            showNotification(`Struk berhasil digenerate! No. Transaksi: ${noTransaksi}`, 'success');
+        }
+
+        // Generate dan cetak langsung
+        function generateDanCetak() {
+            generateStruk();
+            if (transaksiAktif) {
+                setTimeout(() => printStruk(), 500);
+            }
+        }
+
+        // Print struk
+        function printStruk() {
+            if (!transaksiAktif) {
+                showNotification('Belum ada struk yang digenerate!', 'error');
+                return;
+            }
+            
+            window.print();
+            showNotification('Mencetak struk...', 'info');
+        }
+
+        // Simpan transaksi ke riwayat
+        function simpanTransaksi() {
+            if (!transaksiAktif) {
+                showNotification('Belum ada transaksi yang bisa disimpan!', 'error');
+                return;
+            }
+            
+            // Tambah ke riwayat
+            riwayatTransaksi.unshift({
+                ...transaksiAktif,
+                id: Date.now(),
+                logo: logoSPBU,
+                cetakLogo: cetakLogo,
+                shift: document.getElementById('shift').value,
+                pulauPompa: document.getElementById('pulauPompa').value,
+                spbuNumber: document.getElementById('spbuNumber').value,
+                spbuName: document.getElementById('spbuName').value,
+                spbuAddress: document.getElementById('spbuAddress').value
+            });
+            
+            // Simpan ke localStorage (maks 100 transaksi)
+            if (riwayatTransaksi.length > 100) {
+                riwayatTransaksi = riwayatTransaksi.slice(0, 100);
+            }
+            
+            localStorage.setItem('riwayatTransaksi', JSON.stringify(riwayatTransaksi));
+            
+            // Update tampilan riwayat
+            loadRiwayatTransaksi();
+            
+            showNotification('Transaksi disimpan ke riwayat!', 'success');
+        }
+
+        // Load riwayat transaksi
+        function loadRiwayatTransaksi() {
+            const container = document.getElementById('riwayatTransaksi');
+            
+            if (riwayatTransaksi.length === 0) {
+                container.innerHTML = '<p class="no-riwayat">Belum ada transaksi</p>';
+                return;
+            }
+            
+            let html = '';
+            riwayatTransaksi.slice(0, 15).forEach((t, index) => {
+                html += `
+                    <div class="riwayat-item" data-id="${t.id}" style="cursor: pointer;">
+                        <div>
+                            <strong>${t.jenis}</strong><br>
+                            <small>No: ${t.noTransaksi} | Shift: ${t.shift || '1'}</small>
+                            ${t.noPlat ? `<br><small><i class="fas fa-car"></i> ${t.noPlat}</small>` : ''}
+                        </div>
+                        <div style="text-align: right;">
+                            <strong>Rp ${formatRupiah(t.total)}</strong><br>
+                            <small>${t.volume.toFixed(2)} L</small>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            
+            // Tambah event listener untuk load ulang transaksi
+            document.querySelectorAll('.riwayat-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    loadTransaksiDariRiwayat(id);
+                });
+            });
+        }
+
+        // Load transaksi dari riwayat
+        function loadTransaksiDariRiwayat(id) {
+            const transaksi = riwayatTransaksi.find(t => t.id === id);
+            if (!transaksi) return;
+            
+            // Load ke form
+            selectBBM(transaksi.jenis);
+            document.getElementById('cashInput').value = transaksi.total;
+            document.getElementById('volumeInput').value = transaksi.volume;
+            document.getElementById('noPlat').value = transaksi.noPlat || '';
+            document.getElementById('operator').value = transaksi.operator || 'KARMIN';
+            document.getElementById('shift').value = transaksi.shift || '1';
+            document.getElementById('pulauPompa').value = transaksi.pulauPompa || '3';
+            document.getElementById('noTransaksi').value = transaksi.noTransaksi;
+            document.getElementById('spbuNumber').value = transaksi.spbuNumber || '3445112';
+            document.getElementById('spbuName').value = transaksi.spbuName || 'SPBU TUPAREV KEDAWUNG';
+            document.getElementById('spbuAddress').value = transaksi.spbuAddress || 'JL. TUPAREV KEDAWUNG DS. KEDAW';
+            document.getElementById('tanggal').value = transaksi.tanggal || new Date().toLocaleDateString('en-GB');
+            document.getElementById('waktu').value = transaksi.waktu || '11:23:10';
+            
+            if (transaksi.cetakLogo !== undefined) {
+                document.getElementById('cetakLogo').checked = transaksi.cetakLogo;
+                cetakLogo = transaksi.cetakLogo;
+            }
+            
+            // Update transaksi aktif
+            transaksiAktif = {
+                ...transaksi,
+                tanggal: document.getElementById('tanggal').value,
+                waktu: document.getElementById('waktu').value
+            };
+            
+            updatePreview();
+            updateTotalDisplay(transaksi.total);
+            
+            showNotification(`Transaksi ${transaksi.noTransaksi} dimuat ulang!`, 'success');
+        }
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('cashInput').value = '';
+            document.getElementById('volumeInput').value = '';
+            document.getElementById('noPlat').value = 'E9920K';
+            document.getElementById('operator').value = 'KARMIN';
+            document.getElementById('pulauPompa').value = '3';
+            document.getElementById('shift').value = '1';
+            document.getElementById('spbuNumber').value = '3445112';
+            document.getElementById('spbuName').value = 'SPBU TUPAREV KEDAWUNG';
+            document.getElementById('spbuAddress').value = 'JL. TUPAREV KEDAWUNG DS. KEDAW';
+            selectBBM('PERTAMAX');
+            transaksiAktif = null;
+            document.getElementById('previewStruk').innerHTML = 
+                '<p class="empty">Data transaksi akan muncul di sini setelah dihitung</p>';
+            updateTotalDisplay(0);
+            
+            // Reset nomor transaksi ke default
+            transactionCounter = 546529;
+            localStorage.setItem('transactionCounter', transactionCounter);
+            document.getElementById('noTransaksi').value = transactionCounter;
+            
+            // Update tanggal dan waktu
+            updateTanggalWaktu();
+            
+            showNotification('Form telah direset!', 'info');
+        }
+
+        // Clear riwayat
+        function clearRiwayat() {
+            if (confirm('Apakah Anda yakin ingin menghapus semua riwayat transaksi?')) {
+                riwayatTransaksi = [];
+                localStorage.removeItem('riwayatTransaksi');
+                loadRiwayatTransaksi();
+                showNotification('Riwayat transaksi telah dihapus!', 'info');
+            }
+        }
+
+        // Ekspor struk sebagai PDF (simulasi)
+        function eksporStrukPDF() {
+            if (!transaksiAktif) {
+                showNotification('Belum ada struk yang bisa diekspor!', 'error');
+                return;
+            }
+            
+            // Simulasi ekspor PDF
+            const t = transaksiAktif;
+            const data = {
+                noTransaksi: t.noTransaksi,
+                tanggal: t.tanggal,
+                waktu: t.waktu,
+                jenis: t.jenis,
+                volume: t.volume,
+                harga: t.harga,
+                total: t.total,
+                noPlat: t.noPlat,
+                operator: t.operator,
+                shift: document.getElementById('shift').value,
+                pulauPompa: document.getElementById('pulauPompa').value,
+                spbuNumber: document.getElementById('spbuNumber').value,
+                spbuName: document.getElementById('spbuName').value,
+                spbuAddress: document.getElementById('spbuAddress').value
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `struk-${t.noTransaksi}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Struk berhasil diekspor!', 'success');
+        }
+
+        // Tampilkan notifikasi
+        function showNotification(message, type = 'info') {
+            // Hapus notifikasi sebelumnya
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+            
+            // Buat notifikasi baru
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    padding: 15px 20px;
+                    background: ${type === 'error' ? '#f44336' : type === 'success' ? '#4CAF50' : '#2196F3'};
+                    color: white;
+                    border-radius: 5px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    z-index: 1000;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    animation: slideIn 0.3s ease-out;
+                ">
+                    <i class="fas fa-${type === 'error' ? 'exclamation-circle' : type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Hapus setelah 3 detik
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+            
+            // Tambahkan animasi
+            if (!document.querySelector('#notificationStyle')) {
+                const style = document.createElement('style');
+                style.id = 'notificationStyle';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOut {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+    </script>
+</body>
+</html>
