@@ -5,14 +5,17 @@
   <title>Nota Thermal 58mm</title>
 
   <style>
-    /* =====================
-       SETUP PRINT 58mm
-    ====================== */
+    /* =========================
+       SETUP KERTAS THERMAL
+    ========================== */
     @page {
       size: 58mm auto;
       margin: 0;
     }
 
+    /* =========================
+       MODE PRINT (PRINTER)
+    ========================== */
     @media print {
       body {
         width: 58mm;
@@ -20,116 +23,228 @@
         padding: 0;
         font-family: monospace;
         font-size: 11px;
+        background: #fff;
         color: #000;
       }
 
-      .no-print {
-        display: none !important;
+      /* sembunyikan semua */
+      body * {
+        visibility: hidden;
       }
 
-      .receipt {
+      /* tampilkan hanya area struk */
+      #print-area,
+      #print-area * {
+        visibility: visible;
+      }
+
+      #print-area {
+        position: absolute;
+        left: 0;
+        top: 0;
         width: 100%;
         padding: 4px;
         box-sizing: border-box;
       }
+
+      /* sembunyikan UI */
+      .no-print {
+        display: none !important;
+      }
+
+      /* luruskan layout */
+      .row {
+        display: block !important;
+      }
+
+      /* matikan dekorasi */
+      .receipt {
+        box-shadow: none !important;
+        border-radius: 0 !important;
+      }
     }
 
-    /* =====================
-       MODE LAYAR
-    ====================== */
+    /* =========================
+       MODE LAYAR (UI)
+    ========================== */
     body {
-      background: #f0f0f0;
-      padding: 10px;
+      background: #f2f2f2;
+      font-family: Arial, sans-serif;
+      padding: 20px;
     }
 
+    .app {
+      max-width: 900px;
+      margin: auto;
+      display: flex;
+      gap: 20px;
+    }
+
+    .panel {
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.15);
+      flex: 1;
+    }
+
+    h3 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 6px;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px;
+      width: 100%;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    /* =========================
+       STRUK (PREVIEW)
+    ========================== */
     .receipt {
       width: 58mm;
-      background: #fff;
       margin: auto;
-      padding: 6px;
-      box-shadow: 0 0 6px rgba(0,0,0,.2);
+      background: #fff;
+      padding: 10px;
       box-sizing: border-box;
+      font-family: monospace;
+      font-size: 12px;
     }
 
     .center {
       text-align: center;
     }
 
+    .bold {
+      font-weight: bold;
+    }
+
     .line {
       border-top: 1px dashed #000;
-      margin: 4px 0;
+      margin: 6px 0;
     }
 
     .row {
       display: flex;
       justify-content: space-between;
     }
-
-    .bold {
-      font-weight: bold;
-    }
-
-    button {
-      width: 100%;
-      padding: 8px;
-      margin-top: 10px;
-      font-size: 14px;
-      cursor: pointer;
-    }
   </style>
 </head>
 
 <body>
 
-  <!-- ===== STRUK ===== -->
-  <div class="receipt">
+<div class="app no-print">
+  <!-- ================= FORM INPUT ================= -->
+  <div class="panel">
+    <h3>Input Data Struk</h3>
 
-    <div class="center bold">
-      SPBU ABC<br>
-      Jl. Contoh No. 123<br>
-      Telp 0812-xxxx-xxxx
-    </div>
+    <label>Nama SPBU</label>
+    <input id="spbu" value="SPBU ABC">
 
-    <div class="line"></div>
+    <label>Alamat</label>
+    <input id="alamat" value="Jl. Contoh No. 123">
 
-    <div>
-      Tgl : <span id="tgl">09-02-2026</span><br>
-      Jam : <span id="jam">14:32</span><br>
-      No  : <span id="nota">000123</span>
-    </div>
+    <label>No Nota</label>
+    <input id="nota" value="000123">
 
-    <div class="line"></div>
+    <label>Produk</label>
+    <input id="produk" value="Pertalite">
 
-    <div class="row">
-      <span>Pertalite</span>
-      <span>50.000</span>
-    </div>
+    <label>Liter</label>
+    <input id="liter" value="10.25">
 
-    <div class="row">
-      <span>Liter</span>
-      <span>10.25</span>
-    </div>
+    <label>Total (Rp)</label>
+    <input id="total" value="50000">
 
-    <div class="line"></div>
-
-    <div class="row bold">
-      <span>Total</span>
-      <span>Rp 50.000</span>
-    </div>
-
-    <div class="line"></div>
-
-    <div class="center">
-      Terima Kasih 🙏<br>
-      Selamat Jalan
-    </div>
-
+    <button onclick="window.print()">Print Thermal</button>
   </div>
 
-  <!-- ===== TOMBOL ===== -->
-  <div class="no-print">
-    <button onclick="window.print()">Print Struk</button>
+  <!-- ================= PREVIEW ================= -->
+  <div class="panel">
+    <h3>Preview Struk</h3>
+
+    <div id="print-area" class="receipt">
+      <div class="center bold">
+        <span id="p_spbu">SPBU ABC</span><br>
+        <span id="p_alamat">Jl. Contoh No. 123</span>
+      </div>
+
+      <div class="line"></div>
+
+      Tgl : <span id="p_tgl"></span><br>
+      Jam : <span id="p_jam"></span><br>
+      No  : <span id="p_nota">000123</span>
+
+      <div class="line"></div>
+
+      <div class="row">
+        <span id="p_produk">Pertalite</span>
+        <span id="p_total">50.000</span>
+      </div>
+
+      <div class="row">
+        <span>Liter</span>
+        <span id="p_liter">10.25</span>
+      </div>
+
+      <div class="line"></div>
+
+      <div class="row bold">
+        <span>TOTAL</span>
+        <span>Rp <span id="p_total2">50.000</span></span>
+      </div>
+
+      <div class="line"></div>
+
+      <div class="center">
+        Terima Kasih 🙏<br>
+        Selamat Jalan
+      </div>
+    </div>
   </div>
+</div>
+
+<script>
+  function formatRp(angka) {
+    return parseInt(angka || 0).toLocaleString('id-ID');
+  }
+
+  function updatePreview() {
+    const now = new Date();
+
+    p_spbu.innerText   = spbu.value;
+    p_alamat.innerText= alamat.value;
+    p_nota.innerText  = nota.value;
+    p_produk.innerText= produk.value;
+    p_liter.innerText = liter.value;
+    p_total.innerText = formatRp(total.value);
+    p_total2.innerText= formatRp(total.value);
+
+    p_tgl.innerText = now.toLocaleDateString('id-ID');
+    p_jam.innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  document.querySelectorAll('input').forEach(el => {
+    el.addEventListener('input', updatePreview);
+  });
+
+  updatePreview();
+</script>
 
 </body>
 </html>
