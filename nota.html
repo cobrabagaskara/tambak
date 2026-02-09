@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cetak Struk SPBU - Pertamina</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tambahkan link untuk date picker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Courier New', monospace; /* Font struk */
+            font-family: 'Courier New', monospace;
         }
         
         body {
@@ -106,6 +108,41 @@
         .form-group textarea:focus {
             border-color: #e52d27;
             outline: none;
+        }
+        
+        /* Styling khusus untuk date picker */
+        .flatpickr-input {
+            background-color: white;
+            cursor: pointer;
+        }
+        
+        .date-time-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        @media (max-width: 480px) {
+            .date-time-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .time-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .time-input-group input {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .time-separator {
+            font-size: 18px;
+            font-weight: bold;
+            color: #666;
         }
         
         .logo-section {
@@ -312,6 +349,11 @@
             color: white;
         }
         
+        .btn-info {
+            background: linear-gradient(to right, #2196F3, #21CBF3);
+            color: white;
+        }
+        
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
@@ -378,16 +420,6 @@
         .header-value {
             flex: 1;
             text-align: left;
-        }
-        
-        .separator {
-            text-align: center;
-            margin: 10px 0;
-            letter-spacing: 1px;
-            color: #000;
-            width: 100%;
-            overflow: hidden;
-            white-space: nowrap;
         }
         
         .separator-full {
@@ -468,7 +500,7 @@
                 padding: 10px;
                 font-size: 13px;
             }
-            .separator, .separator-full {
+            .separator-full {
                 letter-spacing: 1px !important;
             }
         }
@@ -542,14 +574,63 @@
             margin-bottom: 10px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+        
+        .print-info-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .print-info-box h4 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .print-tips {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #c8e6c9;
+        }
+        
+        .print-tips ul {
+            padding-left: 20px;
+            margin: 5px 0;
+        }
+        
+        .print-tips li {
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1><i class="fas fa-gas-pump"></i> SISTEM CETAK STRUK SPBU PERTAMINA</h1>
-            <p>Versi Final - Garis Penuh & Harga Dapat Diedit</p>
+            <p>Versi Final - Date Picker & Cetak Thermal</p>
         </header>
+        
+        <!-- Informasi Cetak Thermal -->
+        <div class="print-info-box">
+            <h4><i class="fas fa-print"></i> INFO CETAK KE PRINTER THERMAL</h4>
+            <p><strong>Untuk cetak ke printer thermal Bluetooth:</strong></p>
+            <div class="print-tips">
+                <p>Web browser biasa tidak bisa langsung print ke printer thermal. Solusi:</p>
+                <ul>
+                    <li><strong>Gunakan aplikasi khusus</strong> seperti "PrintBot" atau "PrintShare"</li>
+                    <li><strong>Export struk sebagai PDF</strong> lalu print dari aplikasi printer</li>
+                    <li><strong>Share/Send struk</strong> ke aplikasi printer thermal</li>
+                    <li><strong>Setting paper width: 80mm</strong> untuk printer thermal</li>
+                </ul>
+                <p>Tombol "Ekspor Struk" akan menghasilkan file JSON yang bisa dikonversi ke PDF.</p>
+            </div>
+        </div>
         
         <div class="app-container">
             <!-- Form Input Section -->
@@ -613,16 +694,32 @@
                     </div>
                 </div>
                 
-                <!-- Tanggal & Waktu -->
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="tanggal"><i class="fas fa-calendar"></i> Tanggal</label>
-                        <input type="text" id="tanggal" readonly value="01/02/2026">
+                <!-- Tanggal & Waktu dengan Date Picker -->
+                <div class="form-group">
+                    <label><i class="fas fa-calendar-alt"></i> Tanggal & Waktu</label>
+                    <div class="date-time-container">
+                        <div>
+                            <label for="tanggalPicker" style="font-size: 12px; margin-bottom: 5px;">Tanggal</label>
+                            <input type="text" id="tanggalPicker" class="flatpickr-input" placeholder="Pilih tanggal" readonly>
+                        </div>
+                        <div>
+                            <label style="font-size: 12px; margin-bottom: 5px;">Waktu</label>
+                            <div class="time-input-group">
+                                <input type="number" id="jam" min="0" max="23" placeholder="HH" value="11">
+                                <span class="time-separator">:</span>
+                                <input type="number" id="menit" min="0" max="59" placeholder="MM" value="23">
+                                <span class="time-separator">:</span>
+                                <input type="number" id="detik" min="0" max="59" placeholder="SS" value="10">
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="waktu"><i class="fas fa-clock"></i> Waktu</label>
-                        <input type="text" id="waktu" readonly value="11:23:10">
+                    <div style="margin-top: 10px; display: flex; gap: 10px;">
+                        <button type="button" class="btn btn-secondary" id="btnWaktuSekarang" style="padding: 8px 15px; font-size: 14px;">
+                            <i class="fas fa-sync-alt"></i> Waktu Sekarang
+                        </button>
+                        <button type="button" class="btn btn-info" id="btnWaktuKustom" style="padding: 8px 15px; font-size: 14px;">
+                            <i class="fas fa-clock"></i> Set Waktu
+                        </button>
                     </div>
                 </div>
                 
@@ -728,6 +825,9 @@
                     <button class="btn btn-warning" id="btnEkspor">
                         <i class="fas fa-file-export"></i> Ekspor Struk
                     </button>
+                    <button class="btn btn-info" id="btnExportPDF">
+                        <i class="fas fa-file-pdf"></i> Export PDF (Beta)
+                    </button>
                 </div>
             </section>
         </div>
@@ -742,12 +842,23 @@
                 <button class="btn btn-warning" id="btnClearRiwayat" style="min-width: auto; padding: 8px 15px;">
                     <i class="fas fa-trash"></i> Hapus Semua
                 </button>
+                <button class="btn btn-info" id="btnExportAll" style="min-width: auto; padding: 8px 15px;">
+                    <i class="fas fa-download"></i> Export Semua
+                </button>
             </div>
             <div id="riwayatTransaksi">
                 <p class="no-riwayat">Belum ada transaksi</p>
             </div>
         </section>
     </div>
+
+    <!-- Tambahkan script untuk date picker -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+    
+    <!-- Tambahkan jsPDF untuk export PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
     <script>
         // Data Harga BBM Default (bisa diubah)
@@ -781,13 +892,11 @@
             initLogoUpload();
             loadSavedLogo();
             loadRiwayatTransaksi();
+            initDatePicker();
             
             // Set initial transaction number
             document.getElementById('noTransaksi').value = transactionCounter;
-            updateTanggalWaktu();
-            
-            // Update waktu setiap detik
-            setInterval(updateTanggalWaktu, 1000);
+            updateWaktuSekarang();
             
             // Event Listeners
             document.getElementById('cetakLogo').addEventListener('change', function() {
@@ -805,10 +914,14 @@
             document.getElementById('btnPrint').addEventListener('click', printStruk);
             document.getElementById('btnReset').addEventListener('click', resetForm);
             document.getElementById('btnSimpan').addEventListener('click', simpanTransaksi);
-            document.getElementById('btnEkspor').addEventListener('click', eksporStrukPDF);
+            document.getElementById('btnEkspor').addEventListener('click', eksporStrukJSON);
+            document.getElementById('btnExportPDF').addEventListener('click', exportStrukPDF);
             document.getElementById('btnRefreshRiwayat').addEventListener('click', loadRiwayatTransaksi);
             document.getElementById('btnClearRiwayat').addEventListener('click', clearRiwayat);
             document.getElementById('btnHapusLogo').addEventListener('click', hapusLogo);
+            document.getElementById('btnWaktuSekarang').addEventListener('click', updateWaktuSekarang);
+            document.getElementById('btnWaktuKustom').addEventListener('click', setWaktuKustom);
+            document.getElementById('btnExportAll').addEventListener('click', exportAllTransaksi);
             
             // Pilih PERTAMAX sebagai default
             selectBBM('PERTAMAX');
@@ -818,17 +931,53 @@
             hitungDariCash();
         });
 
-        // Update tanggal dan waktu
-        function updateTanggalWaktu() {
+        // Inisialisasi Date Picker
+        function initDatePicker() {
+            flatpickr("#tanggalPicker", {
+                dateFormat: "d/m/Y",
+                locale: "id",
+                defaultDate: new Date(),
+                onChange: function(selectedDates, dateStr) {
+                    // Tanggal berubah, update preview jika ada
+                    if (transaksiAktif) {
+                        updatePreview();
+                    }
+                }
+            });
+        }
+
+        // Update waktu sekarang
+        function updateWaktuSekarang() {
             const now = new Date();
             const tanggal = now.toLocaleDateString('en-GB'); // Format dd/mm/yyyy
             const jam = now.getHours().toString().padStart(2, '0');
             const menit = now.getMinutes().toString().padStart(2, '0');
             const detik = now.getSeconds().toString().padStart(2, '0');
-            const waktu = `${jam}:${menit}:${detik}`;
             
-            document.getElementById('tanggal').value = tanggal;
-            document.getElementById('waktu').value = waktu;
+            // Set date picker
+            document.getElementById('tanggalPicker').value = tanggal;
+            
+            // Set waktu
+            document.getElementById('jam').value = jam;
+            document.getElementById('menit').value = menit;
+            document.getElementById('detik').value = detik;
+            
+            showNotification('Waktu diupdate ke waktu sekarang!', 'info');
+        }
+
+        // Set waktu kustom
+        function setWaktuKustom() {
+            const jam = document.getElementById('jam').value.padStart(2, '0');
+            const menit = document.getElementById('menit').value.padStart(2, '0');
+            const detik = document.getElementById('detik').value.padStart(2, '0');
+            
+            // Validasi
+            if (jam < 0 || jam > 23 || menit < 0 || menit > 59 || detik < 0 || detik > 59) {
+                showNotification('Format waktu tidak valid!', 'error');
+                return;
+            }
+            
+            showNotification(`Waktu diatur ke ${jam}:${menit}:${detik}`, 'success');
         }
 
         // Inisialisasi Upload Logo
@@ -1129,6 +1278,19 @@
             return '------------------------------------------';
         }
 
+        // Get tanggal dan waktu dari form
+        function getTanggalWaktu() {
+            const tanggal = document.getElementById('tanggalPicker').value;
+            const jam = document.getElementById('jam').value.padStart(2, '0');
+            const menit = document.getElementById('menit').value.padStart(2, '0');
+            const detik = document.getElementById('detik').value.padStart(2, '0');
+            
+            return {
+                tanggal: tanggal,
+                waktu: `${jam}:${menit}:${detik}`
+            };
+        }
+
         // Update preview struk
         function updatePreview() {
             if (!transaksiAktif) return;
@@ -1139,8 +1301,7 @@
             const spbuAddress = document.getElementById('spbuAddress').value;
             const shift = document.getElementById('shift').value;
             const noTransaksi = document.getElementById('noTransaksi').value;
-            const tanggal = document.getElementById('tanggal').value;
-            const waktu = document.getElementById('waktu').value;
+            const { tanggal, waktu } = getTanggalWaktu();
             const pulauPompa = document.getElementById('pulauPompa').value;
             const operator = document.getElementById('operator').value;
             
@@ -1247,9 +1408,7 @@
             const noPlat = document.getElementById('noPlat').value.trim();
             const operator = document.getElementById('operator').value.trim();
             const noTransaksi = generateNoTransaksi();
-            
-            // Update tanggal dan waktu sebelum generate
-            updateTanggalWaktu();
+            const { tanggal, waktu } = getTanggalWaktu();
             
             // Update nomor transaksi
             document.getElementById('noTransaksi').value = noTransaksi;
@@ -1274,8 +1433,8 @@
                 total: Math.round(finalCash),
                 noPlat: noPlat,
                 operator: operator,
-                tanggal: document.getElementById('tanggal').value,
-                waktu: document.getElementById('waktu').value,
+                tanggal: tanggal,
+                waktu: waktu,
                 noTransaksi: noTransaksi
             };
             
@@ -1293,15 +1452,17 @@
             }
         }
 
-        // Print struk
+        // Print struk (browser print)
         function printStruk() {
             if (!transaksiAktif) {
                 showNotification('Belum ada struk yang digenerate!', 'error');
                 return;
             }
             
+            // Untuk thermal printer, perlu aplikasi khusus
+            // Ini hanya akan membuka print dialog browser biasa
             window.print();
-            showNotification('Mencetak struk...', 'info');
+            showNotification('Membuka dialog print... Untuk printer thermal gunakan aplikasi khusus.', 'info');
         }
 
         // Simpan transaksi ke riwayat
@@ -1352,7 +1513,7 @@
                     <div class="riwayat-item" data-id="${t.id}" style="cursor: pointer;">
                         <div>
                             <strong>${t.jenis}</strong><br>
-                            <small>No: ${t.noTransaksi} | Shift: ${t.shift || '1'}</small>
+                            <small>No: ${t.noTransaksi} | ${t.tanggal} ${t.waktu}</small>
                             ${t.noPlat ? `<br><small><i class="fas fa-car"></i> ${t.noPlat}</small>` : ''}
                         </div>
                         <div style="text-align: right;">
@@ -1391,9 +1552,16 @@
             document.getElementById('spbuNumber').value = transaksi.spbuNumber || '3445112';
             document.getElementById('spbuName').value = transaksi.spbuName || 'SPBU TUPAREV KEDAWUNG';
             document.getElementById('spbuAddress').value = transaksi.spbuAddress || 'JL. TUPAREV KEDAWUNG DS. KEDAW';
-            document.getElementById('tanggal').value = transaksi.tanggal || new Date().toLocaleDateString('en-GB');
-            document.getElementById('waktu').value = transaksi.waktu || '11:23:10';
+            document.getElementById('tanggalPicker').value = transaksi.tanggal || new Date().toLocaleDateString('en-GB');
             document.getElementById('hargaLiter').value = transaksi.harga || 12350;
+            
+            // Parse waktu
+            if (transaksi.waktu) {
+                const [jam, menit, detik] = transaksi.waktu.split(':');
+                document.getElementById('jam').value = jam || '11';
+                document.getElementById('menit').value = menit || '23';
+                document.getElementById('detik').value = detik || '10';
+            }
             
             if (transaksi.cetakLogo !== undefined) {
                 document.getElementById('cetakLogo').checked = transaksi.cetakLogo;
@@ -1403,8 +1571,8 @@
             // Update transaksi aktif
             transaksiAktif = {
                 ...transaksi,
-                tanggal: document.getElementById('tanggal').value,
-                waktu: document.getElementById('waktu').value
+                tanggal: document.getElementById('tanggalPicker').value,
+                waktu: transaksi.waktu || '11:23:10'
             };
             
             updatePreview();
@@ -1436,8 +1604,8 @@
             localStorage.setItem('transactionCounter', transactionCounter);
             document.getElementById('noTransaksi').value = transactionCounter;
             
-            // Update tanggal dan waktu
-            updateTanggalWaktu();
+            // Update tanggal dan waktu ke sekarang
+            updateWaktuSekarang();
             
             showNotification('Form telah direset!', 'info');
         }
@@ -1452,30 +1620,32 @@
             }
         }
 
-        // Ekspor struk sebagai PDF (simulasi)
-        function eksporStrukPDF() {
+        // Ekspor struk sebagai JSON
+        function eksporStrukJSON() {
             if (!transaksiAktif) {
                 showNotification('Belum ada struk yang bisa diekspor!', 'error');
                 return;
             }
             
-            // Simulasi ekspor PDF
             const t = transaksiAktif;
             const data = {
-                noTransaksi: t.noTransaksi,
-                tanggal: t.tanggal,
-                waktu: t.waktu,
-                jenis: t.jenis,
-                volume: t.volume,
-                harga: t.harga,
-                total: t.total,
-                noPlat: t.noPlat,
-                operator: t.operator,
-                shift: document.getElementById('shift').value,
-                pulauPompa: document.getElementById('pulauPompa').value,
-                spbuNumber: document.getElementById('spbuNumber').value,
-                spbuName: document.getElementById('spbuName').value,
-                spbuAddress: document.getElementById('spbuAddress').value
+                struk_text: generateStrukText(),
+                data_json: {
+                    noTransaksi: t.noTransaksi,
+                    tanggal: t.tanggal,
+                    waktu: t.waktu,
+                    jenis: t.jenis,
+                    volume: t.volume,
+                    harga: t.harga,
+                    total: t.total,
+                    noPlat: t.noPlat,
+                    operator: t.operator,
+                    shift: document.getElementById('shift').value,
+                    pulauPompa: document.getElementById('pulauPompa').value,
+                    spbuNumber: document.getElementById('spbuNumber').value,
+                    spbuName: document.getElementById('spbuName').value,
+                    spbuAddress: document.getElementById('spbuAddress').value
+                }
             };
             
             const dataStr = JSON.stringify(data, null, 2);
@@ -1488,7 +1658,192 @@
             linkElement.setAttribute('download', exportFileDefaultName);
             linkElement.click();
             
-            showNotification('Struk berhasil diekspor!', 'success');
+            showNotification('Struk berhasil diekspor sebagai JSON!', 'success');
+        }
+
+        // Generate struk dalam format text
+        function generateStrukText() {
+            if (!transaksiAktif) return '';
+            
+            const t = transaksiAktif;
+            const spbuNumber = document.getElementById('spbuNumber').value;
+            const spbuName = document.getElementById('spbuName').value;
+            const spbuAddress = document.getElementById('spbuAddress').value;
+            const shift = document.getElementById('shift').value;
+            const noTransaksi = document.getElementById('noTransaksi').value;
+            const { tanggal, waktu } = getTanggalWaktu();
+            const pulauPompa = document.getElementById('pulauPompa').value;
+            const operator = document.getElementById('operator').value;
+            
+            const garis = '------------------------------------------';
+            
+            return `
+${spbuNumber}
+
+${spbuName}
+${spbuAddress}
+
+Shift : ${shift}    No. Trans:${noTransaksi}
+Waktu : ${tanggal}   ${waktu}
+
+${garis}
+Pulau/Pompa : ${pulauPompa}
+Nama Produk : ${t.jenis}
+Harga/Liter : Rp. ${formatRupiah(t.harga)}
+Volume      : (L) ${t.volume.toFixed(2)}
+Total Harga : Rp. ${formatRupiah(t.total)}
+Operator    : ${operator}
+${garis}
+CASH                       ${formatRupiah(t.total)}
+${garis}
+No. Plat : ${t.noPlat || ''}
+${garis}
+** Terima Kasih **
+`;
+        }
+
+        // Export struk sebagai PDF
+        function exportStrukPDF() {
+            if (!transaksiAktif) {
+                showNotification('Belum ada struk yang bisa diekspor!', 'error');
+                return;
+            }
+            
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: [80, 200] // Ukuran struk thermal 80mm
+                });
+                
+                const t = transaksiAktif;
+                const spbuNumber = document.getElementById('spbuNumber').value;
+                const spbuName = document.getElementById('spbuName').value;
+                const spbuAddress = document.getElementById('spbuAddress').value;
+                const shift = document.getElementById('shift').value;
+                const noTransaksi = document.getElementById('noTransaksi').value;
+                const { tanggal, waktu } = getTanggalWaktu();
+                const pulauPompa = document.getElementById('pulauPompa').value;
+                const operator = document.getElementById('operator').value;
+                
+                let yPos = 10;
+                const lineHeight = 6;
+                const margin = 5;
+                
+                // Set font
+                doc.setFont("helvetica");
+                doc.setFontSize(10);
+                
+                // Nomor SPBU
+                doc.setFontSize(12);
+                doc.setFont("helvetica", "bold");
+                doc.text(spbuNumber, margin, yPos, { align: 'center', maxWidth: 70 });
+                yPos += lineHeight;
+                
+                // Nama dan alamat SPBU
+                doc.setFontSize(8);
+                doc.setFont("helvetica", "bold");
+                doc.text(spbuName, margin, yPos, { align: 'center', maxWidth: 70 });
+                yPos += lineHeight;
+                
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(7);
+                doc.text(spbuAddress, margin, yPos, { align: 'center', maxWidth: 70 });
+                yPos += lineHeight * 1.5;
+                
+                // Shift dan No Transaksi
+                doc.setFontSize(8);
+                doc.text(`Shift : ${shift}    No. Trans:${noTransaksi}`, margin, yPos);
+                yPos += lineHeight;
+                
+                // Tanggal dan waktu
+                doc.text(`Waktu : ${tanggal}   ${waktu}`, margin, yPos);
+                yPos += lineHeight * 1.5;
+                
+                // Garis
+                doc.setLineWidth(0.5);
+                doc.line(margin, yPos, 75, yPos);
+                yPos += lineHeight;
+                
+                // Detail transaksi
+                const details = [
+                    `Pulau/Pompa : ${pulauPompa}`,
+                    `Nama Produk : ${t.jenis}`,
+                    `Harga/Liter : Rp. ${formatRupiah(t.harga)}`,
+                    `Volume      : (L) ${t.volume.toFixed(2)}`,
+                    `Total Harga : Rp. ${formatRupiah(t.total)}`,
+                    `Operator    : ${operator}`
+                ];
+                
+                details.forEach(detail => {
+                    doc.text(detail, margin, yPos);
+                    yPos += lineHeight;
+                });
+                
+                // Garis
+                yPos += 2;
+                doc.line(margin, yPos, 75, yPos);
+                yPos += lineHeight;
+                
+                // CASH
+                doc.setFont("helvetica", "bold");
+                doc.text(`CASH                       ${formatRupiah(t.total)}`, margin, yPos);
+                yPos += lineHeight;
+                
+                // Garis
+                yPos += 2;
+                doc.line(margin, yPos, 75, yPos);
+                yPos += lineHeight;
+                
+                // No Plat
+                doc.setFont("helvetica", "normal");
+                doc.text(`No. Plat : ${t.noPlat || ''}`, margin, yPos);
+                yPos += lineHeight;
+                
+                // Garis
+                yPos += 2;
+                doc.line(margin, yPos, 75, yPos);
+                yPos += lineHeight;
+                
+                // Footer
+                doc.setFontSize(7);
+                doc.text("** Terima Kasih **", margin, yPos, { align: 'center', maxWidth: 70 });
+                
+                // Save PDF
+                doc.save(`struk-${t.noTransaksi}.pdf`);
+                
+                showNotification('PDF berhasil dibuat! Buka dengan aplikasi printer thermal.', 'success');
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                showNotification('Gagal membuat PDF. Coba ekspor sebagai JSON.', 'error');
+            }
+        }
+
+        // Export semua transaksi
+        function exportAllTransaksi() {
+            if (riwayatTransaksi.length === 0) {
+                showNotification('Tidak ada transaksi untuk diekspor!', 'error');
+                return;
+            }
+            
+            const data = {
+                tanggal_export: new Date().toLocaleString('id-ID'),
+                total_transaksi: riwayatTransaksi.length,
+                transaksi: riwayatTransaksi
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `riwayat-transaksi-${new Date().toISOString().slice(0,10)}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification(`Berhasil mengekspor ${riwayatTransaksi.length} transaksi!`, 'success');
         }
 
         // Tampilkan notifikasi
@@ -1536,7 +1891,7 @@
                 style.textContent = `
                     @keyframes slideIn {
                         from { transform: translateX(100%); opacity: 0; }
-                    to { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(0); opacity: 1; }
                     }
                     @keyframes slideOut {
                         from { transform: translateX(0); opacity: 1; }
