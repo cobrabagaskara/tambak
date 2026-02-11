@@ -388,6 +388,19 @@
     "enabled_by_default": true,
     "file": "auto-fill-skrining-risiko-kanker-payudara/script.js",
     "meta_file": "auto-fill-skrining-risiko-kanker-payudara/meta.json"
+  },
+
+  "auto-fill-skrining-imunisasi-dewasa": {
+    "name": "Auto Fill Skrining Imunisasi Dewasa",
+    "description": "Auto-fill Skrining Imunisasi Dewasa dengan validasi gender (Perempuan) dan pemilihan template berdasarkan rentang usia (<22 vs ≥22)",
+    "version": "1.0",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/skriningimunisasidewasa/create/*"
+    ],
+    "enabled_by_default": true,
+    "file": "auto-fill-skrining-imunisasi-dewasa/script.js",
+    "meta_file": "auto-fill-skrining-imunisasi-dewasa/meta.json"
   }
     
   
