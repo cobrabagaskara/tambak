@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Struk BBM Thermal 58mm</title>
+
+<style>
+@page { size: 58mm auto; margin: 0; }
+
+body {
+  margin: 0;
+  font-family: monospace;
+  background: #fff;
+}
+
+.receipt {
+  width: 58mm;
+  padding: 4mm;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.center { text-align: center; }
+.left { text-align: left; }
+.right { text-align: right; }
+.bold { font-weight: bold; }
+
+.logo {
+  display: block;
+  margin: 0 auto 4px auto;
+  max-width: 46mm;
+}
+
+.divider {
+  border-top: 1px dashed #000;
+  margin: 6px 0;
+}
+
+.line {
+  display: grid;
+  grid-template-columns: 14ch 2ch auto;
+  white-space: nowrap;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cash-amount {
+  text-align: right;
+  font-weight: bold;
+}
+
+/* INPUT PANEL */
+.controls {
+  padding: 10px;
+  background: #f3f4f6;
+}
+
+.controls label {
+  font-size: 12px;
+  display: block;
+  margin-top: 6px;
+}
+
+.controls input {
+  width: 100%;
+  font-size: 14px;
+  padding: 4px;
+  margin-top: 2px;
+}
+
+button {
+  margin-top: 8px;
+  width: 100%;
+}
+
+/* HIDE ON PRINT */
+@media print {
+  .controls { display: none; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= INPUT ================= -->
+<div class="controls">
+  <label>Logo</label>
+  <input type="file" accept="image/*" onchange="loadLogo(event)">
+
+  <label>Tanggal</label>
+  <input type="date" id="dateInput">
+
+  <label>Shift</label>
+  <input id="shift" value="1">
+
+  <label>Operator</label>
+  <input id="operator" value="KARMIN">
+
+  <label>No. Plat</label>
+  <input id="plate" placeholder="E9918L">
+
+  <label>Harga / Liter</label>
+  <input id="price" type="number" value="12500">
+
+  <label>Bayar (Rp)</label>
+  <input id="paid" type="number" value="200000" oninput="calculate()">
+
+  <button onclick="window.print()">PRINT</button>
+</div>
+
+<!-- ================= STRUK ================= -->
+<div class="receipt">
+
+  <img id="logo" class="logo">
+
+  <div class="center bold">3445112</div>
+  <div class="center">SPBU TUPAREV KEDAWUNG</div>
+  <div class="center">JL. TUPAREV KEDAWUNG DS. KEDAW</div>
+  <div class="center">Telp. (0231) 204080</div>
+
+  <div class="divider"></div>
+
+  <div class="row">
+    <span>Shift : <span id="outShift">1</span></span>
+    <span>No. Trans : 4926774</span>
+  </div>
+
+  <div class="row">
+    <span>Waktu : <span id="outDate"></span></span>
+    <span id="outTime"></span>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="line"><span>Pulau/Pompa</span><span>:</span><span>3</span></div>
+  <div class="line"><span>Nama Produk</span><span>:</span><span>PERTAMAX</span></div>
+  <div class="line"><span>Harga/Liter</span><span>:</span><span id="outPrice"></span></div>
+  <div class="line"><span>Volume</span><span>:</span><span id="outLiter"></span></div>
+  <div class="line"><span>Total Harga</span><span>:</span><span id="outTotal"></span></div>
+  <div class="line"><span>Operator</span><span>:</span><span id="outOperator"></span></div>
+
+  <div class="divider"></div>
+
+  <div>CASH</div>
+  <div class="cash-amount" id="outCash"></div>
+
+  <div class="divider"></div>
+
+  <div>No. Plat : <span id="outPlate"></span></div>
+
+  <div class="divider"></div>
+</div>
+
+<script>
+function loadLogo(e) {
+  document.getElementById('logo').src =
+    URL.createObjectURL(e.target.files[0]);
+}
+
+function rupiah(n) {
+  return n.toLocaleString('id-ID');
+}
+
+function calculate() {
+  const price = Number(priceInput.value);
+  const paid = Number(paidInput.value);
+  const liter = paid / price;
+
+  outLiter.textContent = liter.toFixed(2);
+  outTotal.textContent = 'Rp. ' + rupiah(paid);
+  outCash.textContent = rupiah(paid);
+  outPrice.textContent = 'Rp. ' + rupiah(price);
+}
+
+const priceInput = document.getElementById('price');
+const paidInput = document.getElementById('paid');
+
+function updateStatic() {
+  outShift.textContent = shift.value;
+  outOperator.textContent = operator.value;
+  outPlate.textContent = plate.value;
+}
+
+setInterval(() => {
+  const now = new Date();
+  outTime.textContent = now.toLocaleTimeString('id-ID');
+}, 1000);
+
+dateInput.valueAsDate = new Date();
+outDate.textContent = new Date().toLocaleDateString('id-ID');
+
+document.querySelectorAll('input').forEach(i =>
+  i.addEventListener('input', updateStatic)
+);
+
+calculate();
+updateStatic();
+</script>
+
+</body>
+</html>
