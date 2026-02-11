@@ -351,7 +351,7 @@
     "meta_file": "auto-fill-skrining-srq-29/meta.json"
   },
 
-    "auto-fill-skrining-risiko-penyakit-jantung": {
+  "auto-fill-skrining-risiko-penyakit-jantung": {
     "name": "Auto Fill Skrining Risiko Penyakit Jantung",
     "description": "Auto-fill Skrining Risiko Penyakit Jantung untuk semua pasien (tanpa kondisi)",
     "version": "1.0",
@@ -362,6 +362,19 @@
     "enabled_by_default": true,
     "file": "auto-fill-skrining-risiko-penyakit-jantung/script.js",
     "meta_file": "auto-fill-skrining-risiko-penyakit-jantung/meta.json"
+  },
+
+  "auto-fill-skrining-who-assist-v3-1": {
+    "name": "Auto Fill Skrining WHO - ASSIST V3.1",
+    "description": "Auto-fill Skrining WHO - ASSIST V3.1 untuk semua pasien (tanpa kondisi)",
+    "version": "1.0",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/skriningwho/create/*"
+    ],
+    "enabled_by_default": true,
+    "file": "auto-fill-skrining-who-assist-v3-1/script.js",
+    "meta_file": "auto-fill-skrining-who-assist-v3-1/meta.json"
   }
     
   
