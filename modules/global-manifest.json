@@ -375,6 +375,19 @@
     "enabled_by_default": true,
     "file": "auto-fill-skrining-who-assist-v3-1/script.js",
     "meta_file": "auto-fill-skrining-who-assist-v3-1/meta.json"
+  },
+
+  "auto-fill-skrining-risiko-kanker-payudara": {
+    "name": "Auto Fill Skrining Risiko Kanker Payudara",
+    "description": "Auto-fill Skrining Risiko Kanker Payudara (Hanya untuk Perempuan) dengan validasi gender",
+    "version": "1.0",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/skriningkankerpayudara/create/*"
+    ],
+    "enabled_by_default": true,
+    "file": "auto-fill-skrining-risiko-kanker-payudara/script.js",
+    "meta_file": "auto-fill-skrining-risiko-kanker-payudara/meta.json"
   }
     
   
