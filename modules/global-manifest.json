@@ -392,6 +392,19 @@
     "meta_file": "auto-fill-skrining-imunisasi-dewasa/meta.json"
   },
 
+  "auto-fill-skrining-kesehatan-gigi-mulut-balita": {
+    "name": "Auto Fill Skrining Kesehatan Gigi & Mulut Balita",
+    "description": "Auto-fill Skrining Kesehatan Gigi & Mulut Balita dengan validasi usia <6 tahun (72 bulan)",
+    "version": "1.0",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/skriningkesehatangigimulutbalita/create/*"
+    ],
+    "enabled_by_default": true,
+    "file": "auto-fill-skrining-kesehatan-gigi-mulut-balita/script.js",
+    "meta_file": "auto-fill-skrining-kesehatan-gigi-mulut-balita/meta.json"
+  },
+
   "test-module": {
       "name": "Test Module",
       "description": "Module untuk testing sistem Skrining Auto",
