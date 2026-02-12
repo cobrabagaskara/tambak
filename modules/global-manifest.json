@@ -405,6 +405,19 @@
     "meta_file": "auto-fill-skrining-kesehatan-gigi-mulut-balita/meta.json"
   },
 
+  "universal-recorder": {
+    "name": "Universal Recorder",
+    "description": "Recorder skrining + tombol simpan preset + conditions (gender/usia) + auto-trim FIXED",
+    "version": "1.5.2",
+    "author": "",
+    "match": [
+      "https://cirebon.epuskesmas.id/*"
+    ],
+    "enabled_by_default": true,
+    "file": "universal-recorder/script.js",
+    "meta_file": "universal-recorder/meta.json"
+  },
+
   "test-module": {
       "name": "Test Module",
       "description": "Module untuk testing sistem Skrining Auto",
