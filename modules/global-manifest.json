@@ -1,18 +1,4 @@
 {
-  "version": "1.0.1",
-  "last_updated": "2026-02-05T08:15:00Z",
-  "modules": {
-    "test-module": {
-      "name": "Test Module",
-      "description": "Module untuk testing sistem Skrining Auto",
-      "version": "1.0.1",
-      "author": "cobrabagaskara",
-      "match": ["https://cirebon.epuskesmas.id/*"],
-      "enabled_by_default": false,
-      "file": "test-module/script.js",
-      "meta_file": "test-module/meta.json"
-    },
-  
   "data-pasien-reader": {
     "name": "Data Pasien Reader",
     "description": "Baca data pasien dan simpan ke localStorage",
@@ -401,7 +387,21 @@
     "enabled_by_default": true,
     "file": "auto-fill-skrining-imunisasi-dewasa/script.js",
     "meta_file": "auto-fill-skrining-imunisasi-dewasa/meta.json"
-  }
+  },
+
+  "version": "1.0.1",
+  "last_updated": "2026-02-05T08:15:00Z",
+  "modules": {
+    "test-module": {
+      "name": "Test Module",
+      "description": "Module untuk testing sistem Skrining Auto",
+      "version": "1.0.1",
+      "author": "cobrabagaskara",
+      "match": ["https://cirebon.epuskesmas.id/*"],
+      "enabled_by_default": false,
+      "file": "test-module/script.js",
+      "meta_file": "test-module/meta.json"
+    }
     
   
   
