@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Struk BBM Thermal 58mm</title>
+
+<style>
+@page { size: 58mm auto; margin: 0; }
+
+body {
+  margin: 0;
+  font-family: monospace;
+  background: #fff;
+}
+
+.receipt {
+  width: 58mm;
+  padding: 4mm;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.center { text-align: center; }
+.left { text-align: left; }
+.right { text-align: right; }
+.bold { font-weight: bold; }
+
+.logo {
+  display: block;
+  margin: 0 auto 4px auto;
+  max-width: 46mm;
+}
+
+.divider {
+  border-top: 1px dashed #000;
+  margin: 6px 0;
+}
+
+.line {
+  display: grid;
+  grid-template-columns: 14ch 2ch auto;
+  white-space: nowrap;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cash-amount {
+  text-align: right;
+  font-weight: bold;
+}
+
+/* INPUT PANEL */
+.controls {
+  padding: 10px;
+  background: #f3f4f6;
+}
+
+.controls label {
+  font-size: 12px;
+  display: block;
+  margin-top: 6px;
+}
+
+.controls input {
+  width: 100%;
+  font-size: 14px;
+  padding: 4px;
+  margin-top: 2px;
+}
+
+button {
+  margin-top: 8px;
+  width: 100%;
+}
+
+/* HIDE ON PRINT */
+@media print {
+  .controls { display: none; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= INPUT ================= -->
+<div class="controls">
+  <label>Logo</label>
+  <input type="file" accept="image/*" onchange="loadLogo(event)">
+
+  <label>Tanggal</label>
+  <input type="date" id="dateInput">
+
+  <label>Jam (format 24:00)</label>
+  <input type="time" id="timeInput" value="08:00">
+  
+  <label>
+    <input type="checkbox" id="useCustomTime"> 
+    Gunakan jam manual
+  </label>
+
+  <label>Shift</label>
+  <input id="shift" value="1">
+
+  <label>Operator</label>
+  <input id="operator" value="KARMIN">
+
+  <label>No. Trans</label>
+  <input id="transNumber" value="4926774">
+
+  <label>No. Plat</label>
+  <input id="plate" placeholder="E9918L">
+
+  <label>Harga / Liter</label>
+  <input id="price" type="number" value="12500">
+
+  <label>Bayar (Rp)</label>
+  <input id="paid" type="number" value="200000" oninput="calculate()">
+
+  <button onclick="window.print()">PRINT</button>
+  <button onclick="setTimeNow()" style="margin-top:5px; background:#4b5563; color:white;">Set Jam ke Sekarang</button>
+</div>
+
+<!-- ================= STRUK ================= -->
+<div class="receipt">
+
+  <img id="logo" class="logo">
+
+  <div class="center bold">3445112</div>
+  <div class="center">SPBU TUPAREV KEDAWUNG</div>
+  <div class="center">JL. TUPAREV KEDAWUNG DS. KEDAW</div>
+  <div class="center">Telp. (0231) 204080</div>
+
+  <div class="divider"></div>
+
+  <div class="row">
+    <span>Shift : <span id="outShift">1</span></span>
+    <span>No. Trans : <span id="outTrans">4926774</span></span>
+  </div>
+
+  <div class="row">
+    <span>Waktu : <span id="outDate"></span></span>
+    <span id="outTime"></span>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="line"><span>Pulau/Pompa</span><span>:</span><span>3</span></div>
+  <div class="line"><span>Nama Produk</span><span>:</span><span>PERTAMAX</span></div>
+  <div class="line"><span>Harga/Liter</span><span>:</span><span id="outPrice"></span></div>
+  <div class="line"><span>Volume</span><span>:</span><span id="outLiter"></span></div>
+  <div class="line"><span>Total Harga</span><span>:</span><span id="outTotal"></span></div>
+  <div class="line"><span>Operator</span><span>:</span><span id="outOperator"></span></div>
+
+  <div class="divider"></div>
+
+  <div>CASH</div>
+  <div class="cash-amount" id="outCash"></div>
+
+  <div class="divider"></div>
+
+  <div>No. Plat : <span id="outPlate"></span></div>
+
+  <div class="divider"></div>
+  
+  <!-- TERIMA KASIH lebih ke bawah -->
+  <div style="margin-top: 12px;"></div>
+  <div class="center">TERIMA KASIH</div>
+  <div class="center">SELAMAT JALAN</div>
+  <div style="margin-bottom: 5px;"></div>
+</div>
+
+<script>
+// Element references
+const priceInput = document.getElementById('price');
+const paidInput = document.getElementById('paid');
+const dateInput = document.getElementById('dateInput');
+const timeInput = document.getElementById('timeInput');
+const useCustomTime = document.getElementById('useCustomTime');
+const shiftInput = document.getElementById('shift');
+const operatorInput = document.getElementById('operator');
+const transInput = document.getElementById('transNumber');
+const plateInput = document.getElementById('plate');
+
+const outShift = document.getElementById('outShift');
+const outOperator = document.getElementById('outOperator');
+const outTrans = document.getElementById('outTrans');
+const outPlate = document.getElementById('outPlate');
+const outDate = document.getElementById('outDate');
+const outTime = document.getElementById('outTime');
+const outPrice = document.getElementById('outPrice');
+const outLiter = document.getElementById('outLiter');
+const outTotal = document.getElementById('outTotal');
+const outCash = document.getElementById('outCash');
+
+function loadLogo(e) {
+  if (e.target.files && e.target.files[0]) {
+    document.getElementById('logo').src = URL.createObjectURL(e.target.files[0]);
+  }
+}
+
+function rupiah(n) {
+  return n.toLocaleString('id-ID');
+}
+
+function calculate() {
+  const price = Number(priceInput.value) || 0;
+  const paid = Number(paidInput.value) || 0;
+  const liter = price > 0 ? paid / price : 0;
+
+  outLiter.textContent = liter.toFixed(2);
+  outTotal.textContent = 'Rp. ' + rupiah(paid);
+  outCash.textContent = rupiah(paid);
+  outPrice.textContent = 'Rp. ' + rupiah(price);
+}
+
+function updateStatic() {
+  outShift.textContent = shiftInput.value || '1';
+  outOperator.textContent = operatorInput.value || 'KARMIN';
+  outTrans.textContent = transInput.value || '4926774';
+  outPlate.textContent = plateInput.value || '-';
+}
+
+function updateDate() {
+  if (dateInput.value) {
+    const date = new Date(dateInput.value);
+    outDate.textContent = date.toLocaleDateString('id-ID');
+  } else {
+    outDate.textContent = new Date().toLocaleDateString('id-ID');
+  }
+}
+
+function updateTime() {
+  if (useCustomTime && useCustomTime.checked) {
+    // Gunakan jam manual
+    outTime.textContent = timeInput.value + ':00';
+  } else {
+    // Gunakan jam realtime
+    const now = new Date();
+    outTime.textContent = now.toLocaleTimeString('id-ID');
+  }
+}
+
+function setTimeNow() {
+  const now = new Date();
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  timeInput.value = hours + ':' + minutes;
+  
+  if (useCustomTime.checked) {
+    updateTime();
+  }
+}
+
+// Set default date
+dateInput.valueAsDate = new Date();
+updateDate();
+
+// Set default time
+setTimeNow();
+
+// Event listeners
+priceInput.addEventListener('input', calculate);
+paidInput.addEventListener('input', calculate);
+shiftInput.addEventListener('input', updateStatic);
+operatorInput.addEventListener('input', updateStatic);
+transInput.addEventListener('input', updateStatic);
+plateInput.addEventListener('input', updateStatic);
+dateInput.addEventListener('input', updateDate);
+timeInput.addEventListener('input', function() {
+  if (useCustomTime.checked) updateTime();
+});
+useCustomTime.addEventListener('change', updateTime);
+
+// Update waktu realtime setiap detik (hanya jika tidak menggunakan manual)
+setInterval(() => {
+  if (!useCustomTime || !useCustomTime.checked) {
+    updateTime();
+  }
+}, 1000);
+
+// Initial calls
+calculate();
+updateStatic();
+</script>
+
+</body>
+</html>
