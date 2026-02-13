@@ -418,6 +418,19 @@
     "meta_file": "universal-recorder/meta.json"
   },
 
+  "auto-fill-skrining-gigi-mulut-remaja": {
+    "name": "Auto Fill - Skrining Gigi & Mulut Remaja",
+    "description": "Otomatis isi skrining kesehatan gigi & mulut anak usia sekolah & remaja",
+    "version": "1.2",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/skriningkesehatangigimulutremaja/create/*"
+    ],
+    "enabled_by_default": true,
+    "file": "auto-fill-skrining-gigi-mulut-remaja/script.js",
+    "meta_file": "auto-fill-skrining-gigi-mulut-remaja/meta.json"
+  },
+
   "test-module": {
       "name": "Test Module",
       "description": "Module untuk testing sistem Skrining Auto",
