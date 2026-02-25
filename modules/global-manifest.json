@@ -405,19 +405,7 @@
     "meta_file": "auto-fill-skrining-kesehatan-gigi-mulut-balita/meta.json"
   },
 
-  "universal-recorder": {
-    "name": "Universal Recorder",
-    "description": "Recorder skrining + tombol simpan preset + conditions (gender/usia) + auto-trim FIXED",
-    "version": "1.5.2",
-    "author": "",
-    "match": [
-      "https://cirebon.epuskesmas.id/*"
-    ],
-    "enabled_by_default": true,
-    "file": "universal-recorder/script.js",
-    "meta_file": "universal-recorder/meta.json"
-  },
-
+  
   "auto-fill-skrining-gigi-mulut-remaja": {
     "name": "Auto Fill - Skrining Gigi & Mulut Remaja",
     "description": "Otomatis isi skrining kesehatan gigi & mulut anak usia sekolah & remaja",
@@ -430,6 +418,32 @@
     "file": "auto-fill-skrining-gigi-mulut-remaja/script.js",
     "meta_file": "auto-fill-skrining-gigi-mulut-remaja/meta.json"
   },
+
+    "auto-fill-skrining-anemia-3-kategori-usia": {
+    "name": "Auto Fill Skrining Anemia (3 Kategori Usia)",
+    "description": "Auto-fill Skrining Anemia dengan pemilihan template berdasarkan 3 kategori usia: <12, 12-18, ≥19 tahun",
+    "version": "1.0",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/skrininganemia/create/*"
+    ],
+    "enabled_by_default": true,
+    "file": "auto-fill-skrining-anemia-3-kategori-usia/script.js",
+    "meta_file": "auto-fill-skrining-anemia-3-kategori-usia/meta.json"
+  },
+    "universal-recorder": {
+    "name": "Universal Recorder",
+    "description": "Recorder skrining + tombol simpan preset + conditions (gender/usia) + auto-trim FIXED",
+    "version": "1.5.2",
+    "author": "",
+    "match": [
+      "https://cirebon.epuskesmas.id/*"
+    ],
+    "enabled_by_default": true,
+    "file": "universal-recorder/script.js",
+    "meta_file": "universal-recorder/meta.json"
+  },
+
 
   "test-module": {
       "name": "Test Module",
