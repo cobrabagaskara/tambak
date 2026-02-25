@@ -431,6 +431,19 @@
     "file": "auto-fill-skrining-anemia-3-kategori-usia/script.js",
     "meta_file": "auto-fill-skrining-anemia-3-kategori-usia/meta.json"
   },
+    "auto-fill-skrining-risiko-stroke": {
+    "name": "Auto Fill Skrining Risiko Stroke",
+    "description": "Auto-fill Skrining Risiko Stroke untuk semua pasien (tanpa kondisi)",
+    "version": "1.0",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/skriningrisikostroke/create/*"
+    ],
+    "enabled_by_default": true,
+    "file": "auto-fill-skrining-risiko-stroke/script.js",
+    "meta_file": "auto-fill-skrining-risiko-stroke/meta.json"
+  },
+    
     "universal-recorder": {
     "name": "Universal Recorder",
     "description": "Recorder skrining + tombol simpan preset + conditions (gender/usia) + auto-trim FIXED",
