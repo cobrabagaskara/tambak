@@ -25,7 +25,7 @@
             { type: "setRadio", name: "SkriningJantung[kurang_makan_sayur]", value: "1" },
             { type: "setRadio", name: "SkriningJantung[alkohol]", value: "0" },
             { type: "setRadio", name: "SkriningJantung[kardiovaskuler_rujuk_rs]", value: "1" },
-            { type: "setValue", name: "carta", value: " <5% " }
+            { type: "setValue", name: "carta", value: "0" }
         ]
     };
 
