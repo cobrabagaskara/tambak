@@ -482,7 +482,7 @@
     "meta_file": "universal-recorder/meta.json"
   },
     "test-module-2": {
-      "name": "Test Module",
+      "name": "Test Module 2",
       "description": "Module untuk testing sistem Skrining Auto",
       "version": "1.0.1",
       "author": "cobrabagaskara",
