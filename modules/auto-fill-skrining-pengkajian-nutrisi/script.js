@@ -21,7 +21,7 @@
             { type: "setRadio", name: "penurunan_berat_badan", value: "1" },
             { type: "setRadio", name: "mobilitas", value: "2" },
             { type: "setRadio", name: "stres_psikologis_penyakit", value: "2" },
-            { type: "setRadio", name: "masalah_neuropsikologi", value: "1" },
+            { type: "setRadio", name: "neuropsikologi", value: "1" },
             { type: "setRadio", name: "imt", value: "3" }
         ]
     };
