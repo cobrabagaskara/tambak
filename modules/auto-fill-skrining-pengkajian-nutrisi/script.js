@@ -22,9 +22,9 @@
             { type: "setRadio", name: "mobilitas", value: "2" },
             { type: "setRadio", name: "stres_psikologis_penyakit", value: "2" },
             { type: "setRadio", name: "masalah_neuropsikologi", value: "1" },
-            { type: "setRadio", name: "imt", value: "3" }
-            { type: "setRadio", name: "imt", value: "0" }
-            { type: "setRadio", name: "imt", value: "3" }
+            { type: "setRadio", name: "imt", value: "3" },
+            { type: "setRadio", name: "imt", value: "0" },
+            { type: "setRadio", name: "imt", value: "3" },
         ]
     };
 
