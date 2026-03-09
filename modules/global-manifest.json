@@ -17,13 +17,13 @@
 
   "auto-fill-anamnesa": {
     "name": "Auto-fill Anamnesa",
-    "description": "Otomatis klik kunjungan paling baru sebelum hari ini, ekstrak data Periksa Fisik, Status Fisis/Neurologis, dan Lainnya dari popup, lalu isi form anamnesa aktif.",
-    "version": "1.2.0",
+    "description": "Isi form anamnesa dari kunjungan sebelumnya. Aktifkan dengan Ctrl+Shift+Z — tidak ada tombol yang muncul di layar.",
+    "version": "1.3.0",
     "author": "You",
     "match": [
       "https://cirebon.epuskesmas.id/anamnesa/*"
     ],
-    "enabled_by_default": false,
+    "enabled_by_default": true,
     "file": "auto-fill-anamnesa/script.js",
     "meta_file": "auto-fill-anamnesa/meta.json"
   },
