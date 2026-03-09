@@ -15,6 +15,19 @@
     "meta_file": "data-pasien-reader/meta.json"
   },
 
+  "auto-fill-anamnesa": {
+    "name": "Auto-fill Anamnesa",
+    "description": "Otomatis klik kunjungan paling baru sebelum hari ini, ekstrak data Periksa Fisik, Status Fisis/Neurologis, dan Lainnya dari popup, lalu isi form anamnesa aktif.",
+    "version": "1.2.0",
+    "author": "You",
+    "match": [
+      "https://cirebon.epuskesmas.id/anamnesa/*"
+    ],
+    "enabled_by_default": false,
+    "file": "auto-fill-anamnesa/script.js",
+    "meta_file": "auto-fill-anamnesa/meta.json"
+  },
+
   "skrining-risiko-kanker-serviks": {
     "name": "Skrining Risiko Kanker Serviks",
     "description": "Auto-fill Skrining Risiko Kanker Serviks dengan validasi gender & usia (Hanya untuk Perempuan ≥30 tahun)",
