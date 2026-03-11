@@ -1,0 +1,10 @@
+{
+  "id": "bpjs-survey-auto-fill",
+  "name": "BPJS Survey Auto Fill",
+  "description": "Auto fill BPJS survey - semua jawaban 'Tidak', auto next page",
+  "version": "1.5",
+  "author": "You",
+  "match": [
+    "https://webskrining.bpjs-kesehatan.go.id/*"
+  ]
+}
