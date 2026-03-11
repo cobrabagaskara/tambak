@@ -1,0 +1,10 @@
+{
+  "id": "epuskesmas-auto-bayar-detail",
+  "name": "ePuskesmas — Auto Bayar Detail",
+  "description": "Otomatis isi Dibayar dari Total Tarif lalu klik Bayar di halaman edit pembayaran",
+  "version": "1.0",
+  "author": "—",
+  "match": [
+    "https://cirebon.epuskesmas.id/pembayaran/edit/*"
+  ]
+}
