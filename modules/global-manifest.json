@@ -14,6 +14,19 @@
     "file": "data-pasien-reader/script.js",
     "meta_file": "data-pasien-reader/meta.json"
   },
+  "bpjs-survey-auto-fill": {
+    "name": "BPJS Survey Auto Fill",
+    "description": "Auto fill BPJS survey - semua jawaban 'Tidak', auto next page",
+    "version": "1.5",
+    "author": "You",
+    "match": [
+      "https://webskrining.bpjs-kesehatan.go.id/*"
+    ],
+    "enabled_by_default": true,
+    "file": "bpjs-survey-auto-fill/script.js",
+    "meta_file": "bpjs-survey-auto-fill/meta.json"
+  },
+    
   "pembayaran-helper": {
     "name": "Pembayaran Helper",
     "description": "Pilih bulan & tahun, otomatis cari & buka data pertama",
