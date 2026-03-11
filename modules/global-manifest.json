@@ -26,6 +26,18 @@
     "file": "pembayaran-helper/script.js",
     "meta_file": "pembayaran-helper/meta.json"
   },
+    "epuskesmas-auto-bayar-detail": {
+    "name": "ePuskesmas — Auto Bayar Detail",
+    "description": "Otomatis isi Dibayar dari Total Tarif lalu klik Bayar di halaman edit pembayaran",
+    "version": "1.0",
+    "author": "—",
+    "match": [
+      "https://cirebon.epuskesmas.id/pembayaran/edit/*"
+    ],
+    "enabled_by_default": true,
+    "file": "epuskesmas-auto-bayar-detail/script.js",
+    "meta_file": "epuskesmas-auto-bayar-detail/meta.json"
+  },
 
     
 
