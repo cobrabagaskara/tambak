@@ -14,6 +14,20 @@
     "file": "data-pasien-reader/script.js",
     "meta_file": "data-pasien-reader/meta.json"
   },
+    "pembayaran-helper": {
+    "name": "Pembayaran Helper",
+    "description": "Pilih bulan & tahun, otomatis cari & buka data pertama",
+    "version": "1.0",
+    "author": "—",
+    "match": [
+      "https://cirebon.epuskesmas.id/pembayaran"
+    ],
+    "enabled_by_default": true,
+    "file": "pembayaran-helper/script.js",
+    "meta_file": "pembayaran-helper/meta.json"
+  },
+
+    
 
   "auto-fill-anamnesa": {
     "name": "Auto-fill Anamnesa",
