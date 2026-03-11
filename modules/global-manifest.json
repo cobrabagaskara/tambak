@@ -14,7 +14,7 @@
     "file": "data-pasien-reader/script.js",
     "meta_file": "data-pasien-reader/meta.json"
   },
-    "pembayaran-helper": {
+  "pembayaran-helper": {
     "name": "Pembayaran Helper",
     "description": "Pilih bulan & tahun, otomatis cari & buka data pertama",
     "version": "1.0",
@@ -26,7 +26,7 @@
     "file": "pembayaran-helper/script.js",
     "meta_file": "pembayaran-helper/meta.json"
   },
-    "epuskesmas-auto-bayar-detail": {
+  "epuskesmas-auto-bayar-detail": {
     "name": "ePuskesmas — Auto Bayar Detail",
     "description": "Otomatis isi Dibayar dari Total Tarif lalu klik Bayar di halaman edit pembayaran",
     "version": "1.0",
@@ -37,6 +37,19 @@
     "enabled_by_default": true,
     "file": "epuskesmas-auto-bayar-detail/script.js",
     "meta_file": "epuskesmas-auto-bayar-detail/meta.json"
+  },
+
+  "epuskesmas-auto-klik-baris-pertama": {
+    "name": "ePuskesmas — Auto Klik Baris Pertama",
+    "description": "Otomatis double-click baris pertama saat halaman list terbuka dengan filter status_bayar=BELUM",
+    "version": "1.0",
+    "author": "—",
+    "match": [
+      "https://cirebon.epuskesmas.id/pembayaran*"
+    ],
+    "enabled_by_default": true,
+    "file": "epuskesmas-auto-klik-baris-pertama/script.js",
+    "meta_file": "epuskesmas-auto-klik-baris-pertama/meta.json"
   },
 
     
