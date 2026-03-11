@@ -14,6 +14,7 @@
     "file": "data-pasien-reader/script.js",
     "meta_file": "data-pasien-reader/meta.json"
   },
+    
   "bpjs-survey-auto-fill": {
     "name": "BPJS Survey Auto Fill",
     "description": "Auto fill BPJS survey - semua jawaban 'Tidak', auto next page",
