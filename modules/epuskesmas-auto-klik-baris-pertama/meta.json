@@ -1,0 +1,10 @@
+{
+  "id": "epuskesmas-auto-klik-baris-pertama",
+  "name": "ePuskesmas — Auto Klik Baris Pertama",
+  "description": "Otomatis double-click baris pertama saat halaman list terbuka dengan filter status_bayar=BELUM",
+  "version": "1.0",
+  "author": "—",
+  "match": [
+    "https://cirebon.epuskesmas.id/pembayaran*"
+  ]
+}
